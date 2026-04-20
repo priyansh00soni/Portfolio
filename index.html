@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Priyansh Soni — Full Stack Developer building practical web applications." />
+  <title>Priyansh Soni — Full Stack Developer</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/images/cool priyansh favicon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" fetchpriority="high" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/cursor.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/LogoLoop.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <!-- Preload song cover images for smooth spawning on first interaction -->
+  <link rel="preload" href="song-coverImages/cover-1 ajab prem.jpg" as="image" />
+  <link rel="preload" href="song-coverImages/cover-2 rakhlo chupake.png" as="image" />
+  <link rel="preload" href="song-coverImages/cover-3 2states.jpg" as="image" />
+
+  <!--
+    Theme is applied immediately by main.js import (before DOMContentLoaded)
+    to prevent flash of wrong theme. The script tag at bottom handles this.
+  -->
+</head>
+<body>
+
+  <!-- Canvas cursor injected by js/cursor.js (priyansh's custom port) -->
+
+  <!-- ═══════════════════════════════════════════
+       PRELOADER
+  ═══════════════════════════════════════════ -->
+  <div id="preloader" aria-hidden="true">
+    <div class="pl-name"><span>Priyansh Soni</span></div>
+    <div class="pl-bar-wrap"><div class="pl-bar" id="plBar"></div></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════ -->
+  <nav id="nav" role="navigation" aria-label="Primary">
+    <a href="#hero" class="nav-logo">priyansh</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <!-- data-magnetic → gets pulled by cursor -->
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle colour scheme" data-magnetic>
+        <span class="t-icon" id="tIcon">◐</span>
+        <span id="tLabel">Light</span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════ -->
+    <section id="hero">
+      <p class="hero-eyebrow"><span>Full Stack Developer</span></p>
+      <h1 class="hero-title">
+        <span class="tl"><span>Priyansh</span></span>
+        <span class="tl"><span>Soni</span></span>
+      </h1>
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          Building practical, real-world web applications with a focus on
+          clean development and problem-solving.
+        </p>
+        <div class="hero-right">
+          <div class="pill available"><span class="pill-dot"></span>Available for work</div>
+          <div class="pill">India</div>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="sh-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SKILLS STRIP — LogoLoop (React Bits port, vanilla JS)
+    ═══════════════════════════════════════════ -->
+    <div id="logoLoopRoot" class="skills-logoloop-wrap"></div>
+
+    <!-- ═══════════════════════════════════════════
+         WORK
+    ═══════════════════════════════════════════ -->
+    <section id="work">
+      <div class="s-header">
+        <div>
+          <p class="s-label">Selected Projects</p>
+          <h2 class="s-title"><span class="tl"><span>Work</span></span></h2>
+        </div>
+      </div>
+
+      <div class="projects">
+
+        <!-- ── Card 01: GFG Campus Body MITS DU ── -->
+        <article class="pcard p-gfg">
+          <div class="pcard-inner">
+            <div class="pcard-info">
+              <div class="pcard-top">
+                <span class="pnum">01</span>
+                <span class="completed-badge"><span class="completed-dot"></span>Full Stack Project</span>
+              </div>
+              <div class="pcard-mid">
+                <p class="pyear-sub">Tech Lead / GFG Campus Body, MITS DU</p>
+                <h3 class="pname">Collaborated and maintained website for GFG CB - MITS DU </h3>
+                <div class="tags">
+                  <span class="tag">Full Stack</span>
+                  <span class="tag">Responsive Design</span>
+                </div>
+              </div>
+              <div class="pmetrics">
+                <div class="pmetric">
+                  <span class="pm-val">Full Stack</span>
+                  <span class="pm-label">Campus organization website</span>
+                </div>
+                <div class="pmetric">
+                  <span class="pm-val">Live</span>
+                  <span class="pm-label">Production deployment</span>
+                </div>
+                <div class="pmetric">
+                  <span class="pm-val">2000+</span>
+                  <span class="pm-label">Visits</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pcard-vis">
+              <div class="pcard-vis-inner js-parallax">
+                <div class="pcard-bg"></div>
+                <div class="blob blob1"></div>
+                <div class="blob blob2"></div>
+                <img
+                  class="pcard-img"
+                  src="images/ChatGPT Image Apr 19, 2026, 07_42_06 PM.png"
+                  alt="GFG Campus Body MITS DU website cover"
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                />
+                <!-- SVG fallback -->
+                <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="80" y="60" width="440" height="300" rx="24" fill="none" stroke="white" stroke-width="1.5"/>
+                  <circle cx="300" cy="150" r="35" fill="white" opacity=".2"/>
+                  <rect x="110" y="110" width="380" height="12" rx="6" fill="white" opacity=".4"/>
+                  <rect x="110" y="135" width="250" height="8" rx="4" fill="white" opacity=".25"/>
+                  <rect x="110" y="185" width="380" height="90" rx="8" fill="white" opacity=".1"/>
+                  <rect x="130" y="205" width="100" height="8" rx="4" fill="white" opacity=".6"/>
+                  <rect x="130" y="225" width="340" height="6" rx="3" fill="white" opacity=".3"/>
+                  <rect x="130" y="240" width="320" height="6" rx="3" fill="white" opacity=".3"/>
+                  <rect x="110" y="295" width="380" height="45" rx="8" fill="white" opacity=".08"/>
+                </svg>
+                <div class="pcard-img-overlay"></div>
+              </div>
+              <a
+                class="p-arrow"
+                href="https://www.gfgcampusbodymitsdu.qzz.io/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Open GFG Campus Body MITS DU website"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Card 02: NeoTaste Quests ── -->
+        <article class="pcard p-quests">
+          <div class="pcard-inner">
+            <div class="pcard-info">
+              <div class="pcard-top">
+                <span class="pnum">02</span>
+                <span class="completed-badge"><span class="completed-dot"></span>Freelance project</span>
+              </div>
+              <div class="pcard-mid">
+                <p class="pyear-sub">Freelance / Pixel &amp; Chai</p>
+                <h3 class="pname">Built a clean, responsive website for a design startup.</h3>
+                <div class="tags">
+                  <span class="tag">React</span>
+                  <span class="tag">Frontend</span>
+                </div>
+              </div>
+              <div class="pmetrics">
+                <div class="pmetric">
+                  <span class="pm-val">Freelance</span>
+                  <span class="pm-label">Client website delivery</span>
+                </div>
+                <div class="pmetric">
+                  <span class="pm-val">Live</span>
+                  <span class="pm-label">Production deployment</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pcard-vis">
+              <div class="pcard-vis-inner js-parallax">
+                <div class="pcard-bg"></div>
+                <div class="blob blob1"></div>
+                <div class="blob blob2"></div>
+                <!--
+                  Real image placeholder.
+                  CORS may block on local file://; works when served via HTTP.
+                  The SVG fallback shows if the image fails to load.
+                -->
+                <img
+                  class="pcard-img"
+                  src="images/ChatGPT Image Apr 19, 2026, 07_33_56 PM.png"
+                  alt="Quest System case study cover"
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                />
+                <!-- SVG fallback (hidden by default, shown if img fails) -->
+                <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="80" y="60" width="440" height="300" rx="24" fill="none" stroke="white" stroke-width="1.5"/>
+                  <rect x="110" y="110" width="180" height="12" rx="6" fill="white"/>
+                  <rect x="110" y="132" width="120" height="8" rx="4" fill="white" opacity=".5"/>
+                  <rect x="110" y="172" width="380" height="64" rx="12" fill="white" opacity=".08"/>
+                  <rect x="128" y="191" width="70" height="8" rx="4" fill="white" opacity=".7"/>
+                  <rect x="128" y="207" width="110" height="6" rx="3" fill="white" opacity=".35"/>
+                  <circle cx="448" cy="203" r="20" fill="none" stroke="white" stroke-width="1.5" opacity=".6"/>
+                  <path d="M439 203l7 7 12-14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+                  <rect x="110" y="250" width="380" height="64" rx="12" fill="white" opacity=".08"/>
+                  <rect x="128" y="269" width="90" height="8" rx="4" fill="white" opacity=".7"/>
+                  <rect x="128" y="285" width="130" height="6" rx="3" fill="white" opacity=".35"/>
+                  <circle cx="448" cy="281" r="20" fill="none" stroke="white" stroke-width="1.5" opacity=".4"/>
+                </svg>
+                <div class="pcard-img-overlay"></div>
+              </div>
+              <a
+                class="p-arrow"
+                href="https://pixel-and-chai.vercel.app/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Open Pixel and Chai project"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Card 03: In Development ── -->
+        <article class="pcard p-referral">
+          <div class="pcard-inner">
+            <div class="pcard-info">
+              <div class="pcard-top">
+                <span class="pnum">03</span>
+                <span class="wip-badge"><span class="wip-dot"></span>In Development</span>
+              </div>
+              <div class="pcard-mid">
+                <p class="pyear-sub">Fullstack Project</p>
+                <h3 class="pname">Coming soon</h3>
+                <div class="tags">
+                  <span class="tag">Node.js</span>
+                  <span class="tag">Full Stack</span>
+                </div>
+              </div>
+              <div class="pmetrics">
+                <div class="pmetric">
+                  <span class="pm-val">In Progress</span>
+                  <span class="pm-label">Development phase</span>
+                </div>
+                <div class="pmetric">
+                  <span class="pm-val">Full Stack</span>
+                  <span class="pm-label">Backend & Frontend</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pcard-vis">
+              <div class="pcard-vis-inner js-parallax">
+                <div class="pcard-bg"></div>
+                <img
+                  class="pcard-img"
+                  src="images/ChatGPT Image Apr 19, 2026, 08_05_57 PM.png"
+                  alt="Upcoming full stack project cover"
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                />
+                <!-- SVG fallback -->
+                <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="80" y1="360" x2="520" y2="360" stroke="white" stroke-width="1" opacity=".2"/>
+                  <rect x="100" y="290" width="72" height="70"  rx="6" fill="white" opacity=".35"/>
+                  <rect x="210" y="210" width="72" height="150" rx="6" fill="white" opacity=".50"/>
+                  <rect x="320" y="250" width="72" height="110" rx="6" fill="white" opacity=".45"/>
+                  <rect x="430" y="140" width="72" height="220" rx="6" fill="white" opacity=".75"/>
+                  <text x="136" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">A</text>
+                  <text x="246" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">B</text>
+                  <text x="356" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">C</text>
+                  <text x="466" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".65" font-family="Inter,sans-serif" font-weight="600">D</text>
+                  <polyline points="136,305 246,225 356,265 466,155" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="5 3" opacity=".4"/>
+                </svg>
+                <div class="pcard-img-overlay"></div>
+              </div>
+              <a
+                class="p-arrow"
+                href="#contact"
+                aria-label="Contact for upcoming project details"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /projects -->
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         ABOUT
+    ═══════════════════════════════════════════ -->
+    <section id="about">
+      <div class="s-header">
+        <div>
+          <p class="s-label">My story</p>
+          <h2 class="s-title"><span class="tl"><span>About</span></span></h2>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-bio">
+          <p>
+            I am a <strong>Full Stack Developer</strong> focused on building real-world applications that solve practical problems. I enjoy working across frontend and backend, writing clean code, and improving products through simple, reliable development. I currently contribute as <strong>Tech Lead at GFG Campus Body, MITS DU</strong>, and I also take on freelance projects where I build useful solutions for real client needs.
+          </p>
+          <p>
+            I value clear collaboration, thoughtful problem-solving, and development that stays grounded in actual user and business goals.
+          </p>
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener"
+            class="cv-btn"
+            style="margin-left: 20px; margin-top: 70px; display: inline-flex; background-color: #EDEDE8; color: rgb(40, 40, 40);"
+            data-magnetic
+          >
+            View Resume
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12L12 2M12 2H4M12 2V10"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="about-side">
+          <div>
+            <h3 class="detail-h">Experience</h3>
+            <ul class="exp-list">
+              <li class="exp-item">
+                <div class="ei-l">
+                  <span class="ei-co">GFG Campus Body, MITS DU</span>
+                  <span class="ei-role">Tech Lead</span>
+                </div>
+                <span class="ei-yr">Current</span>
+              </li>
+              <li class="exp-item">
+                <div class="ei-l">
+                  <span class="ei-co">Pixel &amp; Chai</span>
+                  <span class="ei-role">Freelance Full Stack Developer</span>
+                </div>
+                <span class="ei-yr">Freelance</span>
+              </li>
+              <li class="exp-item">
+                <div class="ei-l">
+                  <span class="ei-co">Minigems Coaching Institute</span>
+                  <span class="ei-role">Freelance Developer</span>
+                </div>
+                <span class="ei-yr">Freelance</span>
+              </li>
+              <li class="exp-item">
+                <div class="ei-l">
+                  <span class="ei-co">Independent Projects</span>
+                  <span class="ei-role">Full Stack Developer</span>
+                </div>
+                <span class="ei-yr">Ongoing</span>
+              </li>
+              <li class="exp-item">
+                <div class="ei-l">
+                  <span class="ei-co">Team Collaborations</span>
+                  <span class="ei-role">Frontend Contributor</span>
+                </div>
+                <span class="ei-yr">Ongoing</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- <div>
+            <h3 class="detail-h">Highlights</h3>
+            <ul class="awards-list">
+              <li class="award-item">
+                <div class="aw-l">
+                  <span class="aw-title">Tech Lead Role</span>
+                  <span class="aw-issuer">GFG Campus Body, MITS DU</span>
+                </div>
+                <span class="aw-yr">Current</span>
+              </li>
+              <li class="award-item">
+                <div class="aw-l">
+                  <span class="aw-title">Freelance Delivery</span>
+                  <span class="aw-issuer">Pixel &amp; Chai</span>
+                </div>
+                <span class="aw-yr">Completed</span>
+              </li>
+              <li class="award-item">
+                <div class="aw-l">
+                  <span class="aw-title">Freelance Delivery</span>
+                  <span class="aw-issuer">Minigems Coaching Institute</span>
+                </div>
+                <span class="aw-yr">Completed</span>
+              </li>
+              <li class="award-item">
+                <div class="aw-l">
+                  <span class="aw-title">Practical Product Development</span>
+                  <span class="aw-issuer">Real-world application focus</span>
+                </div>
+                <span class="aw-yr">Ongoing</span>
+              </li>
+            </ul>
+          </div> -->
+
+          <div>
+            <h3 class="detail-h">Skills</h3>
+            <div class="skills-row">
+              <span class="skill-pill">C++</span>
+              <span class="skill-pill">React</span>
+              <span class="skill-pill">JavaScript</span>
+              <span class="skill-pill">Tailwind CSS</span>
+              <span class="skill-pill">Framer Motion</span>
+              <span class="skill-pill">Node.js</span>
+              <span class="skill-pill">Express.js</span>
+              <span class="skill-pill">MongoDB</span>
+              <span class="skill-pill">Leadership</span>
+              <span class="skill-pill">Teamwork</span>
+              <span class="skill-pill">Communication</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SHOWCASE — horizontal scroll strip
+    ═══════════════════════════════════════════ -->
+    
+
+    <!-- ═══════════════════════════════════════════
+         MORE WORK — Music, Art & Design grid
+         Cards are generated by js/more-work.js
+         Desktop: Hover any card → image follows cursor (alectear.com style)
+         Mobile: Grid display, cursor trails auto-hide when section is in view
+    ═══════════════════════════════════════════ -->
+    <section id="more-work">
+      <div class="mw-header">
+        <p class="s-label">My Vibe</p>
+        <h2 class="s-title">Music &amp; Beyond</h2>
+      </div>
+      <!-- Scatter container injected by more-work.js -->
+      <p class="mw-hint mw-hint-desktop">Move your cursor to explore</p>
+      <p class="mw-hint mw-hint-mobile">Scroll to explore</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         LOOKING FOR MORE
+    ═══════════════════════════════════════════ -->
+    <section id="work" style="padding: 0px var(--pad-x);">
+      <div class="pdf-strip">
+        <div>
+          <h1>Looking for more?</h1>
+          <p>Additional freelance and development work samples are available in my Resume.</p>
+        </div>
+        <a  href="#" target="_blank" rel="noopener" style="margin-top: 0.6rem;" class="cv-btn"  data-magnetic>
+          View Resume
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12L12 2M12 2H4M12 2V10"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         CONTACT
+    ═══════════════════════════════════════════ -->
+    <section id="contact">
+      <p class="s-label">Get in touch</p>
+
+      <div class="contact-headline">
+        <span class="tl"><span>Say hi!</span></span>
+        <span class="tl">
+          <span>
+            <a href="mailto:priyansh.worskspace@gmail.com">
+              Let's talk
+              <svg
+                width="0.7em" height="0.7em"
+                viewBox="0 0 18 18" fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display:inline-block;vertical-align:middle;margin-bottom:.12em;"
+              >
+                <path d="M3 15L15 3M15 3H5M15 3V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </span>
+        </span>
+      </div>
+
+      <div class="contact-footer">
+        <div class="cf-left">
+          <div class="cf-email-row">
+            <p>priyansh.worskspace@gmail.com</p>
+            <button class="copy-btn" id="copyBtn" aria-label="Copy email address">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4.5" y="4.5" width="7" height="7" rx="1.2"/>
+                <path d="M1.5 8.5V2.5a1 1 0 0 1 1-1h6"/>
+              </svg>
+            </button>
+          </div>
+          <p>India</p>
+        </div>
+
+        <div class="cf-right">
+          <a href="mailto:priyansh.worskspace@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/priyansh00soni/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/priyansh00soni" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <p class="copy">© 2026 Priyansh Soni · Full Stack Developer</p>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS — order matters
+       1. GSAP core
+       2. ScrollTrigger plugin
+       3. Lenis smooth scroll
+       4. Our modules (type="module" = deferred, strict mode)
+  ═══════════════════════════════════════════ -->
+  <!--
+       SCRIPTS — order matters
+       1. GSAP core        — blocking, must be available before module runs
+       2. ScrollTrigger    — same
+       3. Lenis            — same
+       4. Our module       — type=module is auto-deferred; CDN scripts above
+                            are placed here (end of body) so blocking cost is
+                            negligible (HTML is fully parsed already)
+  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>

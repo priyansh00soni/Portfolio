@@ -1,0 +1,51 @@
+/* ============================================================
+   cursor.css — canvas cursor implementation by Priyansh
+
+   The cursor is PURELY canvas-drawn. No DOM dot element.
+   No CSS hover states, no body classes.
+   The canvas handles everything via additive (lighter) blending.
+
+   The only CSS needed:
+     1. Hide the native cursor
+     2. Position the canvas correctly
+     3. Kill any legacy cursor markup
+   ============================================================ */
+
+/* ── Cursor styling ── */
+
+/* ── Touch devices: restore native cursor, hide canvas ── */
+@media (pointer: coarse) {
+  *,
+  *::before,
+  *::after {
+    cursor: auto !important;
+  }
+  #canvas {
+    display: none !important;
+  }
+}
+
+/* ── Canvas layer ──
+   Matches original JSX:
+     className="pointer-events-none fixed inset-0"
+   z-index 9999 keeps it above all page content.
+   No will-change — the canvas content changes, not the element.
+   No width/height here — set dynamically in JS (DPR-aware).
+   ── */
+#canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Kill any legacy cursor markup from old implementation ── */
+#cursor-dot,
+#cursor-canvas,
+.cursor,
+.cursor-ring,
+#cursorRing,
+.cursor-label,
+.cursor-arrow {
+  display: none !important;
+}

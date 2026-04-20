@@ -1,0 +1,108 @@
+/* ============================================================
+   BASE.CSS — Variables · Reset · Typography · Utilities
+   Priyansh's portfolio site
+   ============================================================ */
+
+/* ── DESIGN TOKENS ── */
+:root {
+  /* Colors */
+  --bg:        #0C0C0B;
+  --bg2:       #141413;
+  --fg:        #EDEDE8;
+  --muted:     #93938F;
+  --border:    rgba(237, 237, 232, 0.09);
+  --border-hv: rgba(237, 237, 232, 0.38);
+  --accent:    #FF3D00;
+  --green:     rgba(0, 220, 100, 0.85);
+  --green-bd:  rgba(0, 220, 100, 0.28);
+
+  /* Typography */
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-display: 'Syne', sans-serif;
+
+  /* Layout */
+  --pad-x: 44px;
+  --radius: 14px;
+
+  /* Easing */
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+[data-theme="light"] {
+  --bg:        #F0EDE5;
+  --bg2:       #E8E5DD;
+  --fg:        #0C0C0B;
+  --muted:     #5B5A57;
+  --border:    rgba(12, 12, 11, 0.10);
+  --border-hv: rgba(12, 12, 11, 0.38);
+  --green:     #006E2D;
+  --green-bd:  rgba(0, 110, 45, 0.35);
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Lenis takes over scrolling on desktop — overflow hidden prevents native scroll */
+  overflow: hidden;
+}
+
+/* On touch devices, allow normal scroll with smooth behavior */
+@media (pointer: coarse) {
+  html {
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a   { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+ul  { list-style: none; }
+
+/* Restore cursor on touch devices */
+@media (pointer: coarse) {
+  *, *::before, *::after { cursor: auto !important; }
+  .cursor { display: none !important; }
+}
+
+/* ── NOISE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes shline {
+  0%   { top: -100%; }
+  100% { top: 100%; }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .sh-line::after               { animation: none; }
+  .pill-dot, .wip-dot           { animation: none; }
+}

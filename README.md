@@ -1,0 +1,398 @@
+# Priyansh Soni — Portfolio
+
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://html.spec.whatwg.org/)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
+> **A sleek, high-performance portfolio website showcasing projects with smooth animations, magnetic interactions, and modern web technologies.**
+
+---
+
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [Documentation](#-documentation)
+  - [Cursor System](#cursor-system-custom-canvas-cursor)
+  - [Lenis + GSAP Sync](#lenis--gsap-sync)
+- [Screenshots & Demo](#-screenshots--demo)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Author](#-author)
+
+---
+
+## ✨ Features
+
+- **Magnetic Cursor System** – Custom canvas cursor with physics-based dot & ring that responds to hover states
+- **Smooth Scroll Animation** – Integrated Lenis scroll with GSAP ScrollTrigger for seamless parallax and reveal effects
+- **Dark/Light Theme Toggle** – Persistent theme preference with CSS custom properties
+- **Responsive Design** – Mobile-first approach with breakpoints for tablets and desktops
+- **Performance Optimized** – Lazy loading, preloaded assets, optimized RAF synchronization
+- **Semantic HTML** – Clean, accessible markup following best practices
+- **No Build Tools Required** – Pure vanilla HTML, CSS, and ES Modules — just serve and run
+- **Interactive Project Showcase** – Drag-to-scroll cards with smooth interactions
+- **Preloader Animation** – Custom animated preloader with progress indication
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| **Language** | Vanilla JavaScript (ES Modules) |
+| **Markup** | HTML5 (Semantic) |
+| **Styling** | CSS3 (Custom Properties, Grid, Flexbox) |
+| **Animation** | GSAP 3.12 + ScrollTrigger |
+| **Scroll Library** | Lenis 1.0 (smooth scroll) |
+| **Fonts** | Google Fonts (Syne, Inter) |
+| **Build** | None (pure vanilla) |
+
+**Key Libraries:**
+- `gsap@3.12` – Industry-standard animation library
+- `lenis@1.0` – Performant smooth scrolling
+- No webpack, Vite, or build step required
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- **Git** (for cloning)
+- **Node.js** (optional, for local HTTP server) or **Python 3** (built-in on most systems)
+- **Modern browser** with ES Module support (Chrome, Firefox, Safari, Edge)
+
+### Clone the Repository
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/priyansh-portfolio.git
+
+# Navigate to project directory
+cd priyansh-portfolio
+```
+
+### Set Up Local Environment
+
+No npm install needed! The project uses vanilla JavaScript with ES Modules. However, you'll need an **HTTP server** to run the site locally (ES Modules don't work with `file://` protocol).
+
+---
+
+## 🚀 Usage
+
+### Option 1 — VS Code Live Server (Recommended for Development)
+
+```bash
+1. Install the "Live Server" extension in VS Code
+2. Right-click index.html
+3. Select "Open with Live Server"
+4. Browser opens to http://localhost:5500
+```
+
+**Benefits:** Auto-reload on file changes, perfect for development.
+
+### Option 2 — Python (No Install Required)
+
+```bash
+# Python 3.x
+python3 -m http.server 8080
+
+# Then open: http://localhost:8080
+```
+
+**Benefits:** Built-in to most systems, lightweight.
+
+### Option 3 — Node.js
+
+```bash
+# Using npx (no installation needed)
+npx serve .
+
+# Or install globally
+npm install -g serve
+serve .
+```
+
+**Benefits:** Fast, production-ready static server.
+
+### Quick Start Commands
+
+```bash
+# Clone and run (Python example)
+git clone https://github.com/yourusername/priyansh-portfolio.git
+cd priyansh-portfolio
+python3 -m http.server 8080
+# Visit: http://localhost:8080
+```
+
+### Customization
+
+Edit these files to personalize:
+
+- **`index.html`** – Update meta tags, content, links
+- **`css/components.css`** – Modify styles for hero, cards, sections
+- **`js/ui.js`** – Adjust theme toggle, email copy functionality
+- **`js/cursor.js`** – Tune cursor sensitivity and magnetic strength
+
+---
+
+## 📁 Project Structure
+
+```
+priyansh-portfolio/
+├── index.html                  ← Entry point — semantic HTML markup
+│
+├── css/
+│   ├── base.css                ← Design tokens (CSS vars) · Reset · Keyframes
+│   ├── cursor.css              ← Magnetic cursor system (dot + ring + states)
+│   ├── components.css          ← All UI components (Nav · Hero · Cards · About)
+│   ├── LogoLoop.css            ← Logo animation stylesheet
+│   └── responsive.css          ← Mobile / tablet breakpoints
+│
+├── js/
+│   ├── main.js                 ← Entry point · boots all modules
+│   ├── cursor.js               ← Magnetic cursor: lerp loop · hover states
+│   ├── scroll.js               ← Lenis + GSAP sync · nav state · anchor scroll
+│   ├── animations.js           ← Preloader · Hero · ScrollTrigger reveals
+│   ├── ui.js                   ← Theme toggle · Email copy · Interactions
+│   ├── clickspark.js           ← Particle effects on interaction
+│   ├── LogoLoop.js             ← Logo animation logic
+│   └── more-work.js            ← Additional project showcase logic
+│
+├── images/                     ← Project screenshots and assets
+│   ├── quest-case.webp
+│   ├── referral-case.webp
+│   └── cool\ priyansh\ favicon.png
+│
+├── song-coverImages/           ← Preloaded cover art for interactions
+│   ├── cover-1\ ajab\ prem.jpg
+│   ├── cover-2\ rakhlo\ chupake.png
+│   └── cover-3\ 2states.jpg
+│
+├── README.md                   ← This file
+└── LICENSE                     ← MIT License
+```
+
+---
+
+## 📚 Documentation
+
+---
+
+### Cursor System (Custom Canvas Cursor)
+
+The portfolio features a **magnetic dot + ring cursor system** that replaces the default browser cursor:
+
+#### How It Works
+
+| Element | Behavior |
+|---------|----------|
+| `.cursor-dot` | Snaps instantly to mouse position (precision click indicator) |
+| `.cursor-ring` | Lerps behind with easing factor — creates floating effect |
+| `[data-magnetic]` | Elements pull toward cursor using GSAP spring animation |
+| `.pcard` / `.sc-card` | Ring expands to 80px on hover (`cursor-card` state) |
+| `a[href^="mailto"]` | Ring turns accent color on email links |
+| Buttons / Links | Ring expands, dot hides on interaction |
+
+#### Adding Magnetic Pull to Elements
+
+```html
+<!-- Add data-magnetic attribute to any element -->
+<button data-magnetic>Click me</button>
+<a href="#section" data-magnetic>Scroll to Section</a>
+```
+
+#### Tuning Cursor Sensitivity
+
+Edit `CURSOR_CONFIG` in `js/cursor.js`:
+
+```javascript
+const CURSOR_CONFIG = {
+  ringLerp:         0.10,   // Lower = more lag/float (0-1)
+  magneticStrength: 0.38,   // Magnetic pull intensity (0-1)
+  magneticRadius:   80,     // Pixel radius for detection
+};
+```
+
+---
+
+### Lenis + GSAP Sync
+
+**Critical Pattern:** Smooth scroll library (Lenis) synced with animation library (GSAP):
+
+```javascript
+// Feed scroll events to ScrollTrigger for accurate trigger points
+lenis.on('scroll', ScrollTrigger.update);
+
+// Run Lenis animation loop on GSAP's RAF
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+
+// Prevent stutter after tab switch
+gsap.ticker.lagSmoothing(0);
+```
+
+**Why This Matters:** Without this sync, GSAP animations fire at wrong scroll positions, causing visual glitches.
+
+---
+
+## 🎬 Screenshots & Demo
+
+### Live Demo
+
+Visit the live site: **[priyansh-portfolio.com](https://priyansh-portfolio.com)** *(Replace with your actual URL)*
+
+### Screenshots
+
+#### Hero Section
+![Hero Section](./images/quest-case.webp)
+*Animated hero with preloader and smooth scroll effects*
+
+#### Project Showcase
+![Project Cards](./images/referral-case.webp)
+*Interactive project cards with magnetic cursor interactions*
+
+#### Theme Toggle
+*Dark and light mode with persistent user preference*
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether you're fixing bugs, improving performance, or adding features, please follow these guidelines:
+
+### How to Contribute
+
+1. **Fork the Repository**
+   ```bash
+   git clone https://github.com/yourusername/priyansh-portfolio.git
+   cd priyansh-portfolio
+   ```
+
+2. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Make Your Changes**
+   - Keep code consistent with existing style
+   - Test across modern browsers (Chrome, Firefox, Safari, Edge)
+   - Ensure responsive design still works
+   - Update documentation if needed
+
+4. **Test Locally**
+   ```bash
+   python3 -m http.server 8080
+   # Visit http://localhost:8080 and test changes
+   ```
+
+5. **Commit Your Changes**
+   ```bash
+   git add .
+   git commit -m "feat: describe your changes clearly"
+   ```
+
+6. **Push to Your Fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+7. **Open a Pull Request**
+   - Describe what you changed and why
+   - Reference any related issues
+   - Ensure all tests pass
+
+### Code Style
+
+- **JavaScript:** Follow ES6 conventions, use meaningful variable names
+- **CSS:** Use CSS custom properties (variables) defined in `base.css`
+- **HTML:** Maintain semantic structure and accessibility
+- **Comments:** Add comments for complex logic or non-obvious code
+
+### Reporting Issues
+
+Found a bug? Have a suggestion? [Open an issue](https://github.com/yourusername/priyansh-portfolio/issues) with:
+- Clear description of the problem
+- Steps to reproduce (if applicable)
+- Browser and OS information
+- Screenshots if visual
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+
+The MIT License allows you to:
+- ✅ Use commercially
+- ✅ Modify the code
+- ✅ Distribute
+- ⚠️ Include license and copyright notice
+
+---
+
+## 👤 Author
+
+**Priyansh Soni** — Full Stack Developer
+
+Building practical, high-performance web applications with modern technologies.
+
+- **Portfolio:** [priyansh-portfolio.com](https://priyansh-portfolio.com)
+- **GitHub:** [@priyansh](https://github.com/priyansh)
+- **LinkedIn:** [priyansh-soni](https://linkedin.com/in/priyansh-soni)
+- **Email:** [contact@priyansh.dev](mailto:contact@priyansh.dev)
+
+---
+
+## 🙏 Acknowledgments
+
+- [GSAP](https://greensock.com/gsap/) – Animation library
+- [Lenis](https://lenis.darkroom.engineering/) – Smooth scroll library
+- [Google Fonts](https://fonts.google.com/) – Typography
+- Inspiration from modern web design patterns
+
+---
+
+**Made with ❤️ by Priyansh Soni**
+
+---
+
+## 📝 Notes
+
+> **⚠️ Important:** `type="module"` scripts require an HTTP server.
+> Opening `index.html` directly via `file://` will block ES module imports and the site won't function.
+
+For best results:
+- Use a modern browser (Chrome 61+, Firefox 67+, Safari 11+, Edge 79+)
+- Test on multiple devices for responsive design
+- Check browser console for any warnings or errors
+
+The project loads images directly. If you want local copies:
+
+1. Add your own case study images
+2. Update the image paths in the HTML
+3. Place in `images/` folder
+4. Update `src` attributes in `index.html`:
+   ```html
+   <img src="images/quest-case.webp" ... />
+   ```
+
+The SVG wireframe fallback displays automatically if image loading fails.
+
+---
+
+## Easing Reference
+
+| Animation | Easing | Duration |
+|-----------|--------|----------|
+| Preloader exit | `expo.inOut` | 1.0s |
+| Hero title lines | `power4.out` | 1.15s, stagger 0.13 |
+| Nav entrance | `power4.out` | 0.7s |
+| Section titles (scroll) | `power4.out` | 1.1s, stagger 0.09 |
+| Project cards (scroll) | `expo.out` | 0.9s |
+| Parallax scrub | `none` | scrub 1.5 |
+| Magnetic spring-back | `elastic.out(1, 0.4)` | 0.7s |
+| Magnetic pull | `power2.out` | 0.4s |
