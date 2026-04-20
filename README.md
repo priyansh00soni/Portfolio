@@ -261,43 +261,7 @@ Building practical, high-performance web applications with modern technologies.
 ---
 
 
-**Made with ❤️ by Priyansh **
+**Made with ❤️ by Priyansh**
 
 ---
 
-## 📝 Notes
-
-> **⚠️ Important:** `type="module"` scripts require an HTTP server.
-> Opening `index.html` directly via `file://` will block ES module imports and the site won't function.
-
-For best results:
-- Use a modern browser (Chrome 61+, Firefox 67+, Safari 11+, Edge 79+)
-- Test on multiple devices for responsive design
-- Check browser console for any warnings or errors
-
-The project loads images directly. If you want local copies:
-
-1. Add your own case study images
-2. Update the image paths in the HTML
-3. Place in `images/` folder
-4. Update `src` attributes in `index.html`:
-   ```html
-   <img src="images/quest-case.webp" ... />
-   ```
-
-The SVG wireframe fallback displays automatically if image loading fails.
-
----
-
-## Easing Reference
-
-| Animation | Easing | Duration |
-|-----------|--------|----------|
-| Preloader exit | `expo.inOut` | 1.0s |
-| Hero title lines | `power4.out` | 1.15s, stagger 0.13 |
-| Nav entrance | `power4.out` | 0.7s |
-| Section titles (scroll) | `power4.out` | 1.1s, stagger 0.09 |
-| Project cards (scroll) | `expo.out` | 0.9s |
-| Parallax scrub | `none` | scrub 1.5 |
-| Magnetic spring-back | `elastic.out(1, 0.4)` | 0.7s |
-| Magnetic pull | `power2.out` | 0.4s |
