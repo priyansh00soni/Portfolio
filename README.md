@@ -1,9 +1,5 @@
 # Priyansh Soni — Portfolio
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://html.spec.whatwg.org/)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 > **A sleek, high-performance portfolio website showcasing projects with smooth animations, magnetic interactions, and modern web technologies.**
 
@@ -245,92 +241,9 @@ gsap.ticker.lagSmoothing(0);
 
 Visit the live site: **[priyansh-portfolio.com](https://priyansh-portfolio.com)** *(Replace with your actual URL)*
 
-### Screenshots
 
-#### Hero Section
-![Hero Section](./images/quest-case.webp)
-*Animated hero with preloader and smooth scroll effects*
-
-#### Project Showcase
-![Project Cards](./images/referral-case.webp)
-*Interactive project cards with magnetic cursor interactions*
-
-#### Theme Toggle
-*Dark and light mode with persistent user preference*
 
 ---
-
-## 🤝 Contributing
-
-Contributions are welcome! Whether you're fixing bugs, improving performance, or adding features, please follow these guidelines:
-
-### How to Contribute
-
-1. **Fork the Repository**
-   ```bash
-   git clone https://github.com/yourusername/priyansh-portfolio.git
-   cd priyansh-portfolio
-   ```
-
-2. **Create a Feature Branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-3. **Make Your Changes**
-   - Keep code consistent with existing style
-   - Test across modern browsers (Chrome, Firefox, Safari, Edge)
-   - Ensure responsive design still works
-   - Update documentation if needed
-
-4. **Test Locally**
-   ```bash
-   python3 -m http.server 8080
-   # Visit http://localhost:8080 and test changes
-   ```
-
-5. **Commit Your Changes**
-   ```bash
-   git add .
-   git commit -m "feat: describe your changes clearly"
-   ```
-
-6. **Push to Your Fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-7. **Open a Pull Request**
-   - Describe what you changed and why
-   - Reference any related issues
-   - Ensure all tests pass
-
-### Code Style
-
-- **JavaScript:** Follow ES6 conventions, use meaningful variable names
-- **CSS:** Use CSS custom properties (variables) defined in `base.css`
-- **HTML:** Maintain semantic structure and accessibility
-- **Comments:** Add comments for complex logic or non-obvious code
-
-### Reporting Issues
-
-Found a bug? Have a suggestion? [Open an issue](https://github.com/yourusername/priyansh-portfolio/issues) with:
-- Clear description of the problem
-- Steps to reproduce (if applicable)
-- Browser and OS information
-- Screenshots if visual
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
-
-The MIT License allows you to:
-- ✅ Use commercially
-- ✅ Modify the code
-- ✅ Distribute
-- ⚠️ Include license and copyright notice
 
 ---
 
@@ -347,16 +260,8 @@ Building practical, high-performance web applications with modern technologies.
 
 ---
 
-## 🙏 Acknowledgments
 
-- [GSAP](https://greensock.com/gsap/) – Animation library
-- [Lenis](https://lenis.darkroom.engineering/) – Smooth scroll library
-- [Google Fonts](https://fonts.google.com/) – Typography
-- Inspiration from modern web design patterns
-
----
-
-**Made with ❤️ by Priyansh Soni**
+**Made with ❤️ by Priyansh **
 
 ---
 
