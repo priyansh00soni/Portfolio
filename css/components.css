@@ -159,6 +159,11 @@ nav.scrolled {
   position: relative;
 
 }
+@media (max-width: 480px) {
+  .hero {
+    margin-top: -7rem;
+  }
+}
 
 
 .hero-eyebrow {
