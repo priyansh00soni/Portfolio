@@ -1,9 +1,3 @@
-/**
- * clickspark.js — Click spark effect
- * 
- * Inspired by React Bits ClickSpark component.
- * Simplified array-based approach instead of pool management.
- */
 
 'use strict';
 

@@ -1,6 +1,6 @@
 /**
- * animations.js — GSAP animations + preloading
- * Handles preloader, hero entrance, scroll triggers, and image preloading
+ nimations.js — GSAP animations + preloading
+ Handles preloader, hero entrance, scroll triggers, and image preloading
  */
 
 'use strict';

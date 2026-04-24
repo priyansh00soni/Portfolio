@@ -1,13 +1,3 @@
-/**
- * main.js — Entry point
- * Boot order: theme → cursor → scroll → animations → ui
- *
- * External deps (loaded via CDN in index.html, in order):
- *   1. gsap.min.js
- *   2. ScrollTrigger.min.js
- *   3. lenis.min.js
- *   Then this file as type="module"
- */
 
 import { initCursor }       from './cursor.js';
 import { initClickSpark }   from './clickspark.js';

@@ -1,6 +1,4 @@
-/* ============================================================
-   RESPONSIVE.CSS — Mobile / Tablet breakpoints
-   ============================================================ */
+
 
 /* Optimize for devices with coarse pointers (touch devices) */
 @media (pointer: coarse) {
@@ -17,6 +15,14 @@
   /* Better touch feedback */
   button, a, [role="button"] {
     -webkit-touch-callout: none;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 901px) {
+  #hero {
+    margin-top: -10rem;
+    margin-bottom: 4rem;
   }
 }
 

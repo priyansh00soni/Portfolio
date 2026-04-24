@@ -1,7 +1,3 @@
-/**
- * scroll.js — Lenis smooth scroll initialization
- * Handles desktop smooth scroll and mobile native scroll
- */
 
 'use strict';
 

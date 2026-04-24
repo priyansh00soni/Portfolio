@@ -1,7 +1,3 @@
-/**
- * cursor.js — Magnetic canvas cursor
- * Draws trails following mouse movement
- */
 
 'use strict';
 
@@ -21,7 +17,7 @@ export function initCursor() {
   const TRAILS     = 20;
   const SIZE       = 50;
   const DAMPENING  = 0.25;
-  const TENSION    = 0.98;
+  const TENSION    = 0.97;
   const MIN_ALPHA  = 0.1;
   const MAX_ALPHA  = 0.4;
   const MIN_WIDTH  = 0.9;

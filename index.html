@@ -3,51 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Priyansh Soni — Full Stack Developer building practical web applications." />
-  <title>Priyansh Soni — Full Stack Developer</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/images/cool priyansh favicon.png" />
 
-  <!-- Fonts -->
+  <title>Priyansh Soni — Full Stack Developer | React, Node.js, MongoDB</title>
+  <meta name="description" content="Priyansh Soni is a Full Stack Developer from India building real-world web applications with React, Node.js, Express and MongoDB. Available for internships and freelance work." />
+  <meta name="keywords" content="Priyansh Soni, full stack developer, React developer India, Node.js developer, web developer portfolio, MITS DU, freelance developer India" />
+  <meta name="author" content="Priyansh Soni" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://priyanshsoni.me/" />
+
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://priyanshsoni.me/" />
+  <meta property="og:title"       content="Priyansh Soni — Full Stack Developer" />
+  <meta property="og:description" content="Building real-world web applications with React, Node.js and MongoDB. Available for internships and freelance work." />
+  <meta property="og:image"       content="https://priyanshsoni.me/images/og-cover.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name"   content="Priyansh Soni" />
+  <meta property="og:locale"      content="en_IN" />
+
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:url"         content="https://priyanshsoni.me/" />
+  <meta name="twitter:title"       content="Priyansh Soni — Full Stack Developer" />
+  <meta name="twitter:description" content="Building real-world web applications with React, Node.js and MongoDB. Available for internships." />
+  <meta name="twitter:image"       content="https://priyanshsoni.me/images/og-cover.png" />
+
+ 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Priyansh Soni",
+    "url": "https://priyanshsoni.me",
+    "image": "https://priyanshsoni.me/images/og-cover.png",
+    "sameAs": [
+      "https://github.com/priyansh00soni",
+      "https://www.linkedin.com/in/priyansh00soni/"
+    ],
+    "jobTitle": "Full Stack Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "GFG Campus Body, MITS DU"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Madhav Institute of Technology & Science, Datia"
+    },
+    "knowsAbout": ["React", "Node.js", "Express", "MongoDB", "JavaScript", "Full Stack Development"],
+    "description": "Full Stack Developer from India building practical web applications. Available for internships and freelance projects.",
+    "address": {
+      "@type": "Indore",
+      "addressCountry": "IN"
+    }
+  }
+  </script>
+
+  <link rel="icon"             type="image/png"  href="/images/cool priyansh favicon.png" />
+  <link rel="apple-touch-icon"                   href="/images/cool priyansh favicon.png" />
+  <meta name="theme-color" content="#0e0e0e" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" fetchpriority="high" />
 
-  <!-- Styles -->
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/cursor.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/LogoLoop.css" />
   <link rel="stylesheet" href="css/responsive.css" />
 
-  <!-- Preload song cover images for smooth spawning on first interaction -->
   <link rel="preload" href="song-coverImages/cover-1 ajab prem.jpg" as="image" />
   <link rel="preload" href="song-coverImages/cover-2 rakhlo chupake.png" as="image" />
   <link rel="preload" href="song-coverImages/cover-3 2states.jpg" as="image" />
-
-  <!--
-    Theme is applied immediately by main.js import (before DOMContentLoaded)
-    to prevent flash of wrong theme. The script tag at bottom handles this.
-  -->
 </head>
 <body>
 
-  <!-- Canvas cursor injected by js/cursor.js (priyansh's custom port) -->
-
-  <!-- ═══════════════════════════════════════════
-       PRELOADER
-  ═══════════════════════════════════════════ -->
   <div id="preloader" aria-hidden="true">
     <div class="pl-name"><span>Priyansh Soni</span></div>
     <div class="pl-bar-wrap"><div class="pl-bar" id="plBar"></div></div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       NAV
-  ═══════════════════════════════════════════ -->
   <nav id="nav" role="navigation" aria-label="Primary">
     <a href="#hero" class="nav-logo">priyansh</a>
     <div class="nav-right">
@@ -56,7 +93,6 @@
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <!-- data-magnetic → gets pulled by cursor -->
       <button class="theme-btn" id="themeBtn" aria-label="Toggle colour scheme" data-magnetic>
         <span class="t-icon" id="tIcon">◐</span>
         <span id="tLabel">Light</span>
@@ -66,9 +102,6 @@
 
   <main>
 
-    <!-- ═══════════════════════════════════════════
-         HERO
-    ═══════════════════════════════════════════ -->
     <section id="hero">
       <p class="hero-eyebrow"><span>Full Stack Developer</span></p>
       <h1 class="hero-title">
@@ -91,14 +124,8 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         SKILLS STRIP — LogoLoop (React Bits port, vanilla JS)
-    ═══════════════════════════════════════════ -->
     <div id="logoLoopRoot" class="skills-logoloop-wrap"></div>
 
-    <!-- ═══════════════════════════════════════════
-         WORK
-    ═══════════════════════════════════════════ -->
     <section id="work">
       <div class="s-header">
         <div>
@@ -109,7 +136,7 @@
 
       <div class="projects">
 
-        <!-- ── Card 01: GFG Campus Body MITS DU ── -->
+        <!-- Card 01 -->
         <article class="pcard p-gfg">
           <div class="pcard-inner">
             <div class="pcard-info">
@@ -119,7 +146,7 @@
               </div>
               <div class="pcard-mid">
                 <p class="pyear-sub">Tech Lead / GFG Campus Body, MITS DU</p>
-                <h3 class="pname">Collaborated and maintained website for GFG CB - MITS DU </h3>
+                <h3 class="pname">Collaborated and maintained website for GFG CB - MITS DU</h3>
                 <div class="tags">
                   <span class="tag">Full Stack</span>
                   <span class="tag">Responsive Design</span>
@@ -140,7 +167,6 @@
                 </div>
               </div>
             </div>
-
             <div class="pcard-vis">
               <div class="pcard-vis-inner js-parallax">
                 <div class="pcard-bg"></div>
@@ -149,12 +175,11 @@
                 <img
                   class="pcard-img"
                   src="images/ChatGPT Image Apr 19, 2026, 07_42_06 PM.png"
-                  alt="GFG Campus Body MITS DU website cover"
+                  alt="GFG Campus Body MITS DU website — full stack campus organization project"
                   loading="lazy"
                   decoding="async"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
                 />
-                <!-- SVG fallback -->
                 <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <rect x="80" y="60" width="440" height="300" rx="24" fill="none" stroke="white" stroke-width="1.5"/>
                   <circle cx="300" cy="150" r="35" fill="white" opacity=".2"/>
@@ -168,13 +193,7 @@
                 </svg>
                 <div class="pcard-img-overlay"></div>
               </div>
-              <a
-                class="p-arrow"
-                href="https://www.gfgcampusbodymitsdu.qzz.io/"
-                target="_blank"
-                rel="noopener"
-                aria-label="Open GFG Campus Body MITS DU website"
-              >
+              <a class="p-arrow" href="https://www.gfgcampusbodymitsdu.qzz.io/" target="_blank" rel="noopener" aria-label="Open GFG Campus Body MITS DU website">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -183,7 +202,7 @@
           </div>
         </article>
 
-        <!-- ── Card 02: NeoTaste Quests ── -->
+        <!-- Card 02 -->
         <article class="pcard p-quests">
           <div class="pcard-inner">
             <div class="pcard-info">
@@ -210,26 +229,19 @@
                 </div>
               </div>
             </div>
-
             <div class="pcard-vis">
               <div class="pcard-vis-inner js-parallax">
                 <div class="pcard-bg"></div>
                 <div class="blob blob1"></div>
                 <div class="blob blob2"></div>
-                <!--
-                  Real image placeholder.
-                  CORS may block on local file://; works when served via HTTP.
-                  The SVG fallback shows if the image fails to load.
-                -->
                 <img
                   class="pcard-img"
                   src="images/ChatGPT Image Apr 19, 2026, 07_33_56 PM.png"
-                  alt="Quest System case study cover"
+                  alt="Pixel and Chai design startup website — freelance React frontend project"
                   loading="lazy"
                   decoding="async"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
                 />
-                <!-- SVG fallback (hidden by default, shown if img fails) -->
                 <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <rect x="80" y="60" width="440" height="300" rx="24" fill="none" stroke="white" stroke-width="1.5"/>
                   <rect x="110" y="110" width="180" height="12" rx="6" fill="white"/>
@@ -246,13 +258,7 @@
                 </svg>
                 <div class="pcard-img-overlay"></div>
               </div>
-              <a
-                class="p-arrow"
-                href="https://pixel-and-chai.vercel.app/"
-                target="_blank"
-                rel="noopener"
-                aria-label="Open Pixel and Chai project"
-              >
+              <a class="p-arrow" href="https://pixel-and-chai.vercel.app/" target="_blank" rel="noopener" aria-label="Open Pixel and Chai project">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -261,7 +267,7 @@
           </div>
         </article>
 
-        <!-- ── Card 03: In Development ── -->
+        <!-- Card 03 -->
         <article class="pcard p-referral">
           <div class="pcard-inner">
             <div class="pcard-info">
@@ -288,38 +294,28 @@
                 </div>
               </div>
             </div>
-
             <div class="pcard-vis">
               <div class="pcard-vis-inner js-parallax">
                 <div class="pcard-bg"></div>
                 <img
                   class="pcard-img"
                   src="images/ChatGPT Image Apr 19, 2026, 08_05_57 PM.png"
-                  alt="Upcoming full stack project cover"
+                  alt="Upcoming full stack Node.js project — in development"
                   loading="lazy"
                   decoding="async"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
                 />
-                <!-- SVG fallback -->
                 <svg class="scene-svg" style="display:none;" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                   <line x1="80" y1="360" x2="520" y2="360" stroke="white" stroke-width="1" opacity=".2"/>
-                  <rect x="100" y="290" width="72" height="70"  rx="6" fill="white" opacity=".35"/>
+                  <rect x="100" y="290" width="72" height="70" rx="6" fill="white" opacity=".35"/>
                   <rect x="210" y="210" width="72" height="150" rx="6" fill="white" opacity=".50"/>
                   <rect x="320" y="250" width="72" height="110" rx="6" fill="white" opacity=".45"/>
                   <rect x="430" y="140" width="72" height="220" rx="6" fill="white" opacity=".75"/>
-                  <text x="136" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">A</text>
-                  <text x="246" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">B</text>
-                  <text x="356" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".4" font-family="Inter,sans-serif" font-weight="600">C</text>
-                  <text x="466" y="380" text-anchor="middle" font-size="13" fill="white" opacity=".65" font-family="Inter,sans-serif" font-weight="600">D</text>
                   <polyline points="136,305 246,225 356,265 466,155" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="5 3" opacity=".4"/>
                 </svg>
                 <div class="pcard-img-overlay"></div>
               </div>
-              <a
-                class="p-arrow"
-                href="#contact"
-                aria-label="Contact for upcoming project details"
-              >
+              <a class="p-arrow" href="#contact" aria-label="Contact for upcoming project details">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M2 12L12 2M12 2H4M12 2V10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -331,9 +327,6 @@
       </div><!-- /projects -->
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         ABOUT
-    ═══════════════════════════════════════════ -->
     <section id="about">
       <div class="s-header">
         <div>
@@ -407,40 +400,6 @@
             </ul>
           </div>
 
-          <!-- <div>
-            <h3 class="detail-h">Highlights</h3>
-            <ul class="awards-list">
-              <li class="award-item">
-                <div class="aw-l">
-                  <span class="aw-title">Tech Lead Role</span>
-                  <span class="aw-issuer">GFG Campus Body, MITS DU</span>
-                </div>
-                <span class="aw-yr">Current</span>
-              </li>
-              <li class="award-item">
-                <div class="aw-l">
-                  <span class="aw-title">Freelance Delivery</span>
-                  <span class="aw-issuer">Pixel &amp; Chai</span>
-                </div>
-                <span class="aw-yr">Completed</span>
-              </li>
-              <li class="award-item">
-                <div class="aw-l">
-                  <span class="aw-title">Freelance Delivery</span>
-                  <span class="aw-issuer">Minigems Coaching Institute</span>
-                </div>
-                <span class="aw-yr">Completed</span>
-              </li>
-              <li class="award-item">
-                <div class="aw-l">
-                  <span class="aw-title">Practical Product Development</span>
-                  <span class="aw-issuer">Real-world application focus</span>
-                </div>
-                <span class="aw-yr">Ongoing</span>
-              </li>
-            </ul>
-          </div> -->
-
           <div>
             <h3 class="detail-h">Skills</h3>
             <div class="skills-row">
@@ -461,37 +420,22 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         SHOWCASE — horizontal scroll strip
-    ═══════════════════════════════════════════ -->
-    
-
-    <!-- ═══════════════════════════════════════════
-         MORE WORK — Music, Art & Design grid
-         Cards are generated by js/more-work.js
-         Desktop: Hover any card → image follows cursor (alectear.com style)
-         Mobile: Grid display, cursor trails auto-hide when section is in view
-    ═══════════════════════════════════════════ -->
     <section id="more-work">
       <div class="mw-header">
         <p class="s-label">My Vibe</p>
         <h2 class="s-title">Music &amp; Beyond</h2>
       </div>
-      <!-- Scatter container injected by more-work.js -->
       <p class="mw-hint mw-hint-desktop">Move your cursor to explore</p>
       <p class="mw-hint mw-hint-mobile">Scroll to explore</p>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         LOOKING FOR MORE
-    ═══════════════════════════════════════════ -->
     <section id="work" style="padding: 0px var(--pad-x);">
       <div class="pdf-strip">
         <div>
           <h1>Looking for more?</h1>
           <p>Additional freelance and development work samples are available in my Resume.</p>
         </div>
-        <a  href="#" target="_blank" rel="noopener" style="margin-top: 0.6rem;" class="cv-btn"  data-magnetic>
+        <a href="#" target="_blank" rel="noopener" style="margin-top: 0.6rem;" class="cv-btn" data-magnetic>
           View Resume
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 12L12 2M12 2H4M12 2V10"/>
@@ -500,9 +444,6 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         CONTACT
-    ═══════════════════════════════════════════ -->
     <section id="contact">
       <p class="s-label">Get in touch</p>
 
@@ -512,12 +453,7 @@
           <span>
             <a href="mailto:priyansh.worskspace@gmail.com">
               Let's talk
-              <svg
-                width="0.7em" height="0.7em"
-                viewBox="0 0 18 18" fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style="display:inline-block;vertical-align:middle;margin-bottom:.12em;"
-              >
+              <svg width="0.7em" height="0.7em" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-bottom:.12em;">
                 <path d="M3 15L15 3M15 3H5M15 3V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
@@ -538,7 +474,6 @@
           </div>
           <p>India</p>
         </div>
-
         <div class="cf-right">
           <a href="mailto:priyansh.worskspace@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/priyansh00soni/" target="_blank" rel="noopener">LinkedIn</a>
@@ -546,28 +481,11 @@
         </div>
       </div>
 
-      <p class="copy">© 2026 Priyansh Soni · Full Stack Developer
-        <p class="copy" style="padding-bottom: -30px;">Made with ❤️ by Priyansh</p>
-      </p>
+      <p class="copy">© 2026 Priyansh Soni · Full Stack Developer</p>
     </section>
+
   </main>
 
-  <!-- ═══════════════════════════════════════════
-       SCRIPTS — order matters
-       1. GSAP core
-       2. ScrollTrigger plugin
-       3. Lenis smooth scroll
-       4. Our modules (type="module" = deferred, strict mode)
-  ═══════════════════════════════════════════ -->
-  <!--
-       SCRIPTS — order matters
-       1. GSAP core        — blocking, must be available before module runs
-       2. ScrollTrigger    — same
-       3. Lenis            — same
-       4. Our module       — type=module is auto-deferred; CDN scripts above
-                            are placed here (end of body) so blocking cost is
-                            negligible (HTML is fully parsed already)
-  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>

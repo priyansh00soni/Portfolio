@@ -1,15 +1,4 @@
-/* ============================================================
-   cursor.css — canvas cursor implementation by Priyansh
 
-   The cursor is PURELY canvas-drawn. No DOM dot element.
-   No CSS hover states, no body classes.
-   The canvas handles everything via additive (lighter) blending.
-
-   The only CSS needed:
-     1. Hide the native cursor
-     2. Position the canvas correctly
-     3. Kill any legacy cursor markup
-   ============================================================ */
 
 /* ── Cursor styling ── */
 

@@ -1,7 +1,3 @@
-/**
- * LogoLoop — vanilla JS port of React Bits LogoLoop (same props behavior + LogoLoop.css).
- * Use mountLogoLoop(container, options) / unmountLogoLoop() when integrating non-React pages.
- */
 
 'use strict';
 
@@ -372,11 +368,11 @@ export const PORTFOLIO_SKILL_LOGOS = [
   { title: 'Node.js' },
   { title: 'Express.js' },
   { title: 'Mongo-DB' },
+  { title: 'Postman' },
   { title: 'Leadership' },
   { title: 'Teamwork' },
   { title: 'Communication' },
   { title: 'Problem Solving' },
-  { title: 'Practical Development' },
   { title: 'Freelance Projects' },
   { title: 'Real-world Apps' },
 ];

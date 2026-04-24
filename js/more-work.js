@@ -1,7 +1,3 @@
-/**
- * more-work.js — Image spawn effect on tap/drag
- * Physics-based positioning with object pooling
- */
 
 'use strict';
 
@@ -34,12 +30,12 @@ const IMAGES = [
 ];
 
 const CONFIG = {
-  minDistance:  110,
+  minDistance:  120,
   imgMinSize:   110,
   imgMaxSize:   210,
   maxRotation:   18,
   maxImages:     14,
-  fadeDuration:  50,
+  fadeDuration:  75,
   lifeMs:      1800,
   fadeOutMs:    280,
   airDrag:    0.985,
@@ -59,12 +55,12 @@ let trailsVisible = true;
 let rafId       = null;
 let prevTick    = 0;
 
-/* ── Pointer state (throttled) ── */
+
 let ptrX = null, ptrY = null, ptrT = null;
 let pendingCx = null, pendingCy = null;
-let ptrPending = false;   // rAF-throttle flag
+let ptrPending = false;  
 
-/* ── Object pool ── */
+
 const pool = [];
 
 function acquireEl(size) {
@@ -78,12 +74,12 @@ function acquireEl(size) {
     'top:0',
     'object-fit:cover',
     'border-radius:6px',
-    'opacity:0',
+    'opacity:1',
     'pointer-events:none',
     'will-change:transform',
     'user-select:none',
     'display:block',
-    `transition:opacity ${CONFIG.fadeDuration}ms ease`,
+    'transition:none',
   ].join(';');
   return img;
 }
@@ -94,7 +90,7 @@ function releaseEl(img) {
   pool.push(img);
 }
 
-/* ── Cursor-trail toggle ── */
+/*Cursor-trail toggle*/
 function setTrails(show) {
   if (show === trailsVisible) return;
   trailsVisible = show;
@@ -102,7 +98,7 @@ function setTrails(show) {
   if (c) { c.style.transition = 'opacity 0.35s ease'; c.style.opacity = show ? '1' : '0'; }
 }
 
-/* ── Remove an item ── */
+/* Remove an item*/
 function removeImage(item) {
   const i = spawnedImgs.indexOf(item);
   if (i !== -1) spawnedImgs.splice(i, 1);
@@ -117,7 +113,7 @@ function startDying(item, now) {
   if (item.dying) return;
   item.dying = true;
   item.dieAt = now;
-  /* Write opacity + scale-down in one style flush — no transition override mid-frame */
+  /* Write opacity + scale-down in one style flush, no transition override mid-frame */
   item.el.style.transition = `opacity ${CONFIG.fadeOutMs}ms ease, transform ${CONFIG.fadeOutMs}ms ease`;
   item.el.style.opacity = '0';
   item._deadTransform = `translate3d(${item.x}px,${item.y}px,0) rotate(${item.angle}deg) scale(0)`;
@@ -131,7 +127,7 @@ function enforceImageCap(now) {
   }
 }
 
-/* ── Spawn (called from tick, so already inside rAF) ── */
+/*Spawn (called from tick, so already inside rAF)*/
 function spawn(cx, cy, pointerVx, pointerVy, now) {
   const rect  = container.getBoundingClientRect();
   const size  = CONFIG.imgMinSize + Math.random() * (CONFIG.imgMaxSize - CONFIG.imgMinSize);
@@ -157,12 +153,11 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
 
   container.appendChild(img);
 
-  /* Single rAF to trigger CSS transition (browser needs one paint cycle) */
-  requestAnimationFrame(() => {
-    if (!img.parentNode) return;   // pooled before paint
-    img.style.opacity = '1';
-    img.style.transform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
-  });
+  /* Force reflow to register initial scale(0) state */
+  void img.offsetHeight;
+
+  img.style.transition = `transform ${CONFIG.fadeDuration}ms ease`;
+  img.style.transform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
 
   const item = {
     el: img, x, y, w: size, h: size,
@@ -178,11 +173,11 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
   enforceImageCap(now);
 }
 
-/* ── Physics tick ── */
+/* Physics tick*/
 function tick(now) {
   if (!container) return;
 
-  /* Flush pending pointer-move spawn */
+  /* del pending pointer-move spawn */
   if (ptrPending && isActive) {
     ptrPending = false;
     const cx = pendingCx, cy = pendingCy;
@@ -205,7 +200,7 @@ function tick(now) {
 
     if (item.dying) {
       if (now - item.dieAt >= CONFIG.fadeOutMs) removeImage(item);
-      continue;   // transform is already set by startDying
+      continue;  
     }
 
     item.vx *= drag;
@@ -214,7 +209,6 @@ function tick(now) {
     item.y  += item.vy * dt;
     item.angle += item.omega * dt;
 
-    /* Only write transform if it meaningfully changed (>0.1px) */
     const tf = `translate3d(${item.x.toFixed(1)}px,${item.y.toFixed(1)}px,0) rotate(${item.angle.toFixed(2)}deg) scale(1)`;
     if (tf !== item._lastTransform) {
       item.el.style.transform = tf;
@@ -225,7 +219,7 @@ function tick(now) {
   rafId = requestAnimationFrame(tick);
 }
 
-/* ── Pointer velocity (shared between mouse & touch) ── */
+/*Pointer velocity (shared between mouse & touch)*/
 let pendingVx = 0, pendingVy = 0;
 
 function onMove(cx, cy) {
@@ -313,7 +307,7 @@ export function initMoreWork() {
       }
     }, { passive: true });
   } else {
-    /* Desktop: spawn images on mousemove (hover) */
+    /* Desktop, spawn images on mousemove (hover) */
     section.addEventListener('mousemove', onMouseMove, { passive: true });
   }
   

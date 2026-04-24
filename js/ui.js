@@ -1,7 +1,3 @@
-/**
- * ui.js — Non-animation UI interactions
- * Theme toggle · Copy email · Showcase drag-to-scroll
- */
 
 'use strict';
 
