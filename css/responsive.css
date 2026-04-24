@@ -18,8 +18,12 @@
 
 @media (min-width: 901px) {
   #hero {
-    margin-top: -10rem;
+    margin-top: -8rem;
     margin-bottom: 4rem;
+  }
+
+  .scroll-hint {
+    top: 180px;
   }
 }
 

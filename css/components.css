@@ -161,7 +161,7 @@ nav.scrolled {
 }
 @media (max-width: 480px) {
   .hero {
-    margin-top: -7rem;
+    margin-top: 7rem;
   }
 }
 
@@ -251,13 +251,14 @@ nav.scrolled {
 /* ── SCROLL HINT ── */
 .scroll-hint {
   position: absolute;
-  top: 110px;
+  top: 140px;
   right: var(--pad-x);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
+
 
 .scroll-hint span {
   font-size: 9px;
