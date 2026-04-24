@@ -1,8 +1,4 @@
 
-
-/* ── Cursor styling ── */
-
-/* ── Touch devices: restore native cursor, hide canvas ── */
 @media (pointer: coarse) {
   *,
   *::before,
@@ -14,13 +10,7 @@
   }
 }
 
-/* ── Canvas layer ──
-   Matches original JSX:
-     className="pointer-events-none fixed inset-0"
-   z-index 9999 keeps it above all page content.
-   No will-change — the canvas content changes, not the element.
-   No width/height here — set dynamically in JS (DPR-aware).
-   ── */
+
 #canvas {
   position: fixed;
   inset: 0;
@@ -28,7 +18,6 @@
   z-index: 9999;
 }
 
-/* ── Kill any legacy cursor markup from old implementation ── */
 #cursor-dot,
 #cursor-canvas,
 .cursor,
