@@ -1,4 +1,3 @@
-
 'use strict';
 
 const IMAGES = [
@@ -55,11 +54,13 @@ let trailsVisible = true;
 let rafId       = null;
 let prevTick    = 0;
 
+/* Track which images are loaded (not all at once) */
+const imageLoadStatus = new Map();
+IMAGES.forEach(src => imageLoadStatus.set(src, false));
 
 let ptrX = null, ptrY = null, ptrT = null;
 let pendingCx = null, pendingCy = null;
-let ptrPending = false;  
-
+let ptrPending = false;
 
 const pool = [];
 
@@ -90,7 +91,6 @@ function releaseEl(img) {
   pool.push(img);
 }
 
-/*Cursor-trail toggle*/
 function setTrails(show) {
   if (show === trailsVisible) return;
   trailsVisible = show;
@@ -98,7 +98,6 @@ function setTrails(show) {
   if (c) { c.style.transition = 'opacity 0.35s ease'; c.style.opacity = show ? '1' : '0'; }
 }
 
-/* Remove an item*/
 function removeImage(item) {
   const i = spawnedImgs.indexOf(item);
   if (i !== -1) spawnedImgs.splice(i, 1);
@@ -113,7 +112,6 @@ function startDying(item, now) {
   if (item.dying) return;
   item.dying = true;
   item.dieAt = now;
-  /* Write opacity + scale-down in one style flush, no transition override mid-frame */
   item.el.style.transition = `opacity ${CONFIG.fadeOutMs}ms ease, transform ${CONFIG.fadeOutMs}ms ease`;
   item.el.style.opacity = '0';
   item._deadTransform = `translate3d(${item.x}px,${item.y}px,0) rotate(${item.angle}deg) scale(0)`;
@@ -127,7 +125,6 @@ function enforceImageCap(now) {
   }
 }
 
-/*Spawn (called from tick, so already inside rAF)*/
 function spawn(cx, cy, pointerVx, pointerVy, now) {
   const rect  = container.getBoundingClientRect();
   const size  = CONFIG.imgMinSize + Math.random() * (CONFIG.imgMaxSize - CONFIG.imgMinSize);
@@ -147,13 +144,11 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
   const img = acquireEl(size);
   img.src = src;
 
-  /* Set initial transform before appending so no layout jank */
   const initTransform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(0)`;
   img.style.transform = initTransform;
 
   container.appendChild(img);
 
-  /* Force reflow to register initial scale(0) state */
   void img.offsetHeight;
 
   img.style.transition = `transform ${CONFIG.fadeDuration}ms ease`;
@@ -173,11 +168,9 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
   enforceImageCap(now);
 }
 
-/* Physics tick*/
 function tick(now) {
   if (!container) return;
 
-  /* del pending pointer-move spawn */
   if (ptrPending && isActive) {
     ptrPending = false;
     const cx = pendingCx, cy = pendingCy;
@@ -219,7 +212,6 @@ function tick(now) {
   rafId = requestAnimationFrame(tick);
 }
 
-/*Pointer velocity (shared between mouse & touch)*/
 let pendingVx = 0, pendingVy = 0;
 
 function onMove(cx, cy) {
@@ -233,16 +225,24 @@ function onMove(cx, cy) {
   }
   ptrX = cx; ptrY = cy; ptrT = now;
 
-  /* Throttle: store latest coords, let tick() consume them */
   pendingCx  = cx;
   pendingCy  = cy;
-  ptrPending = true;   // tick() will process at next frame, at most once per frame
+  ptrPending = true;
 }
 
 function onMouseMove(e) { onMove(e.clientX, e.clientY); }
 function onTouchMove(e) { onMove(e.touches[0].clientX, e.touches[0].clientY); }
 
-/* ── Build ── */
+/* ── BACKGROUND PRELOAD (non-blocking) ── */
+function startBackgroundPreload() {
+  IMAGES.forEach(src => {
+    const img = new Image();
+    img.onload = () => imageLoadStatus.set(src, true);
+    img.onerror = () => console.warn(`Failed to load: ${src}`);
+    img.src = src;
+  });
+}
+
 function build() {
   section = document.getElementById('more-work');
   if (!section) return false;
@@ -269,13 +269,12 @@ function initObserver() {
 export function initMoreWork() {
   if (!build()) return;
   
+  /* Start background preloading (non-blocking) */
+  startBackgroundPreload();
+  
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
   
-  /* Preload all images */
-  IMAGES.forEach(s => { const i = new Image(); i.src = s; });
-  
   if (isTouchDevice) {
-    /* Mobile: spawn images on tap */
     let touchStartX = 0, touchStartY = 0;
     
     section.addEventListener('touchstart', (e) => {
@@ -284,12 +283,10 @@ export function initMoreWork() {
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
       
-      /* Spawn on tap */
       const now = performance.now();
       spawn(touch.clientX, touch.clientY, 0, 0, now);
     }, { passive: true });
     
-    /* Only spawn on touchmove if user is dragging (not scrolling) */
     section.addEventListener('touchmove', (e) => {
       if (!isActive || !e.touches.length) return;
       
@@ -297,7 +294,6 @@ export function initMoreWork() {
       const dx = touch.clientX - touchStartX;
       const dy = touch.clientY - touchStartY;
       
-      /* Only spawn if horizontal movement is significant (dragging, not scrolling) */
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
         const now = performance.now();
         const distance = Math.hypot(dx, dy);
@@ -307,7 +303,6 @@ export function initMoreWork() {
       }
     }, { passive: true });
   } else {
-    /* Desktop, spawn images on mousemove (hover) */
     section.addEventListener('mousemove', onMouseMove, { passive: true });
   }
   
