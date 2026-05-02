@@ -144,7 +144,7 @@ function initScrollTriggers() {
   gsap.utils.toArray('.pcard').forEach(el => {
     gsap.fromTo(el,
       { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out',
+      { opacity: 1, y: 0, duration: 2.5, ease: 'expo.out',
         scrollTrigger: { trigger: el, start: 'top 88%' } }
     );
   });
