@@ -6,35 +6,7 @@
 'use strict';
 
 import { getLenis } from './scroll.js';
-
-/* Song cover images for preloading */
-const SONG_IMAGES = [
-  '../song-coverImages/cover-1 ajab prem.jpg',
-  '../song-coverImages/cover-2 rakhlo chupake.png',
-  '../song-coverImages/cover-3 2states.jpg',
-  '../song-coverImages/cover-4 sunflower.jpg',
-  '../song-coverImages/cover-5 starboy.jpg',
-  '../song-coverImages/cover-6 dil nu.jpg',
-  '../song-coverImages/cover-7 intentions.jpg',
-  '../song-coverImages/cover-8 khat.jpg',
-  '../song-coverImages/cover-9 raaston.jpg',
-  '../song-coverImages/cover-10 aasmani.jpg',
-  '../song-coverImages/cover -11 sun sawariya.jpg',
-  '../song-coverImages/cover-12 imagine dragoons.jpg',
-  '../song-coverImages/cover-13 for a reason.jpg',
-  '../song-coverImages/cover-14 attention.jpg',
-  '../song-coverImages/cover-15 bairan.jpg',
-  '../song-coverImages/cover-16 heat waves.jpg',
-  '../song-coverImages/cover-17 rang jo.jpg',
-  '../song-coverImages/cover-18 badlapur.jpg',
-  '../song-coverImages/cover-19 all the satrs.jpg',
-  '../song-coverImages/cover-20 lata ji.jpg',
-  '../song-coverImages/cover-21 dilwale.jpg',
-  '../song-coverImages/cover-22 aaj se.jpg',
-  '../song-coverImages/cover-23 atif.jpg',
-  '../song-coverImages/cover-24 7years.jpg',
-  '../song-coverImages/cover-25 darkhaast.jpg',
-];
+import { preloadMoreWork } from './more-work.js';
 
 /* Project card images - preload immediately */
 const PROJECT_IMAGES = [
@@ -42,17 +14,6 @@ const PROJECT_IMAGES = [
   'images/pixel_chai.png',
   'images/coming-soon.png',
 ];
-
-/* Preload first N images during preloader, remainder after hero animations */
-const PRIORITY_PRELOAD_COUNT = 6;
-
-function preloadImages(startIdx = 0, count = 6) {
-  const endIdx = Math.min(startIdx + count, SONG_IMAGES.length);
-  for (let i = startIdx; i < endIdx; i++) {
-    const img = new Image();
-    img.src = SONG_IMAGES[i];
-  }
-}
 
 /* Preload all project images immediately for smooth rendering */
 function preloadProjectImages() {
@@ -93,8 +54,8 @@ export function initAnimations() {
   gsap.set('.pill',                 { opacity: 0, x: 36 });
   gsap.set('.scroll-hint',          { opacity: 0 });
 
-  /* START preloading images during preloader display (1300ms window) */
-  preloadImages(0, PRIORITY_PRELOAD_COUNT);
+  /* Preload all 25 song cover images immediately — parallel fetch via Promise cache */
+  preloadMoreWork();
 
   /* Show preloader on every page load/refresh */
   /* Name slides up */
@@ -138,11 +99,6 @@ function heroIn() {
     .to('.scroll-hint',         { opacity: 1, duration: 0.6 }, 1.35);
 
   tl.call(initScrollTriggers, null, 0.4);
-
-  /* Preload remaining images after hero animations (non-blocking background load) */
-  setTimeout(() => {
-    preloadImages(PRIORITY_PRELOAD_COUNT, SONG_IMAGES.length - PRIORITY_PRELOAD_COUNT);
-  }, 1000);
 }
 
 /* ─────────────────────────────────────────────────────────── */
