@@ -61,6 +61,33 @@ let pendingVx = 0, pendingVy = 0;
 
 const pool = [];
 
+/*
+ * One Promise per image src.
+ * Resolves immediately if the browser has already decoded it,
+ * otherwise waits for the load event.
+ * This is the only gate — once resolved, spawning is instant forever.
+ */
+const readyPromises = new Map();
+
+function whenLoaded(src) {
+  if (readyPromises.has(src)) return readyPromises.get(src);
+  const p = new Promise(resolve => {
+    const probe = new Image();
+    probe.onload  = () => resolve();
+    probe.onerror = () => resolve(); /* resolve anyway — spawn will show broken img, but won't flicker */
+    probe.src = src;
+    /* If already complete (disk cache / memory cache hit), onload may not fire */
+    if (probe.complete && probe.naturalWidth > 0) resolve();
+  });
+  readyPromises.set(src, p);
+  return p;
+}
+
+/* Kick off all 25 fetches immediately — parallel, non-blocking */
+export function preloadMoreWork() {
+  IMAGES.forEach(src => whenLoaded(src));
+}
+
 function acquireEl(size) {
   const img = pool.pop() || document.createElement('img');
   img.draggable = false;
@@ -122,20 +149,20 @@ function enforceImageCap(now) {
   }
 }
 
-function spawn(cx, cy, pointerVx, pointerVy, now) {
+function insertSpawn(src, cx, cy, pointerVx, pointerVy) {
+  if (!container) return;
+  const now   = performance.now();
   const rect  = container.getBoundingClientRect();
   const size  = CONFIG.imgMinSize + Math.random() * (CONFIG.imgMaxSize - CONFIG.imgMinSize);
   const angle = (Math.random() * 2 - 1) * CONFIG.maxRotation;
-  const src   = IMAGES[imgIdx++ % IMAGES.length];
-  const x     = cx - rect.left  - size / 2;
-  const y     = cy - rect.top   - size / 2;
+  const x     = cx - rect.left - size / 2;
+  const y     = cy - rect.top  - size / 2;
 
   let vx = 0, vy = 0;
   const cursorMag = Math.hypot(pointerVx, pointerVy);
   if (cursorMag > 1) {
-    const fixedSpeed = 120;
-    vx = (pointerVx / cursorMag) * fixedSpeed;
-    vy = (pointerVy / cursorMag) * fixedSpeed;
+    vx = (pointerVx / cursorMag) * 120;
+    vy = (pointerVy / cursorMag) * 120;
   }
 
   const img = acquireEl(size);
@@ -143,13 +170,10 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
 
   const initTransform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(0)`;
   img.style.transform = initTransform;
-
   container.appendChild(img);
-
   void img.offsetHeight;
-
   img.style.transition = `transform ${CONFIG.fadeDuration}ms ease`;
-  img.style.transform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
+  img.style.transform  = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
 
   const item = {
     el: img, x, y, w: size, h: size,
@@ -165,6 +189,12 @@ function spawn(cx, cy, pointerVx, pointerVy, now) {
   enforceImageCap(now);
 }
 
+function spawn(cx, cy, pointerVx, pointerVy) {
+  const src = IMAGES[imgIdx++ % IMAGES.length];
+  /* whenLoaded(src) is already resolved for cached images — .then fires synchronously */
+  whenLoaded(src).then(() => insertSpawn(src, cx, cy, pointerVx, pointerVy));
+}
+
 function tick(now) {
   if (!container) return;
 
@@ -173,7 +203,7 @@ function tick(now) {
     const cx = pendingCx, cy = pendingCy;
     const d  = Math.hypot(cx - lastX, cy - lastY);
     if (d >= CONFIG.minDistance) {
-      spawn(cx, cy, pendingVx, pendingVy, now);
+      spawn(cx, cy, pendingVx, pendingVy);
       lastX = cx; lastY = cy;
     }
   }
@@ -263,22 +293,16 @@ export function initMoreWork() {
       const touch = e.touches[0];
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
-
-      const now = performance.now();
-      spawn(touch.clientX, touch.clientY, 0, 0, now);
+      spawn(touch.clientX, touch.clientY, 0, 0);
     }, { passive: true });
 
     section.addEventListener('touchmove', (e) => {
       if (!isActive || !e.touches.length) return;
-
       const touch = e.touches[0];
       const dx = touch.clientX - touchStartX;
       const dy = touch.clientY - touchStartY;
-
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
-        const now = performance.now();
-        const distance = Math.hypot(dx, dy);
-        if (distance > CONFIG.minDistance) {
+        if (Math.hypot(dx, dy) > CONFIG.minDistance) {
           onMove(touch.clientX, touch.clientY);
         }
       }
