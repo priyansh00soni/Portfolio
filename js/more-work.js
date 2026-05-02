@@ -54,13 +54,10 @@ let trailsVisible = true;
 let rafId       = null;
 let prevTick    = 0;
 
-/* Track which images are fully loaded into browser cache */
-const imageLoadStatus = new Map();
-IMAGES.forEach(src => imageLoadStatus.set(src, false));
-
 let ptrX = null, ptrY = null, ptrT = null;
 let pendingCx = null, pendingCy = null;
 let ptrPending = false;
+let pendingVx = 0, pendingVy = 0;
 
 const pool = [];
 
@@ -125,11 +122,11 @@ function enforceImageCap(now) {
   }
 }
 
-/* ── CORE FIX: only insert into DOM once the image is loaded ── */
-function spawnWhenReady(src, cx, cy, pointerVx, pointerVy, now) {
+function spawn(cx, cy, pointerVx, pointerVy, now) {
   const rect  = container.getBoundingClientRect();
   const size  = CONFIG.imgMinSize + Math.random() * (CONFIG.imgMaxSize - CONFIG.imgMinSize);
   const angle = (Math.random() * 2 - 1) * CONFIG.maxRotation;
+  const src   = IMAGES[imgIdx++ % IMAGES.length];
   const x     = cx - rect.left  - size / 2;
   const y     = cy - rect.top   - size / 2;
 
@@ -141,57 +138,31 @@ function spawnWhenReady(src, cx, cy, pointerVx, pointerVy, now) {
     vy = (pointerVy / cursorMag) * fixedSpeed;
   }
 
-  const doInsert = () => {
-    if (!container) return;
-    const spawnNow = performance.now();
-    const img = acquireEl(size);
-    img.src = src;
+  const img = acquireEl(size);
+  img.src = src;
 
-    const initTransform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(0)`;
-    img.style.transform = initTransform;
+  const initTransform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(0)`;
+  img.style.transform = initTransform;
 
-    container.appendChild(img);
+  container.appendChild(img);
 
-    void img.offsetHeight;
+  void img.offsetHeight;
 
-    img.style.transition = `transform ${CONFIG.fadeDuration}ms ease`;
-    img.style.transform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
+  img.style.transition = `transform ${CONFIG.fadeDuration}ms ease`;
+  img.style.transform = `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(1)`;
 
-    const item = {
-      el: img, x, y, w: size, h: size,
-      vx, vy,
-      angle, omega: 0,
-      bornAt: spawnNow,
-      expireAt: spawnNow + CONFIG.lifeMs,
-      dieAt: 0,
-      dying: false,
-      _lastTransform: initTransform,
-    };
-    spawnedImgs.push(item);
-    enforceImageCap(spawnNow);
+  const item = {
+    el: img, x, y, w: size, h: size,
+    vx, vy,
+    angle, omega: 0,
+    bornAt: now,
+    expireAt: now + CONFIG.lifeMs,
+    dieAt: 0,
+    dying: false,
+    _lastTransform: initTransform,
   };
-
-  if (imageLoadStatus.get(src)) {
-    /* Already cached — insert immediately, no flicker possible */
-    doInsert();
-  } else {
-    /* Not cached yet — wait for load, then insert */
-    const probe = new Image();
-    probe.onload = () => {
-      imageLoadStatus.set(src, true);
-      doInsert();
-    };
-    probe.onerror = () => {
-      /* If image fails to load, skip spawning rather than showing broken icon */
-      imageLoadStatus.set(src, false);
-    };
-    probe.src = src;
-  }
-}
-
-function spawn(cx, cy, pointerVx, pointerVy, now) {
-  const src = IMAGES[imgIdx++ % IMAGES.length];
-  spawnWhenReady(src, cx, cy, pointerVx, pointerVy, now);
+  spawnedImgs.push(item);
+  enforceImageCap(now);
 }
 
 function tick(now) {
@@ -219,7 +190,7 @@ function tick(now) {
 
     if (item.dying) {
       if (now - item.dieAt >= CONFIG.fadeOutMs) removeImage(item);
-      continue;  
+      continue;
     }
 
     item.vx *= drag;
@@ -238,8 +209,6 @@ function tick(now) {
   rafId = requestAnimationFrame(tick);
 }
 
-let pendingVx = 0, pendingVy = 0;
-
 function onMove(cx, cy) {
   if (!isActive) return;
 
@@ -257,18 +226,6 @@ function onMove(cx, cy) {
 }
 
 function onMouseMove(e) { onMove(e.clientX, e.clientY); }
-function onTouchMove(e) { onMove(e.touches[0].clientX, e.touches[0].clientY); }
-
-/* ── BACKGROUND PRELOAD (non-blocking, kicks off early) ── */
-function startBackgroundPreload() {
-  IMAGES.forEach(src => {
-    if (imageLoadStatus.get(src)) return;
-    const img = new Image();
-    img.onload  = () => imageLoadStatus.set(src, true);
-    img.onerror = () => console.warn(`Failed to load: ${src}`);
-    img.src = src;
-  });
-}
 
 function build() {
   section = document.getElementById('more-work');
@@ -295,32 +252,29 @@ function initObserver() {
 
 export function initMoreWork() {
   if (!build()) return;
-  
-  /* Start background preloading immediately on init */
-  startBackgroundPreload();
-  
+
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-  
+
   if (isTouchDevice) {
     let touchStartX = 0, touchStartY = 0;
-    
+
     section.addEventListener('touchstart', (e) => {
       if (!isActive) return;
       const touch = e.touches[0];
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
-      
+
       const now = performance.now();
       spawn(touch.clientX, touch.clientY, 0, 0, now);
     }, { passive: true });
-    
+
     section.addEventListener('touchmove', (e) => {
       if (!isActive || !e.touches.length) return;
-      
+
       const touch = e.touches[0];
       const dx = touch.clientX - touchStartX;
       const dy = touch.clientY - touchStartY;
-      
+
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
         const now = performance.now();
         const distance = Math.hypot(dx, dy);
@@ -332,7 +286,7 @@ export function initMoreWork() {
   } else {
     section.addEventListener('mousemove', onMouseMove, { passive: true });
   }
-  
+
   initObserver();
   if (!rafId) { prevTick = 0; rafId = requestAnimationFrame(tick); }
 }
