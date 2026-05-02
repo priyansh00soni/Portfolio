@@ -36,6 +36,13 @@ const SONG_IMAGES = [
   '../song-coverImages/cover-25 darkhaast.jpg',
 ];
 
+/* Project card images - preload immediately */
+const PROJECT_IMAGES = [
+  'images/gfg.png',
+  'images/pixel_chai.png',
+  'images/coming-soon.png',
+];
+
 /* Preload first N images during preloader, remainder after hero animations */
 const PRIORITY_PRELOAD_COUNT = 6;
 
@@ -47,8 +54,19 @@ function preloadImages(startIdx = 0, count = 6) {
   }
 }
 
+/* Preload all project images immediately for smooth rendering */
+function preloadProjectImages() {
+  PROJECT_IMAGES.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
 export function initAnimations() {
   gsap.registerPlugin(ScrollTrigger);
+
+  /* Preload project images immediately for smooth rendering */
+  preloadProjectImages();
 
   const preloader = document.getElementById('preloader');
   const plBar     = document.getElementById('plBar');
@@ -144,7 +162,7 @@ function initScrollTriggers() {
   gsap.utils.toArray('.pcard').forEach(el => {
     gsap.fromTo(el,
       { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 2.5, ease: 'expo.out',
+      { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out',
         scrollTrigger: { trigger: el, start: 'top 88%' } }
     );
   });
