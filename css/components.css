@@ -1,51 +1,5 @@
 
-/* ── PRELOADER ── */
-#preloader {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 24px;
-  pointer-events: all;
-  will-change: transform;
-}
-
-/* Name clip — span slides up into view from below */
-.pl-name {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 5.5vw, 68px);
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  overflow: hidden;
-  line-height: 1.1;
-  text-align: center;
-}
-
-.pl-name span {
-  display: inline-block;
-  transform: translateY(110%);
-  will-change: transform, opacity;
-}
-
-/* Progress bar */
-.pl-bar-wrap {
-  width: 180px;
-  height: 1px;
-  background: var(--border);
-  overflow: hidden;
-}
-
-/* Bar fills via CSS transition — preloader sets width:100% via setTimeout */
-.pl-bar {
-  height: 100%;
-  width: 0;
-  background: var(--fg);
-  transition: width 0.9s cubic-bezier(0.76, 0, 0.24, 1);
-}
+/* ── CINEMATIC INTRO — all styles are inline/dynamic via js/intro/ ── */
 
 /* ── NAV ── */
 nav {

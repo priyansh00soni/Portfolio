@@ -1,21 +1,20 @@
 /**
- nimations.js — GSAP animations + preloading
- Handles preloader, hero entrance, scroll triggers, and image preloading
+ * animations.js — GSAP animations + preloading
+ * Handles cinematic intro, hero entrance, scroll triggers, and image preloading
  */
 
 'use strict';
 
 import { getLenis } from './scroll.js';
 import { preloadMoreWork } from './more-work.js';
+import { runIntro } from './intro/manager.js';
 
-/* Project card images - preload immediately */
 const PROJECT_IMAGES = [
   'images/gfg.png',
   'images/pixel_chai.png',
   'images/coming-soon.png',
 ];
 
-/* Preload all project images immediately for smooth rendering */
 function preloadProjectImages() {
   PROJECT_IMAGES.forEach(src => {
     const img = new Image();
@@ -26,27 +25,22 @@ function preloadProjectImages() {
 export function initAnimations() {
   gsap.registerPlugin(ScrollTrigger);
 
-  /* Preload project images immediately for smooth rendering */
   preloadProjectImages();
 
-  const preloader = document.getElementById('preloader');
-  const plBar     = document.getElementById('plBar');
-  const plName    = document.querySelector('.pl-name span');
-
-  /* ── Lock scroll during preloader, scroll to top ── */
+  /* ── Lock scroll during intro, scroll to top ── */
   const scrollLock = () => window.scrollTo(0, 0);
   window.addEventListener('scroll', scrollLock, { once: false });
-  
+
   window.scrollTo(0, 0);
   setTimeout(() => {
     const lenis = getLenis();
     if (lenis) {
       lenis.scrollTo(0, { duration: 0 });
-      lenis.stop(); /* Disable Lenis scroll during preloader */
+      lenis.stop();
     }
   }, 10);
 
-  /* Hide hero elements from the start so they don't flash before preloader completes */
+  /* Hide hero elements so they don't flash before intro completes */
   gsap.set('.nav-logo, .nav-right', { opacity: 0, y: -10 });
   gsap.set('.hero-eyebrow span',    { yPercent: 110 });
   gsap.set('.hero-title .tl span',  { yPercent: 110 });
@@ -54,34 +48,16 @@ export function initAnimations() {
   gsap.set('.pill',                 { opacity: 0, x: 36 });
   gsap.set('.scroll-hint',          { opacity: 0 });
 
-  /* Preload all 25 song cover images immediately — parallel fetch via Promise cache */
   preloadMoreWork();
 
-  /* Show preloader on every page load/refresh */
-  /* Name slides up */
-  gsap.to(plName, { y: 0, duration: 0.7, ease: 'power3.out', delay: 0.1 });
-
-  /* Bar fills via CSS transition (exactly as dvdrod.com does it) */
-  setTimeout(() => { plBar.style.width = '100%'; }, 150);
-
-  /* After 1300ms overlay slides up, then hero plays in onComplete */
-  setTimeout(() => {
-    gsap.to(preloader, {
-      yPercent: -100,
-      duration: 0.9,
-      ease: 'power3.inOut',
-      onComplete: () => {
-        preloader.style.display = 'none';
-        
-        /* Unlock scroll and restart Lenis */
-        window.removeEventListener('scroll', scrollLock);
-        const lenis = getLenis();
-        if (lenis) lenis.start();
-        
-        heroIn();
-      },
-    });
-  }, 1300);
+  /* ── Cinematic intro replaces the old preloader ── */
+  runIntro(() => {
+    /* onReveal — called during bloom, portfolio emerges underneath */
+    window.removeEventListener('scroll', scrollLock);
+    const lenis = getLenis();
+    if (lenis) lenis.start();
+    heroIn();
+  });
 }
 
 /* ─────────────────────────────────────────────────────────── */
