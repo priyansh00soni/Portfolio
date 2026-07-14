@@ -11,8 +11,19 @@ export function buildTimeline(dom, field, onReveal) {
   const vh = dom.container.clientHeight;
   const cx = vw / 2;
   const cy = vh / 2;
+  const revealFeather = Math.min(Math.max(Math.round(Math.min(vw, vh) * 0.16), 180), 240);
+  const revealRadius = Math.hypot(vw / 2, vh / 2) + revealFeather + 160;
   const logo = sampleWordmark(cx, cy, vw);
   field.setLogoTargets(logo.points, logo.count);
+
+  function setRevealMask(radius) {
+    const outer = Math.max(0, radius);
+    const inner = Math.max(0, outer - revealFeather);
+    dom.container.style.setProperty('--reveal-inner', `${inner}px`);
+    dom.container.style.setProperty('--reveal-outer', `${outer}px`);
+  }
+
+  setRevealMask(0);
 
   /* Stage 1 — void */
   tl.set(dom.canvas, { opacity: 1 }, 0);
@@ -71,21 +82,64 @@ export function buildTimeline(dom, field, onReveal) {
 
   /* Stage 7 — energy glow */
   tl.to(dom.bloom, { opacity: 0.25, duration: t.energy.dur, ease: 'power2.in' }, t.energy.at);
+  tl.to(dom.canvas, { scale: 1.012, duration: t.charge.dur, ease: 'power4.out' }, t.charge.at);
+
+  const chargeState = { p: 0 };
+  tl.to(chargeState, {
+    p: 1,
+    duration: t.charge.dur,
+    ease: 'power4.in',
+    onUpdate() { field.setChargeProgress(chargeState.p); },
+  }, t.charge.at);
 
   /* Stage 8 — white bloom */
   tl.to(dom.bloom, {
-    opacity: 1, scale: 4, duration: t.bloom.dur, ease: 'expo.out',
+    opacity: 1,
+    scale: 4.45,
+    duration: t.bloom.dur,
+    ease: 'expo.out',
   }, t.bloom.at);
 
   /* Stage 10 — reveal portfolio */
-  tl.call(() => { if (onReveal) onReveal(); }, null, t.reveal.at);
+  const revealState = { r: 0 };
+  tl.to(revealState, {
+    r: revealRadius,
+    duration: 1.32,
+    ease: 'expo.out',
+    onUpdate() { setRevealMask(revealState.r); },
+  }, t.reveal.at);
+
+  const burstState = { p: 0 };
+  tl.call(() => {
+    field.setPhase(field.PHASE_DISPERSE);
+    if (onReveal) onReveal();
+  }, null, t.reveal.at);
+
+  tl.to(burstState, {
+    p: 1,
+    duration: 0.18,
+    ease: 'power4.out',
+    onUpdate() { field.setBurstProgress(burstState.p); },
+  }, t.reveal.at);
+
+  tl.to(dom.revealPulse, {
+    opacity: 0.95,
+    scale: 0.75,
+    duration: 0.12,
+    ease: 'power2.out',
+  }, t.reveal.at + 0.05);
+
+  tl.to(dom.revealPulse, {
+    opacity: 0,
+    scale: 5.8,
+    duration: 2.48,
+    ease: 'expo.out',
+  }, t.reveal.at + 0.16);
 
   /* Stage 9 — disperse + fade out */
-  tl.call(() => field.setPhase(field.PHASE_DISPERSE), null, t.disperse.at);
-  tl.to(dom.bloom, { opacity: 0, duration: 0.4, ease: 'power2.out' }, t.disperse.at);
-// Change disperse canvas fade from 0.45 → 0.9
-  tl.to(dom.canvas,    { opacity: 0, duration: 0.9,  ease: 'power1.out' }, t.disperse.at + 0.05);
-  tl.to(dom.container, { opacity: 0, duration: 0.6,  ease: 'power1.out' }, t.disperse.at + 0.3);
+  tl.to(dom.bloom, { opacity: 0, scale: 5.2, duration: 0.5, ease: 'power3.out' }, t.disperse.at);
+  tl.to(dom.canvas, { opacity: 0, duration: t.disperse.dur + 0.12, ease: 'expo.out' }, t.disperse.at + 0.02);
+  tl.to(dom.container, { opacity: 0, duration: 0.52, ease: 'power2.out' }, t.disperse.at + 0.56);
 
   tl.call(() => field.setPhase(field.PHASE_DONE), null, t.end.at);
 

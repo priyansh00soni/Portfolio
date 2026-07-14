@@ -27,14 +27,18 @@ export function createField(canvas) {
   let phase = PHASE_IDLE;
   let assembleProgress = 0; // 0→1 controls left-to-right logo reveal
   let globalAlpha = 0;      // faded in by timeline
+  let chargeProgress = 0;    // late-stage build-up before the blast
+  let burstProgress = 0;     // 0→1 controls the explosion impulse
   let rafId = null;
   let running = false;
 
   /* ── Particle arrays (SoA for cache-friendliness) ── */
   let n = 0; // count
   let px, py;       // current position
+  let prevPx, prevPy; // previous position for faint trails during the burst
   let tx, ty;       // target (logo point or orbit destination)
   let angle, radius, speed, size, alpha;
+  let disperseSeed, trailSeed;
   let logoOrder;    // normalised 0-1 left-to-right position for staggered assembly
 
   /* ── Sizing ── */
@@ -56,6 +60,8 @@ export function createField(canvas) {
     n = count;
     px      = new Float32Array(n);
     py      = new Float32Array(n);
+    prevPx  = new Float32Array(n);
+    prevPy  = new Float32Array(n);
     tx      = new Float32Array(n);
     ty      = new Float32Array(n);
     angle   = new Float32Array(n);
@@ -63,6 +69,8 @@ export function createField(canvas) {
     speed   = new Float32Array(n);
     size    = new Float32Array(n);
     alpha   = new Float32Array(n);
+    disperseSeed = new Float32Array(n);
+    trailSeed = new Float32Array(n);
     logoOrder = new Float32Array(n);
     
 
@@ -74,8 +82,12 @@ export function createField(canvas) {
       speed[i]  = (0.6 + Math.random() * 0.8) * cfg.baseSpin;
       size[i]   = cfg.minSize + Math.random() * (cfg.maxSize - cfg.minSize);
       alpha[i] = 0.55 + Math.random() * 0.45;
+      disperseSeed[i] = 0.35 + Math.random() * 0.95;
+      trailSeed[i] = Math.random();
       px[i] = cx + Math.cos(a) * r;
       py[i] = cy + Math.sin(a) * r;
+      prevPx[i] = px[i];
+      prevPy[i] = py[i];
       tx[i] = px[i];
       ty[i] = py[i];
     }
@@ -116,19 +128,22 @@ export function createField(canvas) {
       return;
     }
 
-    const ease = (phase === PHASE_DISPERSE) ? 158 : cfg.ease; 
+    const energyBoost = 1 + chargeProgress * 0.45;
     const jitter = cfg.logoJitter;
 
     for (let i = 0; i < n; i++) {
       let destX, destY, a = alpha[i] * globalAlpha;
+      if (phase !== PHASE_DISPERSE) {
+        a *= 1 + chargeProgress * 0.22;
+      }
 
       if (phase === PHASE_IDLE || phase === PHASE_COMPILE) {
         // orbit
-        const spinRate = phase === PHASE_COMPILE ? cfg.compileSpin : speed[i];
+        const spinRate = (phase === PHASE_COMPILE ? cfg.compileSpin : speed[i]) * (1 - chargeProgress * 0.3);
         angle[i] += spinRate * 0.016; // ~60fps dt
         const r = phase === PHASE_COMPILE
-          ? radius[i] * (1 - assembleProgress * 0.6) // shrink orbit
-          : radius[i];
+          ? radius[i] * (1 - assembleProgress * 0.6 - chargeProgress * 0.08) // shrink orbit
+          : radius[i] * (1 - chargeProgress * 0.04);
         destX = cx + Math.cos(angle[i]) * r;
         destY = cy + Math.sin(angle[i]) * r;
       } else if (phase === PHASE_ASSEMBLE) {
@@ -139,34 +154,46 @@ export function createField(canvas) {
         } else {
           // still orbiting but tightening
           angle[i] += cfg.compileSpin * 0.016;
-          const r = radius[i] * 0.35;
+          const r = radius[i] * (0.35 - chargeProgress * 0.04);
           destX = cx + Math.cos(angle[i]) * r;
           destY = cy + Math.sin(angle[i]) * r;
         }
       } else if (phase === PHASE_HOLD) {
         destX = tx[i] + (Math.random() - 0.5) * jitter;
         destY = ty[i] + (Math.random() - 0.5) * jitter;
-        a = Math.min(1, alpha[i] * globalAlpha * 2.2);
+        a = Math.min(1, alpha[i] * globalAlpha * (2.05 + chargeProgress * 0.7));
       } else if (phase === PHASE_DISPERSE) {
         // radial explosion from centre
         const dx = tx[i] - cx || 0.01;
         const dy = ty[i] - cy || 0.01;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const pushDist = W * 1.6;   // was 1.2 — fly further
+        const particleSpread = 0.9 + disperseSeed[i] * 0.9;
+        const pushDist = W * (1.05 + particleSpread * (0.75 + burstProgress * 0.55));
         destX = cx + (dx / dist) * pushDist;
         destY = cy + (dy / dist) * pushDist;
+        a = Math.max(0, alpha[i] * globalAlpha * (1 - burstProgress * (0.18 + trailSeed[i] * 0.55)));
       } else {
         destX = px[i]; destY = py[i];
       }
 
+      prevPx[i] = px[i];
+      prevPy[i] = py[i];
+
       // spring toward dest
+      const ease = phase === PHASE_DISPERSE
+        ? 26 + disperseSeed[i] * 42 - burstProgress * 8
+        : cfg.ease + chargeProgress * 1.1;
       px[i] += (destX - px[i]) / ease;
       py[i] += (destY - py[i]) / ease;
 
       // draw
-      
       ctx.globalAlpha = a;
       ctx.fillStyle = `rgb(${rgb})`;
+      if (phase === PHASE_DISPERSE && burstProgress > 0.08) {
+        ctx.globalAlpha = a * 0.22 * burstProgress;
+        ctx.fillRect(prevPx[i] - size[i] * 0.5, prevPy[i] - size[i] * 0.5, size[i], size[i]);
+      }
+      ctx.globalAlpha = a;
       ctx.fillRect(px[i] - size[i] * 0.5, py[i] - size[i] * 0.5, size[i], size[i]);
     }
 
@@ -184,13 +211,15 @@ export function createField(canvas) {
   function setPhase(p) { phase = p; }
   function setAlpha(v) { globalAlpha = v; }
   function setAssembleProgress(v) { assembleProgress = v; }
+  function setChargeProgress(v) { chargeProgress = v; }
+  function setBurstProgress(v) { burstProgress = v; }
 
   function destroy() {
     running = false;
     if (rafId) cancelAnimationFrame(rafId);
     rafId = null;
     ctx.clearRect(0, 0, W, H);
-    px = py = tx = ty = angle = radius = speed = size = alpha = logoOrder = null;
+    px = py = prevPx = prevPy = tx = ty = angle = radius = speed = size = alpha = disperseSeed = trailSeed = logoOrder = null;
   }
 
   return {
@@ -199,6 +228,8 @@ export function createField(canvas) {
     setPhase,
     setAlpha,
     setAssembleProgress,
+    setChargeProgress,
+    setBurstProgress,
     setLogoTargets,
     destroy,
     /* expose constants for timeline */

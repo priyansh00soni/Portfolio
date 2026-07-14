@@ -65,11 +65,12 @@ t: {
   keywordsIn: { at: 0.90, dur: 1.20 }, // Stage 4 — keywords appear + orbit
   compile:    { at: 2.10, dur: 1.00 }, // Stage 5 — converge / gravity
   assemble:   { at: 2.70, dur: 2.2  }, // Stage 6 — wordmark builds L→R
-  energy:     {  at: 3.90, dur: 1.80 }, // Stage 7 — glow builds
-  bloom:      { at: 4.40, dur: 2.80  }, // Stage 8 — white bloom fills
-  reveal:     {  at: 4.90 },            // Stage 10 — hero begins under bloom
-  disperse:   { at: 5.4,  dur: 3.20 }, // Stage 9 — particles fly outward
-  end:        { at: 8.50 }             // hard teardown ceiling
+  energy:     {  at: 3.90, dur: 0.60 }, // Stage 7 — glow builds before the blast
+  charge:     {  at: 4.55, dur: 0.35 }, // Stage 7b — tension ramps into the blast
+  bloom:      {  at: 4.32, dur: 0.58 }, // Stage 8 — white bloom peaks at the blast
+  reveal:     {  at: 4.90 },            // Stage 10 — hero begins exactly at the blast
+  disperse:   {  at: 4.90, dur: 0.95 }, // Stage 9 — particles fly outward
+  end:        { at: 6.25 }             // hard teardown ceiling
 },
 
 };

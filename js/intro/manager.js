@@ -26,7 +26,20 @@ export async function runIntro(onReveal) {
   Object.assign(container.style, {
     position: 'fixed', inset: '0', zIndex: '10000',
     background: '#000', overflow: 'hidden',
+    display: 'grid',
+    placeItems: 'center',
     pointerEvents: 'all',
+    willChange: 'mask-image, -webkit-mask-image',
+    WebkitMaskImage: 'radial-gradient(circle at 50% 50%, transparent 0px, transparent var(--reveal-inner), black var(--reveal-outer))',
+    maskImage: 'radial-gradient(circle at 50% 50%, transparent 0px, transparent var(--reveal-inner), black var(--reveal-outer))',
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+    WebkitMaskSize: '100% 100%',
+    maskSize: '100% 100%',
+    WebkitMaskPosition: 'center',
+    maskPosition: 'center',
+    '--reveal-inner': '0px',
+    '--reveal-outer': '0px',
   });
 
   const canvas = document.createElement('canvas');
@@ -36,100 +49,154 @@ export async function runIntro(onReveal) {
   });
   container.appendChild(canvas);
 
-  const brackets = document.createElement('div');
-  brackets.setAttribute('aria-hidden', 'true');
-  Object.assign(brackets.style, {
-    position: 'absolute', top: '50%', left: '50%',
-    transform: 'translate(-50%, -50%)',
-    fontSize: '72px', fontWeight: '200', color: '#fff',
-    letterSpacing: '0.3em', userSelect: 'none',
-    textShadow: '0 0 20px rgba(255,255,255,0.15)',
-    opacity: '0', willChange: 'transform, opacity',
-    fontFamily: CONFIG.monoFont,
-  });
-  brackets.textContent = '< >';
-  container.appendChild(brackets);
-
-  const keywordsWrap = document.createElement('div');
-  Object.assign(keywordsWrap.style, {
-    position: 'absolute', inset: '0', pointerEvents: 'none',
-  });
-  container.appendChild(keywordsWrap);
-
- const shuffled = KEYWORDS.slice().sort(() => Math.random() - 0.5);
-const kwCount = Math.min(CONFIG.keywordCount, shuffled.length);
-const keywordEls = [];
-
-// Large cinematic ellipse around the brackets
-const radiusX = Math.min(window.innerWidth * 0.38, 520);
-const radiusY = Math.min(window.innerHeight * 0.30, 340);
-
-for (let i = 0; i < kwCount; i++) {
-  const el = document.createElement('span');
-
-  // Even spacing with slight randomness
-  const angle =
-    (i / kwCount) * Math.PI * 2 +
-    (Math.random() - 0.5) * 0.22;
-
-const radiusX = Math.min(window.innerWidth * 0.38, 520);
-const radiusY = Math.min(window.innerHeight * 0.28, 320);
-
-const rx = radiusX + Math.random() * 80;
-const ry = radiusY + Math.random() * 60;
-
-  const ox = Math.cos(angle) * rx;
-  const oy = Math.sin(angle) * ry;
-
-  Object.assign(el.style, {
+  const centeredLayer = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+  };
 
+  const brackets = document.createElement('div');
+  brackets.setAttribute('aria-hidden', 'true');
+  Object.assign(brackets.style, {
+    ...centeredLayer,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.1em',
+    fontSize: '72px', fontWeight: '200', color: '#fff',
+    lineHeight: '1', letterSpacing: '0.2em',
+    whiteSpace: 'nowrap', userSelect: 'none',
+    textShadow: '0 0 20px rgba(255,255,255,0.15)',
+    opacity: '0', willChange: 'transform, opacity',
     fontFamily: CONFIG.monoFont,
-    fontSize: `${18 + Math.random() * 2}px`,
-    fontWeight: '500',
-    letterSpacing:'0.03em',
-    color:'rgba(255,255,255,0.9)',
-
-opacity:'0',
-
-filter:`blur(${Math.random()*1.2}px)`,
-
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-
-    userSelect: 'none',
-    willChange: 'transform, opacity',
-
-    padding: '2px 8px',
   });
 
-  el.textContent = shuffled[i];
-
-  el.dataset.ox = String(ox);
-  el.dataset.oy = String(oy);
-
-  gsap.set(el, {
-    x: ox,
-    y: oy,
+  const avatar = document.createElement('img');
+  avatar.setAttribute('aria-hidden', 'true');
+  avatar.alt = '';
+  avatar.src = '../../images/avatar.png';
+  Object.assign(avatar.style, {
+    display: 'inline-block',
+    width: '46px',
+    height: '58px',
+    margin: '0',
+    transform: 'translateY(-0.05em) scale(0.98)',
+    verticalAlign: 'middle',
+    objectFit: 'contain',
+    imageRendering: 'auto',
   });
 
-  keywordsWrap.appendChild(el);
-  keywordEls.push(el);
-}
+  brackets.innerHTML = '&lt;';
+  brackets.appendChild(avatar);
+  brackets.insertAdjacentHTML('beforeend', '&gt;');
+  container.appendChild(brackets);
+
+  const keywordsWrap = document.createElement('div');
+  Object.assign(keywordsWrap.style, {
+    position: 'absolute',
+    inset: '0',
+    pointerEvents: 'none',
+  });
+  container.appendChild(keywordsWrap);
+
+  const shuffled = KEYWORDS.slice().sort(() => Math.random() - 0.5);
+  const kwCount = Math.min(CONFIG.keywordCount, shuffled.length);
+  const keywordEls = [];
+  const keywordPositions = [];
+
+  // Keep the keyword ring compact so the loader reads as a centered composition.
+  const radiusX = Math.min(window.innerWidth * 0.34, 480);
+  const radiusY = Math.min(window.innerHeight * 0.24, 310);
+  const phase = -Math.PI / 2;
+
+  for (let i = 0; i < kwCount; i++) {
+    const el = document.createElement('span');
+
+    const angle = phase + (i / kwCount) * Math.PI * 2;
+    const wobble = i % 2 === 0 ? 0.95 : 1.05;
+    const rx = radiusX * wobble;
+    const ry = radiusY * (2 - wobble);
+    keywordPositions.push({
+      el,
+      x: Math.cos(angle) * rx,
+      y: Math.sin(angle) * ry,
+    });
+
+    Object.assign(el.style, {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      fontFamily: CONFIG.monoFont,
+      fontSize: `${20 + (i % 3) * 0.5}px`,
+      fontWeight: '600',
+      letterSpacing: '0.04em',
+      color: 'rgba(255,255,255,0.9)',
+      opacity: '0',
+      background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 72%)',
+      filter: `blur(${(i % 4) * 0.08}px) drop-shadow(0 0 16px rgba(255,255,255,0.42))`,
+      textShadow: '0 0 10px rgba(255,255,255,0.42), 0 0 22px rgba(255,255,255,0.24), 0 0 34px rgba(255,255,255,0.12)',
+      whiteSpace: 'nowrap',
+      textAlign: 'center',
+      userSelect: 'none',
+      willChange: 'transform, opacity',
+      padding: '4px 10px',
+      borderRadius: '999px',
+    });
+
+    el.textContent = shuffled[i];
+
+    keywordsWrap.appendChild(el);
+    keywordEls.push(el);
+  }
+
+  const centroid = keywordPositions.reduce((acc, item) => {
+    acc.x += item.x;
+    acc.y += item.y;
+    return acc;
+  }, { x: 0, y: 0 });
+
+  centroid.x /= keywordPositions.length || 1;
+  centroid.y /= keywordPositions.length || 1;
+
+  keywordPositions.forEach(({ el, x, y }) => {
+    const ox = x - centroid.x;
+    const oy = y - centroid.y;
+    el.dataset.ox = String(ox);
+    el.dataset.oy = String(oy);
+
+    gsap.set(el, {
+      x: ox,
+      y: oy,
+    });
+  });
 
   const bloom = document.createElement('div');
   Object.assign(bloom.style, {
-    position: 'absolute', top: '50%', left: '50%',
+    ...centeredLayer,
     width: '120px', height: '120px',
-    transform: 'translate(-50%, -50%)',
     borderRadius: '50%', background: '#fff',
     opacity: '0', willChange: 'transform, opacity',
     filter: 'blur(40px)',
   });
   container.appendChild(bloom);
+
+  const revealPulse = document.createElement('div');
+  revealPulse.setAttribute('aria-hidden', 'true');
+  Object.assign(revealPulse.style, {
+    ...centeredLayer,
+    width: '180px', height: '180px',
+    transform: 'translate(-50%, -50%) scale(0.2)',
+    borderRadius: '50%',
+    border: '1px solid rgba(255,255,255,0.92)',
+    boxShadow: '0 0 36px rgba(255,255,255,0.38), inset 0 0 18px rgba(255,255,255,0.16)',
+    opacity: '0',
+    pointerEvents: 'none',
+    willChange: 'transform, opacity',
+    mixBlendMode: 'screen',
+  });
+  container.appendChild(revealPulse);
 
   document.body.appendChild(container);
 
@@ -138,7 +205,7 @@ filter:`blur(${Math.random()*1.2}px)`,
   field.start(CONFIG.maxParticles);
 
   /* ── GSAP timeline ── */
-  const dom = { container, canvas, brackets, bloom, keywordsWrap, keywordEls };
+  const dom = { container, canvas, brackets, bloom, revealPulse, keywordsWrap, keywordEls };
   let revealed = false;
   let cleaned = false;
 
