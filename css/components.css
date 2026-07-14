@@ -643,15 +643,19 @@ margin-top: -30px;}
 .pcard-vis {
   position: relative;
   overflow: hidden;
+  border-radius: 12px;
+  align-self: center;
+  aspect-ratio: 1536 / 1024;
+  width: 100%;
 }
 
-/* Parallax wrapper — extends 8% beyond container for scroll travel */
+/* Base wrapper (removed 116% extension to prevent clipping) */
 .pcard-vis-inner {
   position: absolute;
-  inset: -8% 0;
-  height: 116%;
-  will-change: transform;
-  background: #0a0a0a; /* Prevent flashing of other elements */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
 }
 
 .pcard-bg {
@@ -694,14 +698,14 @@ margin-top: -30px;}
   inset: 0;
   width: 100%;
   height: 100%;
+  padding: 0;
+  box-sizing: border-box;
   object-fit: cover;
-  transition: transform 0.9s var(--ease), opacity 0.4s ease;
+  object-position: center;
+  transition: opacity 0.4s ease;
   z-index: 1;
-  will-change: transform;
-  opacity: 0; /* Start invisible, fade in on load */
+  opacity: 0;
 }
-
-.pcard:hover .pcard-img { transform: scale(1.04); }
 
 .pcard-img-overlay {
   position: absolute;

@@ -101,19 +101,7 @@ function initScrollTriggers() {
     );
   });
 
-  /* Parallax disabled on mobile to prevent jank */
-  if (!isMobile) {
-    gsap.utils.toArray('.js-parallax').forEach(el => {
-      gsap.fromTo(el,
-        { yPercent: -4 },
-        { yPercent: 4, ease: 'none',
-          scrollTrigger: {
-            trigger: el.closest('.pcard'),
-            start: 'top bottom', end: 'bottom top', scrub: 1.5,
-          } }
-      );
-    });
-  }
+  /* Parallax removed to prevent clipping and layout tear on exactly-sized banners */
 
   gsap.utils.toArray('.sc-card').forEach((el, i) => {
     gsap.fromTo(el,
