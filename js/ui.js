@@ -52,7 +52,6 @@ export function initCopyEmail() {
     });
   });
 }
-
 /* ── SHOWCASE DRAG-TO-SCROLL ── */
 export function initShowcaseDrag() {
   const track = document.getElementById('showcaseTrack');
@@ -106,3 +105,4 @@ export function initShowcaseDrag() {
     track.scrollLeft = touchScrollLeft + diff;
   }, { passive: true });
 }
+
