@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
           p.style.top = '40%';
           p.style.zIndex = 10;
           p.style.pointerEvents = 'none';
+          p.style.willChange = 'transform, opacity';
           
           view.appendChild(p);
 
@@ -324,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
             opacity: 0,
             duration: 0.8 + Math.random() * 0.7,
             ease: 'circ.out',
+            force3D: true, // Forces GPU acceleration on mobile
             onComplete: () => p.remove()
           });
         }
@@ -395,6 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sendBtn.innerText = 'Sending...';
 
       try {
+        // Enforce HTTPS exclusively to bypass aggressive Mobile Mixed Content Security Blocks
         const response = await fetch('https://nexus-automation-jvm0.onrender.com/api/assistant-command', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
