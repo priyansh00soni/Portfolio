@@ -57,6 +57,7 @@ export function initAnimations() {
     const lenis = getLenis();
     if (lenis) lenis.start();
     heroIn();
+    initTilt();
   });
 }
 
@@ -148,4 +149,43 @@ function initScrollTriggers() {
   };
   setTimeout(scheduleRefresh, 300);
   window.addEventListener('load', scheduleRefresh, { once: true });
+}
+
+/* ─────────────────────────────────────────────────────────── */
+
+function initTilt() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  const cards = document.querySelectorAll('.pcard');
+  cards.forEach(card => {
+    // We tilt the inner wrapper so the outer bounds stay stable
+    const inner = card; 
+    
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const xPct = (x / rect.width) - 0.5;
+      const yPct = (y / rect.height) - 0.5;
+      
+      gsap.to(inner, {
+        rotationY: xPct * 4,
+        rotationX: -yPct * 4,
+        duration: 0.5,
+        ease: 'power2.out',
+        transformPerspective: 1000,
+        transformOrigin: "center center"
+      });
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      gsap.to(inner, {
+        rotationY: 0,
+        rotationX: 0,
+        duration: 0.7,
+        ease: 'power2.out'
+      });
+    });
+  });
 }
