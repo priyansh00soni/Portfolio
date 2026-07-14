@@ -72,20 +72,53 @@ export async function runIntro(onReveal) {
     fontFamily: CONFIG.monoFont,
   });
 
-  const avatar = document.createElement('img');
+  const avatar = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   avatar.setAttribute('aria-hidden', 'true');
-  avatar.alt = '';
-  avatar.src = '../../images/avatar.png';
+  avatar.setAttribute('viewBox', '0 0 64 64');
+  avatar.setAttribute('fill', 'none');
+  avatar.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   Object.assign(avatar.style, {
     display: 'inline-block',
     width: '46px',
-    height: '58px',
+    height: '46px',
     margin: '0',
-    transform: 'translateY(-0.05em) scale(0.98)',
+    transform: 'translateY(-0.02em) scale(0.98)',
     verticalAlign: 'middle',
-    objectFit: 'contain',
-    imageRendering: 'auto',
+    overflow: 'visible',
   });
+
+  const dotRing = [
+    [32, 6, 1.6], [42, 8, 1.2], [50, 14, 1.25], [56, 24, 1.4],
+    [58, 34, 1.35], [54, 46, 1.2], [46, 54, 1.25], [34, 58, 1.45],
+    [22, 57, 1.2], [12, 52, 1.3], [7, 42, 1.35], [5, 31, 1.5],
+    [7, 20, 1.25], [13, 11, 1.2], [23, 7, 1.35],
+  ];
+
+  const innerDots = [
+    [32, 16, 1.1], [40, 20, 1.05], [46, 29, 1.05], [42, 39, 1.15],
+    [33, 45, 1.1], [23, 42, 1.05], [18, 32, 1.1], [22, 22, 1.0],
+    [31, 27, 1.6], [36, 34, 1.25], [28, 36, 1.15], [27, 20, 1.0],
+  ];
+
+  const drawDot = (cx, cy, r, opacity = 1) => {
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', String(cx));
+    dot.setAttribute('cy', String(cy));
+    dot.setAttribute('r', String(r));
+    dot.setAttribute('fill', 'white');
+    dot.setAttribute('fill-opacity', String(opacity));
+    return dot;
+  };
+
+  dotRing.forEach(([cx, cy, r], index) => {
+    avatar.appendChild(drawDot(cx, cy, r, index % 3 === 0 ? 0.95 : 0.78));
+  });
+
+  innerDots.forEach(([cx, cy, r], index) => {
+    avatar.appendChild(drawDot(cx, cy, r, index % 4 === 0 ? 1 : 0.82));
+  });
+
+  avatar.appendChild(drawDot(32, 32, 2.8, 1));
 
   brackets.innerHTML = '&lt;';
   brackets.appendChild(avatar);
@@ -134,15 +167,14 @@ export async function runIntro(onReveal) {
       letterSpacing: '0.04em',
       color: 'rgba(255,255,255,0.9)',
       opacity: '0',
-      background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 72%)',
-      filter: `blur(${(i % 4) * 0.08}px) drop-shadow(0 0 16px rgba(255,255,255,0.42))`,
-      textShadow: '0 0 10px rgba(255,255,255,0.42), 0 0 22px rgba(255,255,255,0.24), 0 0 34px rgba(255,255,255,0.12)',
+      background: 'none',
+      filter: 'none',
+      textShadow: '0 0 4px rgba(255,255,255,0.55), 0 0 10px rgba(255,255,255,0.24), 0 0 18px rgba(255,255,255,0.12)',
       whiteSpace: 'nowrap',
       textAlign: 'center',
       userSelect: 'none',
       willChange: 'transform, opacity',
-      padding: '4px 10px',
-      borderRadius: '999px',
+      padding: '2px 6px',
     });
 
     el.textContent = shuffled[i];
@@ -160,8 +192,10 @@ export async function runIntro(onReveal) {
   centroid.x /= keywordPositions.length || 1;
   centroid.y /= keywordPositions.length || 1;
 
+  const ellipseOffsetX = -40;
+
   keywordPositions.forEach(({ el, x, y }) => {
-    const ox = x - centroid.x;
+    const ox = x - centroid.x + ellipseOffsetX;
     const oy = y - centroid.y;
     el.dataset.ox = String(ox);
     el.dataset.oy = String(oy);

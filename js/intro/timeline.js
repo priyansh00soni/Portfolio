@@ -47,7 +47,10 @@ export function buildTimeline(dom, field, onReveal) {
   if (dom.keywordEls && dom.keywordEls.length) {
     dom.keywordEls.forEach((el, i) => {
       const delay = t.keywordsIn.at + (i / dom.keywordEls.length) * t.keywordsIn.dur;
-      tl.to(el, { opacity: 0.35 + Math.random() * 0.2, duration: 0.3, ease: 'power2.out' }, delay);
+      tl.fromTo(el,
+        { opacity: 0, scale: 0.88 },
+        { opacity: 0.6, scale: 1, duration: 0.5, ease: 'power1.out' },
+        delay);
     });
   }
 
@@ -128,6 +131,38 @@ export function buildTimeline(dom, field, onReveal) {
     duration: 0.12,
     ease: 'power2.out',
   }, t.reveal.at + 0.05);
+
+  tl.to(dom.container, {
+    x: -22,
+    y: 10,
+    rotation: -2.2,
+    duration: 0.025,
+    ease: 'none',
+  }, t.reveal.at + 0.12);
+
+  tl.to(dom.container, {
+    x: 18,
+    y: -8,
+    rotation: 1.9,
+    duration: 0.03,
+    ease: 'none',
+  }, t.reveal.at + 0.155);
+
+  tl.to(dom.container, {
+    x: -14,
+    y: 6,
+    rotation: -1.2,
+    duration: 0.025,
+    ease: 'none',
+  }, t.reveal.at + 0.195);
+
+  tl.to(dom.container, {
+    x: 0,
+    y: 0,
+    rotation: 0,
+    duration: 0.06,
+    ease: 'power2.out',
+  }, t.reveal.at + 0.235);
 
   tl.to(dom.revealPulse, {
     opacity: 0,

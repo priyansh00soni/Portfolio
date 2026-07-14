@@ -7,6 +7,27 @@ import { initTheme, initCopyEmail, initShowcaseDrag, getSparkColor } from './ui.
 import { mountLogoLoop, PORTFOLIO_SKILL_LOGOS } from './LogoLoop.js';
 import { initMoreWork } from './more-work.js';
 
+const BACKGROUND_TRACK = new URL(
+  '../images/Tame Impala - The Less I Know The Better (Original Instrumental).mp3',
+  import.meta.url,
+).href;
+const BACKGROUND_VOLUME = 0.14;
+const BACKGROUND_GAIN = 1.25;
+const SPEAKER_ON_ICON = `
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 5L6 9H3v6h3l5 4z" />
+    <path d="M16.5 8.5a5 5 0 010 7" />
+    <path d="M19.5 5.5a9.5 9.5 0 010 13" />
+  </svg>
+`;
+const SPEAKER_OFF_ICON = `
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 5L6 9H3v6h3l5 4z" />
+    <path d="M16 9l5 6" />
+    <path d="M21 9l-5 6" />
+  </svg>
+`;
+
 /* Theme first — avoids flash of wrong color */
 initTheme();
 
@@ -28,6 +49,111 @@ document.addEventListener('DOMContentLoaded', () => {
   initShowcaseDrag();
   initMoreWork();
 
+  function initBackgroundMusic() {
+    const audioBtn = document.getElementById('audioBtn');
+    const audioIcon = document.getElementById('audioIcon');
+    const audio = document.createElement('audio');
+    audio.src = BACKGROUND_TRACK;
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 1;
+    audio.setAttribute('aria-hidden', 'true');
+    audio.style.display = 'none';
+    document.body.appendChild(audio);
+    audio.load();
+
+    let isPlaying = false;
+    let fadeFrame = 0;
+    let audioContext = null;
+    let mediaSource = null;
+    let gainNode = null;
+
+    const setButtonState = (playing) => {
+      if (!audioBtn || !audioIcon) return;
+      audioBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      audioBtn.setAttribute('aria-label', playing ? 'Pause background music' : 'Play background music');
+      audioIcon.innerHTML = playing ? SPEAKER_ON_ICON : SPEAKER_OFF_ICON;
+    };
+
+    const fadeInMusic = () => {
+      window.cancelAnimationFrame(fadeFrame);
+      if (gainNode) {
+        gainNode.gain.value = 0;
+      }
+
+      const duration = 2000;
+      const startedAt = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        if (gainNode) {
+          gainNode.gain.value = BACKGROUND_GAIN * progress;
+        }
+
+        if (progress < 1 && isPlaying) {
+          fadeFrame = window.requestAnimationFrame(tick);
+        }
+      };
+
+      fadeFrame = window.requestAnimationFrame(tick);
+    };
+
+    const playMusic = async () => {
+      try {
+        if (!audioContext) {
+          audioContext = new AudioContext();
+          mediaSource = audioContext.createMediaElementSource(audio);
+          gainNode = audioContext.createGain();
+          gainNode.gain.value = 0;
+          mediaSource.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+        }
+
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
+        await audio.play();
+        isPlaying = true;
+        setButtonState(true);
+        fadeInMusic();
+      } catch (err) {
+        isPlaying = false;
+        setButtonState(false);
+        console.error('Background music failed to start:', err);
+      }
+    };
+
+    const pauseMusic = () => {
+      window.cancelAnimationFrame(fadeFrame);
+      audio.pause();
+      if (gainNode) {
+        gainNode.gain.value = BACKGROUND_GAIN;
+      }
+      isPlaying = false;
+      setButtonState(false);
+    };
+
+    const toggleMusic = () => {
+      if (isPlaying) {
+        pauseMusic();
+        return;
+      }
+
+      playMusic();
+    };
+
+    setButtonState(false);
+
+    if (audioBtn) {
+      audioBtn.addEventListener('click', toggleMusic);
+    }
+
+    audio.addEventListener('error', (event) => console.error('Background music error:', event));
+
+    return audio;
+  }
+
   const logoRoot = document.getElementById('logoLoopRoot');
   if (logoRoot) {
     mountLogoLoop(logoRoot, {
@@ -42,4 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ariaLabel: 'Skills and technologies',
     });
   }
+
+  initBackgroundMusic();
 });

@@ -95,6 +95,36 @@ nav.scrolled {
   position: relative; /* needed for magnetic offset */
 }
 
+.audio-btn {
+  width: 40px;
+  justify-content: center;
+  padding-inline: 0;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .audio-btn {
+  background: rgba(12, 12, 11, 0.03);
+}
+
+.audio-btn:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.audio-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
 .theme-btn:hover {
   background: var(--fg);
   color: var(--bg);
