@@ -223,6 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const openModal = () => {
       modal.classList.remove('processing');
       modal.classList.add('active');
+      
+      // Reset statuses and UI
+      const circle = document.getElementById('demoStatusCircle');
+      const loader = document.getElementById('statusLoaderSvg');
+      const check = document.getElementById('statusCheckSvg');
+      if (circle) gsap.set(circle, { clearProps: "all" });
+      if (loader) loader.style.display = 'block';
+      if (check) gsap.set(check, { display: 'none', scale: 0 });
+
       emailInput.value = '';
       setTimeout(() => emailInput.focus(), 100);
     };
@@ -266,12 +275,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Fire a colorful confetti burst specifically on 'Delivered'
+      // Morph to checkmark and fire confetti precisely on 'Delivered'
       const deliveredTime = (statuses.length - 1) * interval + 0.3;
+      
       tl.call(() => {
+        const circle = document.getElementById('demoStatusCircle');
+        const loader = document.getElementById('statusLoaderSvg');
+        const check = document.getElementById('statusCheckSvg');
+        
+        if (loader) loader.style.display = 'none';
+        if (circle) {
+          gsap.to(circle, {
+            background: '#6EE7B7', 
+            borderColor: '#6EE7B7',
+            boxShadow: '0 0 24px rgba(110, 231, 183, 0.4)',
+            scale: 1.1,
+            duration: 0.3,
+            yoyo: true,
+            repeat: 1
+          });
+        }
+        if (check) {
+          check.style.display = 'block';
+          gsap.fromTo(check, { scale: 0, rotation: -45 }, { scale: 1, rotation: 0, duration: 0.5, ease: 'back.out(1.7)' });
+        }
+
         const colors = ['#f43f5e', '#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#fbbf24'];
         const view = document.getElementById('demoStatusView');
-        for(let i=0; i<35; i++) {
+        for(let i=0; i<45; i++) {
           let p = document.createElement('div');
           p.style.position = 'absolute';
           p.style.width = '7px';
@@ -286,20 +317,20 @@ document.addEventListener('DOMContentLoaded', () => {
           view.appendChild(p);
 
           gsap.to(p, {
-            x: (Math.random() - 0.5) * 350,
-            y: (Math.random() - 0.5) * 350,
-            rotation: (Math.random() - 0.5) * 360,
-            scale: Math.random() + 0.5,
+            x: (Math.random() - 0.5) * 450,
+            y: (Math.random() - 0.5) * 450 + 100, // Bias downwards for gravity
+            rotation: (Math.random() - 0.5) * 720,
+            scale: Math.random() * 1.5 + 0.5,
             opacity: 0,
-            duration: 0.7 + Math.random() * 0.5,
-            ease: 'power3.out',
+            duration: 0.8 + Math.random() * 0.7,
+            ease: 'circ.out',
             onComplete: () => p.remove()
           });
         }
       }, null, deliveredTime + 0.1);
 
       // Auto close slightly longer to let particles disperse
-      tl.call(closeModal, null, statuses.length * interval + 1.8);
+      tl.call(closeModal, null, statuses.length * interval + 2.4);
     };
 
     const getDemoFingerprint = () => {

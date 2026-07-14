@@ -1343,14 +1343,22 @@ nav.scrolled {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #6EE7B7;
+  background: rgba(255,255,255,0.08); /* Neutral loading background */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  box-shadow: 0 0 24px rgba(110, 231, 183, 0.2);
   transform: scale(0.8);
   opacity: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+#statusLoaderSvg {
+  animation: svg-spin 1.2s linear infinite;
+}
+
+@keyframes svg-spin {
+  100% { transform: rotate(360deg); }
 }
 
 .demo-modal.processing .status-circle {
