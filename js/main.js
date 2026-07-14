@@ -216,18 +216,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('demoCloseBtn');
     const sendBtn = document.getElementById('demoSendBtn');
     const emailInput = document.getElementById('demoEmail');
-    const statusPop = document.getElementById('nexusStatusPop');
-    const statusText = document.getElementById('nexusStatusText');
+    const statusTextModal = document.getElementById('nexusStatusTextModal');
 
     if (!btn || !modal) return;
 
     const openModal = () => {
+      modal.classList.remove('processing');
       modal.classList.add('active');
       emailInput.value = '';
       setTimeout(() => emailInput.focus(), 100);
     };
 
-    const closeModal = () => modal.classList.remove('active');
+    const closeModal = () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.classList.remove('processing'), 400); // Reset after fade
+    };
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -244,28 +247,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const triggerStatusAnimation = () => {
+      modal.classList.add('processing');
       const tl = gsap.timeline();
       
-      gsap.set(statusPop, { opacity: 0, y: 8 });
-      tl.to(statusPop, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
-      
-      const statuses = ['✓ Accepted...', '✓ Queued...', '✓ Processing..', '✓ Delivered..'];
+      const statuses = ['Accepted...', 'Queued...', 'Processing..', 'Delivered'];
       const interval = 1.0;
       
       statuses.forEach((text, i) => {
-        tl.call(() => { statusText.innerHTML = text; }, null, i * interval + 0.1);
-        tl.fromTo(statusText, 
+        tl.call(() => { statusTextModal.innerHTML = text; }, null, i * interval + 0.3);
+        tl.fromTo(statusTextModal, 
           { opacity: 0, y: 4 },
           { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' },
-          i * interval + 0.1
+          i * interval + 0.3
         );
         
         if (i < statuses.length - 1) {
-          tl.to(statusText, { opacity: 0, y: -4, duration: 0.2, ease: 'power2.in' }, (i + 1) * interval - 0.2);
+          tl.to(statusTextModal, { opacity: 0, y: -4, duration: 0.2, ease: 'power2.in' }, (i + 1) * interval + 0.1);
         }
       });
 
-      tl.to(statusPop, { opacity: 0, y: -8, duration: 0.4, ease: 'power2.in' }, statuses.length * interval + 1.2);
+      // Auto close after completion
+      tl.call(closeModal, null, statuses.length * interval + 1.0);
     };
 
     sendBtn.addEventListener('click', async () => {
@@ -280,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sendBtn.disabled = true;
 
       try {
-        await fetch('https://nexus-automation-jvm0.onrender.com/api/assistant-command', {
+        await fetch('http://nexus-automation-jvm0.onrender.com/api/assistant-command', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ command: email })
@@ -292,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sendBtn.innerText = 'Send';
       sendBtn.disabled = false;
       
-      closeModal();
       triggerStatusAnimation();
     });
   }

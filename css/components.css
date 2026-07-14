@@ -1255,6 +1255,18 @@ nav.scrolled {
   display: block;
   transform-origin: 50% 50%;
 }
+@keyframes pulse-glow {
+  0%   { box-shadow: 0 0 12px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); }
+  50%  { box-shadow: 0 0 24px rgba(255, 255, 255, 0.5), inset 0 0 16px rgba(255,255,255,0.1); border-color: rgba(255, 255, 255, 0.7); }
+  100% { box-shadow: 0 0 12px rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); }
+}
+
+@keyframes pulse-glow-light {
+  0%   { box-shadow: 0 0 12px rgba(0, 0, 0, 0.08); border-color: rgba(0, 0, 0, 0.2); }
+  50%  { box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); border-color: rgba(0, 0, 0, 0.6); }
+  100% { box-shadow: 0 0 12px rgba(0, 0, 0, 0.08); border-color: rgba(0, 0, 0, 0.2); }
+}
+
 /* ── Try It Yourself Button ── */
 .try-btn {
   position: absolute;
@@ -1262,61 +1274,103 @@ nav.scrolled {
   right: 128px;
   height: 44px;
   padding: 0 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 100px;
-  background: rgba(255,255,255,0.02);
+  background: rgba(255,255,255,0.1);
   color: #fff;
   font-family: var(--font-sans);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   z-index: 3;
-  transition: background 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  animation: pulse-glow 2.5s infinite ease-in-out;
 }
 
 [data-theme="light"] .try-btn {
-  background: rgba(0,0,0,0.05);
-  border-color: rgba(0,0,0,0.1);
-  color: var(--fg);
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.2);
+  color: #000;
+  animation: pulse-glow-light 2.5s infinite ease-in-out;
 }
 
 .try-btn:hover {
   background: #fff;
   border-color: #fff;
   color: #000;
+  transform: scale(1.05);
+  animation: none;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
 }
 
 [data-theme="light"] .try-btn:hover {
   background: #000;
   border-color: #000;
   color: #fff;
+  animation: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Status Popup ── */
-.status-pop {
-  position: absolute;
-  bottom: 76px;
-  right: 128px;
-  background: var(--bg2);
-  border: 1px solid var(--border-hv);
-  border-radius: 100px;
-  padding: 7px 16px;
+/* ── Status View inside Modal ── */
+.demo-status-view {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  z-index: 3;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
   opacity: 0;
   pointer-events: none;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  transform: translateY(8px);
+  background: var(--bg);
+  border-radius: 16px;
+  z-index: 2;
+  transition: opacity 0.4s ease;
 }
 
-.sp-text {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--fg);
-  white-space: nowrap;
+.demo-modal.processing .demo-modal-content {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
+
+.demo-modal.processing .demo-status-view {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.status-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #6EE7B7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 24px rgba(110, 231, 183, 0.2);
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.demo-modal.processing .status-circle {
+  animation: pop-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.status-text-wrap {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg);
+  text-align: center;
+}
+
+.status-text-wrap span { display: inline-block; }
 
 /* ── Demo Modal ── */
 .demo-modal {
@@ -1387,6 +1441,10 @@ nav.scrolled {
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s;
+}
+
+.demo-input-group input::placeholder {
+  font-size: 12px;
 }
 
 .demo-input-group input:focus {
