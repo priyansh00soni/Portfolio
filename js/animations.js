@@ -64,15 +64,16 @@ export function initAnimations() {
 
 function heroIn() {
   /* Initial states already set in initAnimations() */
+  const mob = window.matchMedia('(max-width: 600px)').matches;
   const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-  tl.to('.nav-logo',            { opacity: 1, y: 0, duration: 0.7 }, 0)
-    .to('.nav-right',           { opacity: 1, y: 0, duration: 0.7 }, 0.12)
-    .to('.hero-eyebrow span',   { yPercent: 0, duration: 0.85 },      0.08)
-    .to('.hero-title .tl span', { yPercent: 0, duration: 1.15, stagger: 0.13 }, 0.12)
-    .to('.hero-desc',           { opacity: 1, y: 0, duration: 0.85 }, 0.68)
-    .to('.pill',                { opacity: 1, x: 0, duration: 0.65, stagger: 0.12 }, 0.80)
-    .to('.scroll-hint',         { opacity: 1, duration: 0.6 }, 1.35);
+  tl.to('.nav-logo',            { opacity: 1, y: 0, duration: mob ? 1.0 : 0.7 }, 0)
+    .to('.nav-right',           { opacity: 1, y: 0, duration: mob ? 1.0 : 0.7 }, mob ? 0.18 : 0.12)
+    .to('.hero-eyebrow span',   { yPercent: 0, duration: mob ? 1.2 : 0.85 },      mob ? 0.14 : 0.08)
+    .to('.hero-title .tl span', { yPercent: 0, duration: mob ? 1.6 : 1.15, stagger: mob ? 0.2 : 0.13 }, mob ? 0.2 : 0.12)
+    .to('.hero-desc',           { opacity: 1, y: 0, duration: mob ? 1.2 : 0.85 }, mob ? 1.0 : 0.68)
+    .to('.pill',                { opacity: 1, x: 0, duration: mob ? 0.9 : 0.65, stagger: mob ? 0.18 : 0.12 }, mob ? 1.2 : 0.80)
+    .to('.scroll-hint',         { opacity: 1, duration: mob ? 0.9 : 0.6 }, mob ? 2.0 : 1.35);
 
   tl.call(initScrollTriggers, null, 0.4);
 }

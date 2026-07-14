@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function initBackgroundMusic() {
     const audioBtn = document.getElementById('audioBtn');
     const audioIcon = document.getElementById('audioIcon');
+    const audioPopup = document.getElementById('audioPopup');
     const audio = document.createElement('audio');
     audio.src = BACKGROUND_TRACK;
     audio.loop = true;
@@ -67,6 +68,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let audioContext = null;
     let mediaSource = null;
     let gainNode = null;
+    const soundPref = localStorage.getItem('priyansh_sound');
+
+    /* If user already enabled sound, hide the popup immediately */
+    if (soundPref === 'on' && audioPopup) {
+      audioPopup.style.display = 'none';
+    }
+
+    /* Auto-hide popup after 8s if still visible */
+    if (audioPopup && soundPref !== 'on') {
+      setTimeout(() => {
+        if (!audioPopup.classList.contains('hidden')) {
+          audioPopup.classList.add('hidden');
+        }
+      }, 8000);
+    }
 
     const setButtonState = (playing) => {
       if (!audioBtn || !audioIcon) return;
@@ -135,18 +151,40 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const toggleMusic = () => {
+      /* First-time click: save preference and reload */
+      if (soundPref !== 'on' && !isPlaying) {
+        localStorage.setItem('priyansh_sound', 'on');
+        if (audioPopup) audioPopup.classList.add('hidden');
+        /* Small delay so popup exit animation plays, then reload */
+        setTimeout(() => window.location.reload(), 350);
+        return;
+      }
+
       if (isPlaying) {
         pauseMusic();
+        localStorage.setItem('priyansh_sound', 'off');
         return;
       }
 
       playMusic();
+      localStorage.setItem('priyansh_sound', 'on');
     };
 
     setButtonState(false);
 
     if (audioBtn) {
       audioBtn.addEventListener('click', toggleMusic);
+    }
+
+    /* Auto-play if returning from reload with sound preference on */
+    if (soundPref === 'on') {
+      /* Wait for intro to settle, then auto-play */
+      const autoPlay = () => {
+        playMusic();
+        if (audioPopup) audioPopup.style.display = 'none';
+      };
+      /* Try immediately (works after reload since gesture is recent) */
+      setTimeout(autoPlay, 800);
     }
 
     audio.addEventListener('error', (event) => console.error('Background music error:', event));

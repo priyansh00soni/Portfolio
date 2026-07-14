@@ -31,8 +31,8 @@ export const KEYWORDS = [
 ];
 
 export const CONFIG = {
-  /* Particle budget. Actual count = min(sampled logo points, maxParticles). */
-  maxParticles: 1850,
+  /* Particle budget. Scaled down on mobile for GPU performance. */
+  maxParticles: (typeof window !== 'undefined' && window.innerWidth <= 600) ? 800 : 1850,
 
   /* How many keywords to actually place (kept modest for calm, not clutter). */
   keywordCount: 15,
@@ -59,18 +59,21 @@ export const CONFIG = {
   },
 
 
-  /* Master timeline (seconds). Total visual runtime stays < 6s. */
-t: {
-  brackets:   { at: 0.30, dur: 1.10 }, // Stage 2 — brackets fade/scale in
-  keywordsIn: { at: 0.90, dur: 1.20 }, // Stage 4 — keywords appear + orbit
-  compile:    { at: 2.10, dur: 1.00 }, // Stage 5 — converge / gravity
-  assemble:   { at: 2.70, dur: 2.2  }, // Stage 6 — wordmark builds L→R
-  energy:     {  at: 3.90, dur: 0.60 }, // Stage 7 — glow builds before the blast
-  charge:     {  at: 4.55, dur: 0.35 }, // Stage 7b — tension ramps into the blast
-  bloom:      {  at: 4.32, dur: 0.58 }, // Stage 8 — white bloom peaks at the blast
-  reveal:     {  at: 4.90 },            // Stage 10 — hero begins exactly at the blast
-  disperse:   {  at: 4.90, dur: 0.95 }, // Stage 9 — particles fly outward
-  end:        { at: 6.25 }             // hard teardown ceiling
-},
+  /* Master timeline (seconds). Total visual runtime stays < 6s desktop, ~7.5s mobile. */
+t: (() => {
+  const mob = typeof window !== 'undefined' && window.innerWidth <= 600;
+  return {
+    brackets:   { at: 0.30, dur: 1.10 },
+    keywordsIn: { at: 0.90, dur: 1.20 },
+    compile:    { at: 2.10, dur: 1.00 },
+    assemble:   { at: 2.70, dur: mob ? 2.6  : 2.2  },
+    energy:     { at: mob ? 4.20 : 3.90, dur: mob ? 0.85 : 0.60 },
+    charge:     { at: mob ? 5.10 : 4.55, dur: mob ? 0.50 : 0.35 },
+    bloom:      { at: mob ? 4.85 : 4.32, dur: mob ? 0.85 : 0.58 },
+    reveal:     { at: mob ? 5.60 : 4.90 },
+    disperse:   { at: mob ? 5.60 : 4.90, dur: mob ? 1.30 : 0.95 },
+    end:        { at: mob ? 7.40 : 6.25 },
+  };
+})(),
 
 };

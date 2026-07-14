@@ -1,10 +1,16 @@
 
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE.CSS — mobile-first responsive overrides
+   Breakpoints:  ≤ 900px  → tablet / small laptop
+                 ≤ 600px  → phone landscape / large phone
+                 ≤ 480px  → phone portrait
+═══════════════════════════════════════════════════════ */
+
+/* ── Touch devices (pointer: coarse) ── */
 @media (pointer: coarse) {
-  /* Disable heavy animations on touch devices */
   :is(.hero-title, .s-title, .contact-headline) .tl span {
     animation-duration: 0.5s;
   }
-
 
   * {
     -webkit-tap-highlight-color: transparent;
@@ -16,6 +22,7 @@
 }
 
 
+/* ── Desktop (min 901px) ── */
 @media (min-width: 901px) {
   #hero {
     margin-top: -8rem;
@@ -27,24 +34,51 @@
   }
 }
 
-/* Optimize animations for mobile and lower-end devices */
+
+/* ═══════════════════════════════════════════════════════
+   ≤ 900px — Tablet / small-laptop
+═══════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
+  /* Optimize animations */
   @media (prefers-reduced-motion: no-preference) {
     * { animation-duration: 0.8s !important; }
   }
-}
 
-@media (max-width: 900px) {
   :root {
     --pad-x: 24px;
   }
 
+  /* ── Nav ── */
   nav { padding: 18px var(--pad-x); }
-  nav.scrolled { top: 12px; left: 16px; right: 16px; padding: 12px 20px; }
+  nav.scrolled {
+    top: 12px;
+    left: 16px;
+    right: 16px;
+    padding: 12px 20px;
+  }
+  .nav-links { display: none; }
 
+  /* ── Audio popup — smaller on mobile ── */
+  .audio-popup {
+    font-size: 9px;
+    padding: 5px 10px;
+    top: calc(100% + 10px);
+    letter-spacing: 0.06em;
+  }
+
+  .audio-popup::before {
+    border-width: 4px;
+  }
+
+  .audio-popup::after {
+    border-width: 3px;
+  }
+
+  /* ── Hero ── */
   #hero {
     padding: 0 var(--pad-x) 0;
     justify-content: center;
+    min-height: 100svh;
   }
 
   .hero-eyebrow {
@@ -54,6 +88,7 @@
   .hero-title {
     margin-bottom: 32px;
     text-align: left;
+    line-height: 1.05;
   }
 
   .hero-bottom {
@@ -65,13 +100,26 @@
     align-items: flex-start;
   }
 
+  .hero-desc {
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  /* Fix scroll hint on mobile — move to bottom */
+  .scroll-hint {
+    position: absolute;
+    top: auto;
+    bottom: 20px;
+    right: var(--pad-x);
+  }
+
+  /* ── Logo loop ── */
   .skills-logoloop-wrap {
     padding: 4px 0;
     margin-top: -130px;
   }
 
-  .nav-links { display: none; }
-
+  /* ── Section spacing ── */
   #work,
   #about,
   #contact {
@@ -80,6 +128,7 @@
 
   .s-header { margin-bottom: 40px; }
 
+  /* ── Project cards ── */
   .pcard-inner {
     grid-template-columns: 1fr;
   }
@@ -89,18 +138,58 @@
     order: -1;
   }
 
+  /* ── About ── */
   .about-grid {
     grid-template-columns: 1fr;
     gap: 48px;
     margin-top: 48px;
   }
 
+  .about-bio p {
+    font-size: clamp(15px, 3.5vw, 20px);
+  }
+
+  /* Fix CV button scaling on mobile */
+  .cv-btn {
+    scale: 1;
+  }
+
+  /* Fix inline-styled CV button in about-bio */
+  .about-bio .cv-btn {
+    margin-left: 0 !important;
+    margin-top: 32px !important;
+  }
+
+  /* ── PDF strip ── */
+  .pdf-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .pdf-strip > a.cv-btn {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* ── Contact ── */
   .contact-footer {
     flex-direction: column;
     gap: 24px;
     align-items: flex-start;
   }
 
+  .contact-headline {
+    margin: 40px 0 56px;
+  }
+
+  /* ── More work ── */
+  #more-work {
+    min-height: 500px;
+    padding: 60px var(--pad-x) 80px;
+  }
+
+  /* ── Showcase ── */
   #showcase {
     padding-left: var(--pad-x);
   }
@@ -118,10 +207,21 @@
     height: 320px;
   }
 
-  /* Mobile-friendly touch targets */
+  /* ── Mobile-friendly touch targets ── */
   button, a[role="button"], .p-arrow, .p-github {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  /* ── Performance ── */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .pcard-img, .pcard-img-overlay {
+    will-change: auto;
+    backface-visibility: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -131,27 +231,224 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
 
-  img {
-    max-width: 100%;
-    height: auto;
+
+/* ═══════════════════════════════════════════════════════
+   ≤ 600px — Phone landscape / large phone
+═══════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  :root {
+    --pad-x: 18px;
+  }
+
+  /* Nav scrolled pill sits wider on small screens */
+  nav.scrolled {
+    left: 10px;
+    right: 10px;
   }
 
   .hero-title {
-    line-height: 1.05;
+    font-size: clamp(48px, 13vw, 72px);
+    margin-bottom: 24px;
   }
 
-  .pcard-img, .pcard-img-overlay {
-    will-change: auto;
-    backface-visibility: hidden;
+  .hero-eyebrow {
+    font-size: 10px;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .pill {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+
+  /* Section titles */
+  .s-title {
+    font-size: clamp(40px, 12vw, 80px);
+  }
+
+  /* Project cards */
+  .pcard-vis {
+    height: 220px;
+  }
+
+  .pcard-info {
+    padding: 28px 20px;
+  }
+
+  .pname {
+    font-size: clamp(18px, 5.5vw, 28px);
+  }
+
+  .pm-val {
+    font-size: 22px;
+  }
+
+  .pm-label {
+    font-size: 10px;
+  }
+
+  /* About section */
+  #about {
+    min-height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .about-grid {
+    gap: 36px;
+    margin-top: 36px;
+  }
+
+  .exp-item, .award-item {
+    padding: 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .skill-pill {
+    font-size: 10px;
+    padding: 5px 11px;
+  }
+
+  /* Contact */
+  .contact-headline {
+    font-size: clamp(40px, 11vw, 90px);
+    margin: 32px 0 48px;
+  }
+
+  #contact {
+    padding: 60px var(--pad-x) 60px;
+  }
+
+  /* More work */
+  #more-work {
+    min-height: 400px;
+    padding: 48px var(--pad-x) 60px;
+  }
+
+  /* Logo loop strip */
+  .skills-logoloop-wrap {
+    margin-top: -80px;
+  }
+
+  /* PDF strip */
+  .pdf-strip h1 {
+    font-size: clamp(18px, 5vw, 28px);
   }
 }
 
+
+/* ═══════════════════════════════════════════════════════
+   ≤ 480px — Phone portrait
+═══════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .hero-title { font-size: 11vw; }
-  .s-title    { font-size: 14vw; }
-  .pname      { font-size: 7vw; }
-  .pcard-info { padding: 28px 24px; }
-  .contact-headline { font-size: 14vw; }
-  .cf-right { flex-wrap: wrap; gap: 14px; }
+  .hero-title {
+    font-size: 11vw;
+  }
+
+  .s-title {
+    font-size: 14vw;
+  }
+
+  .pname {
+    font-size: 7vw;
+  }
+
+  .pcard-info {
+    padding: 24px 18px;
+  }
+
+  .pcard-vis {
+    height: 190px;
+  }
+
+  .contact-headline {
+    font-size: 14vw;
+  }
+
+  .cf-right {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .cf-left p {
+    font-size: 12px;
+  }
+
+  .copy {
+    font-size: 10px;
+  }
+
+  /* Scroll hint smaller on small phones */
+  .scroll-hint {
+    bottom: 14px;
+  }
+
+  .sh-line {
+    height: 40px;
+  }
+
+  /* About inline-button fix */
+  .about-bio .cv-btn {
+    margin-top: 24px !important;
+  }
+
+  /* More work minimal height */
+  #more-work {
+    min-height: 320px;
+    padding: 40px var(--pad-x) 50px;
+  }
+
+  /* Experience list tighter */
+  .ei-co, .aw-title {
+    font-size: 13px;
+  }
+
+  .ei-yr, .aw-yr {
+    font-size: 10px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   ≤ 360px — Extra-small phones
+═══════════════════════════════════════════════════════ */
+@media (max-width: 360px) {
+  :root {
+    --pad-x: 14px;
+  }
+
+  .hero-title {
+    font-size: 12vw;
+  }
+
+  .hero-desc {
+    font-size: 12px;
+  }
+
+  .pill {
+    font-size: 9px;
+    padding: 5px 10px;
+  }
+
+  .pcard-vis {
+    height: 160px;
+  }
+
+  .pcard-info {
+    padding: 20px 14px;
+  }
+
+  .pdesc {
+    font-size: 12px;
+  }
+
+  .tag {
+    font-size: 8px;
+    padding: 3px 8px;
+  }
 }

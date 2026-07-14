@@ -103,11 +103,12 @@ export function buildTimeline(dom, field, onReveal) {
     ease: 'expo.out',
   }, t.bloom.at);
 
-  /* Stage 10 — reveal portfolio */
+  /* Stage 10 — reveal portfolio (slower on mobile) */
+  const isMobile = dom.container.clientWidth <= 600;
   const revealState = { r: 0 };
   tl.to(revealState, {
     r: revealRadius,
-    duration: 1.32,
+    duration: isMobile ? 2.2 : 1.32,
     ease: 'expo.out',
     onUpdate() { setRevealMask(revealState.r); },
   }, t.reveal.at);
@@ -120,7 +121,7 @@ export function buildTimeline(dom, field, onReveal) {
 
   tl.to(burstState, {
     p: 1,
-    duration: 0.18,
+    duration: isMobile ? 0.35 : 0.18,
     ease: 'power4.out',
     onUpdate() { field.setBurstProgress(burstState.p); },
   }, t.reveal.at);
@@ -128,7 +129,7 @@ export function buildTimeline(dom, field, onReveal) {
   tl.to(dom.revealPulse, {
     opacity: 0.95,
     scale: 0.75,
-    duration: 0.12,
+    duration: isMobile ? 0.22 : 0.12,
     ease: 'power2.out',
   }, t.reveal.at + 0.05);
 
@@ -167,14 +168,14 @@ export function buildTimeline(dom, field, onReveal) {
   tl.to(dom.revealPulse, {
     opacity: 0,
     scale: 5.8,
-    duration: 2.48,
+    duration: isMobile ? 3.6 : 2.48,
     ease: 'expo.out',
   }, t.reveal.at + 0.16);
 
   /* Stage 9 — disperse + fade out */
-  tl.to(dom.bloom, { opacity: 0, scale: 5.2, duration: 0.5, ease: 'power3.out' }, t.disperse.at);
+  tl.to(dom.bloom, { opacity: 0, scale: 5.2, duration: isMobile ? 0.8 : 0.5, ease: 'power3.out' }, t.disperse.at);
   tl.to(dom.canvas, { opacity: 0, duration: t.disperse.dur + 0.12, ease: 'expo.out' }, t.disperse.at + 0.02);
-  tl.to(dom.container, { opacity: 0, duration: 0.52, ease: 'power2.out' }, t.disperse.at + 0.56);
+  tl.to(dom.container, { opacity: 0, duration: isMobile ? 0.8 : 0.52, ease: 'power2.out' }, t.disperse.at + (isMobile ? 0.8 : 0.56));
 
   tl.call(() => field.setPhase(field.PHASE_DONE), null, t.end.at);
 

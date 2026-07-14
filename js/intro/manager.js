@@ -64,7 +64,7 @@ export async function runIntro(onReveal) {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '0.1em',
-    fontSize: '72px', fontWeight: '200', color: '#fff',
+    fontSize: (window.innerWidth <= 600 ? '40px' : '72px'), fontWeight: '200', color: '#fff',
     lineHeight: '1', letterSpacing: '0.2em',
     whiteSpace: 'nowrap', userSelect: 'none',
     textShadow: '0 0 20px rgba(255,255,255,0.15)',
@@ -80,8 +80,8 @@ export async function runIntro(onReveal) {
   avatarImg.alt = '';
   Object.assign(avatarImg.style, {
     display: 'inline-block',
-    width: '96px',
-    height: '96px',
+    width: (window.innerWidth <= 600 ? '56px' : '96px'),
+    height: (window.innerWidth <= 600 ? '56px' : '96px'),
     objectFit: 'contain',
     verticalAlign: 'middle',
     willChange: 'transform, opacity',
@@ -115,8 +115,15 @@ export async function runIntro(onReveal) {
   const keywordPositions = [];
 
   // Keep the keyword ring compact so the loader reads as a centered composition.
-  const radiusX = Math.min(window.innerWidth * 0.34, 480);
-  const radiusY = Math.min(window.innerHeight * 0.24, 310);
+  // Scale down on small screens to prevent overflow.
+  const isMobileIntro = window.innerWidth <= 600;
+  const isTabletIntro = window.innerWidth <= 900;
+  const radiusX = isMobileIntro
+    ? Math.min(window.innerWidth * 0.28, 200)
+    : Math.min(window.innerWidth * 0.34, 480);
+  const radiusY = isMobileIntro
+    ? Math.min(window.innerHeight * 0.18, 180)
+    : Math.min(window.innerHeight * 0.24, 310);
   const phase = -Math.PI / 2;
 
   for (let i = 0; i < kwCount; i++) {
@@ -138,7 +145,7 @@ export async function runIntro(onReveal) {
       left: '50%',
       transform: 'translate(-50%, -50%)',
       fontFamily: CONFIG.monoFont,
-      fontSize: `${20 + (i % 3) * 0.5}px`,
+      fontSize: `${(window.innerWidth <= 600 ? 14 : 20) + (i % 3) * 0.5}px`,
       fontWeight: '600',
       letterSpacing: '0.04em',
       color: 'rgba(255,255,255,0.9)',
