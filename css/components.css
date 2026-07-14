@@ -1245,3 +1245,180 @@ margin-top: -30px;}
   display: block;
   transform-origin: 50% 50%;
 }
+/* ── Try It Yourself Button ── */
+.try-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 128px;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 3;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+}
+
+[data-theme="light"] .try-btn {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.1);
+  color: var(--fg);
+}
+
+.try-btn:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+[data-theme="light"] .try-btn:hover {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+/* ── Status Popup ── */
+.status-pop {
+  position: absolute;
+  bottom: 76px;
+  right: 128px;
+  background: var(--bg2);
+  border: 1px solid var(--border-hv);
+  border-radius: 100px;
+  padding: 7px 16px;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transform: translateY(8px);
+}
+
+.sp-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+/* ── Demo Modal ── */
+.demo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.demo-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.demo-modal-inner {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 32px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.demo-modal.active .demo-modal-inner {
+  transform: translateY(0) scale(1);
+}
+
+.demo-modal-inner h4 {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--fg);
+}
+
+.demo-modal-inner p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.demo-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-input-group input {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 16px;
+  height: 44px;
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.demo-input-group input:focus {
+  border-color: var(--fg);
+}
+
+.demo-input-group button {
+  height: 44px;
+  padding: 0 24px;
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.demo-input-group button:active {
+  transform: scale(0.96);
+}
+
+.demo-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+}
+
+.demo-close:hover {
+  color: var(--fg);
+}

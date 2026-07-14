@@ -134,9 +134,17 @@
   }
 
   .pcard-vis {
-    height: 260px;
+    height: auto;
+    min-height: 280px;
+    aspect-ratio: 1536 / 1024;
     order: -1;
   }
+
+  /* Compact button grouping on mobile to avoid covering the image */
+  .p-arrow { bottom: 16px; right: 16px; }
+  .p-github { bottom: 16px; right: 68px; }
+  .try-btn { bottom: 16px; right: 120px; }
+  .status-pop { bottom: 68px; right: 120px; }
 
   /* ── About ── */
   .about-grid {
@@ -247,6 +255,12 @@
     left: 10px;
     right: 10px;
   }
+
+  /* Even tighter grouping on small phones */
+  .p-arrow { bottom: 12px; right: 12px; }
+  .p-github { bottom: 12px; right: 64px; }
+  .try-btn { bottom: 12px; right: 116px; font-size: 9px; padding: 0 12px; }
+  .status-pop { bottom: 64px; right: 116px; }
 
   .hero-title {
     font-size: clamp(48px, 13vw, 72px);

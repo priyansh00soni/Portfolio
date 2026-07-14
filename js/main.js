@@ -208,4 +208,94 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initBackgroundMusic();
+
+  /* ── Nexus Demo Interaction ── */
+  function initNexusDemo() {
+    const btn = document.getElementById('nexusTryBtn');
+    const modal = document.getElementById('demoModal');
+    const closeBtn = document.getElementById('demoCloseBtn');
+    const sendBtn = document.getElementById('demoSendBtn');
+    const emailInput = document.getElementById('demoEmail');
+    const statusPop = document.getElementById('nexusStatusPop');
+    const statusText = document.getElementById('nexusStatusText');
+
+    if (!btn || !modal) return;
+
+    const openModal = () => {
+      modal.classList.add('active');
+      emailInput.value = '';
+      setTimeout(() => emailInput.focus(), 100);
+    };
+
+    const closeModal = () => modal.classList.remove('active');
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    emailInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+
+    const triggerStatusAnimation = () => {
+      const tl = gsap.timeline();
+      
+      gsap.set(statusPop, { opacity: 0, y: 8 });
+      tl.to(statusPop, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+      
+      const statuses = ['✓ Accepted...', '✓ Queued...', '✓ Processing..', '✓ Delivered..'];
+      const interval = 1.0;
+      
+      statuses.forEach((text, i) => {
+        tl.call(() => { statusText.innerHTML = text; }, null, i * interval + 0.1);
+        tl.fromTo(statusText, 
+          { opacity: 0, y: 4 },
+          { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' },
+          i * interval + 0.1
+        );
+        
+        if (i < statuses.length - 1) {
+          tl.to(statusText, { opacity: 0, y: -4, duration: 0.2, ease: 'power2.in' }, (i + 1) * interval - 0.2);
+        }
+      });
+
+      tl.to(statusPop, { opacity: 0, y: -8, duration: 0.4, ease: 'power2.in' }, statuses.length * interval + 1.2);
+    };
+
+    sendBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        emailInput.style.borderColor = '#ef4444';
+        setTimeout(() => emailInput.style.borderColor = '', 1000);
+        return;
+      }
+      
+      sendBtn.innerText = 'Sending...';
+      sendBtn.disabled = true;
+
+      try {
+        await fetch('https://nexus-automation-jvm0.onrender.com/api/assistant-command', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: email })
+        });
+      } catch (e) {
+        console.error('Demo fetch error:', e);
+      }
+      
+      sendBtn.innerText = 'Send';
+      sendBtn.disabled = false;
+      
+      closeModal();
+      triggerStatusAnimation();
+    });
+  }
+
+  initNexusDemo();
 });
