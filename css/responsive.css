@@ -142,6 +142,7 @@
 
   /* Compact button grouping on mobile to avoid covering the image */
   .p-arrow { bottom: 16px; right: 16px; }
+  .p-arrow.left-arrow { right: auto; left: 16px; }
   .p-github { bottom: 16px; right: 68px; }
   .try-btn { bottom: 16px; right: 120px; }
   .status-pop { bottom: 68px; right: 120px; }
@@ -258,6 +259,7 @@
 
   /* Even tighter grouping on small phones */
   .p-arrow { bottom: 12px; right: 12px; }
+  .p-arrow.left-arrow { right: auto; left: 12px; }
   .p-github { bottom: 12px; right: 64px; }
   .try-btn { bottom: 12px; right: 116px; font-size: 9px; padding: 0 12px; }
   .status-pop { bottom: 64px; right: 116px; }

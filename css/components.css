@@ -436,8 +436,13 @@ nav.scrolled {
 }
 
 /* ── WORK SECTION ── */
-#work { padding: 120px var(--pad-x); 
-margin-top: -30px;}
+#work { 
+  margin-top: -30px; 
+}
+#work,
+#experience {
+  padding: 120px var(--pad-x); 
+}
 
 .projects {
   display: flex;
@@ -749,6 +754,11 @@ margin-top: -30px;}
 }
 
 .pcard:hover .p-arrow svg path { stroke: #000; }
+
+.p-arrow.left-arrow {
+  right: auto;
+  left: 24px;
+}
 
 /* GitHub Logo CTA */
 .p-github {
