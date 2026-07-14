@@ -266,11 +266,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Auto close after completion
-      tl.call(closeModal, null, statuses.length * interval + 1.0);
+      // Fire a colorful confetti burst specifically on 'Delivered'
+      const deliveredTime = (statuses.length - 1) * interval + 0.3;
+      tl.call(() => {
+        const colors = ['#f43f5e', '#ec4899', '#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#fbbf24'];
+        const view = document.getElementById('demoStatusView');
+        for(let i=0; i<35; i++) {
+          let p = document.createElement('div');
+          p.style.position = 'absolute';
+          p.style.width = '7px';
+          p.style.height = '7px';
+          p.style.borderRadius = i % 2 === 0 ? '50%' : '2px';
+          p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          p.style.left = '50%';
+          p.style.top = '40%';
+          p.style.zIndex = 10;
+          p.style.pointerEvents = 'none';
+          
+          view.appendChild(p);
+
+          gsap.to(p, {
+            x: (Math.random() - 0.5) * 350,
+            y: (Math.random() - 0.5) * 350,
+            rotation: (Math.random() - 0.5) * 360,
+            scale: Math.random() + 0.5,
+            opacity: 0,
+            duration: 0.7 + Math.random() * 0.5,
+            ease: 'power3.out',
+            onComplete: () => p.remove()
+          });
+        }
+      }, null, deliveredTime + 0.1);
+
+      // Auto close slightly longer to let particles disperse
+      tl.call(closeModal, null, statuses.length * interval + 1.8);
+    };
+
+    const getDemoFingerprint = () => {
+      try {
+        // Advanced hardware telemetry for stronger fingerprinting
+        const { userAgent, language, platform, hardwareConcurrency, deviceMemory, maxTouchPoints } = navigator;
+        const res = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const touch = maxTouchPoints > 0 ? 'touch' : 'no-touch';
+        
+        const raw = `${userAgent}|${language}|${platform}|${hardwareConcurrency || 'x'}|${deviceMemory || 'x'}|${res}|${tz}|${touch}`;
+        
+        let hash = 0;
+        for (let i = 0; i < raw.length; i++) {
+          hash = Math.imul(31, hash) + raw.charCodeAt(i) | 0;
+        }
+        return 'demo_device_limit_' + Math.abs(hash);
+      } catch (e) {
+        return 'demo_device_limit_fallback';
+      }
     };
 
     sendBtn.addEventListener('click', async () => {
+      // Prevent programmatic Enter-key spam when already spinning
+      if (sendBtn.disabled) return;
+
       const email = emailInput.value.trim();
       if (!email || !email.includes('@')) {
         emailInput.style.borderColor = '#ef4444';
@@ -278,23 +333,71 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       
-      sendBtn.innerText = 'Sending...';
+      sendBtn.innerText = 'Verifying...';
       sendBtn.disabled = true;
 
+      // Purely synchronous hardware check guarantees instant, unwavering limit lookup
+      const fKey = getDemoFingerprint();
+      let attempts = parseInt(localStorage.getItem(fKey) || '0', 10);
+
+      // We maintain the user's customized limit threshold
+      if (attempts >= 5) { // Resetting back to 5 uses per device
+        let errDiv = document.getElementById('demoUsageErr');
+        if (!errDiv) {
+          errDiv = document.createElement('div');
+          errDiv.id = 'demoUsageErr';
+          errDiv.style.color = '#ef4444';
+          errDiv.style.fontSize = '12px';
+          errDiv.style.marginTop = '12px';
+          errDiv.style.textAlign = 'center';
+          emailInput.parentElement.after(errDiv);
+        }
+        errDiv.innerText = "You've reached the maximum of 5 demo attempts on this device.";
+        sendBtn.innerText = 'Send';
+        sendBtn.disabled = false;
+        return;
+      }
+      
+      const errDiv = document.getElementById('demoUsageErr');
+      if (errDiv) errDiv.innerText = '';
+
+      sendBtn.innerText = 'Sending...';
+
       try {
-        await fetch('http://nexus-automation-jvm0.onrender.com/api/assistant-command', {
+        const response = await fetch('https://nexus-automation-jvm0.onrender.com/api/assistant-command', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ command: email })
         });
+
+        if (!response.ok) {
+          throw new Error(`Server rejected with status ${response.status}`);
+        }
+
+        // Successfully sent payload - consume attempt token securely
+        localStorage.setItem(fKey, (attempts + 1).toString());
+        
+        sendBtn.innerText = 'Send';
+        sendBtn.disabled = false;
+        triggerStatusAnimation();
       } catch (e) {
-        console.error('Demo fetch error:', e);
+        console.error('Demo API rejected execution:', e);
+        
+        let errResponse = document.getElementById('demoUsageErr');
+        if (!errResponse) {
+          errResponse = document.createElement('div');
+          errResponse.id = 'demoUsageErr';
+          errResponse.style.color = '#ef4444';
+          errResponse.style.fontSize = '12px';
+          errResponse.style.marginTop = '12px';
+          errResponse.style.textAlign = 'center';
+          emailInput.parentElement.after(errResponse);
+        }
+        errResponse.innerText = "Failed to send demo email. Please try again.";
+        
+        sendBtn.innerText = 'Send';
+        sendBtn.disabled = false;
       }
-      
-      sendBtn.innerText = 'Send';
-      sendBtn.disabled = false;
-      
-      triggerStatusAnimation();
     });
   }
 
