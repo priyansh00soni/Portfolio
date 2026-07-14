@@ -72,58 +72,34 @@ export async function runIntro(onReveal) {
     fontFamily: CONFIG.monoFont,
   });
 
-  const avatar = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  avatar.setAttribute('aria-hidden', 'true');
-  avatar.setAttribute('viewBox', '0 0 64 64');
-  avatar.setAttribute('fill', 'none');
-  avatar.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  Object.assign(avatar.style, {
-    display: 'inline-block',
-    width: '46px',
-    height: '46px',
-    margin: '0',
-    transform: 'translateY(-0.02em) scale(0.98)',
-    verticalAlign: 'middle',
-    overflow: 'visible',
-  });
-
-  const dotRing = [
-    [32, 6, 1.6], [42, 8, 1.2], [50, 14, 1.25], [56, 24, 1.4],
-    [58, 34, 1.35], [54, 46, 1.2], [46, 54, 1.25], [34, 58, 1.45],
-    [22, 57, 1.2], [12, 52, 1.3], [7, 42, 1.35], [5, 31, 1.5],
-    [7, 20, 1.25], [13, 11, 1.2], [23, 7, 1.35],
-  ];
-
-  const innerDots = [
-    [32, 16, 1.1], [40, 20, 1.05], [46, 29, 1.05], [42, 39, 1.15],
-    [33, 45, 1.1], [23, 42, 1.05], [18, 32, 1.1], [22, 22, 1.0],
-    [31, 27, 1.6], [36, 34, 1.25], [28, 36, 1.15], [27, 20, 1.0],
-  ];
-
-  const drawDot = (cx, cy, r, opacity = 1) => {
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', String(cx));
-    dot.setAttribute('cy', String(cy));
-    dot.setAttribute('r', String(r));
-    dot.setAttribute('fill', 'white');
-    dot.setAttribute('fill-opacity', String(opacity));
-    return dot;
-  };
-
-  dotRing.forEach(([cx, cy, r], index) => {
-    avatar.appendChild(drawDot(cx, cy, r, index % 3 === 0 ? 0.95 : 0.78));
-  });
-
-  innerDots.forEach(([cx, cy, r], index) => {
-    avatar.appendChild(drawDot(cx, cy, r, index % 4 === 0 ? 1 : 0.82));
-  });
-
-  avatar.appendChild(drawDot(32, 32, 2.8, 1));
-
   brackets.innerHTML = '&lt;';
-  brackets.appendChild(avatar);
+
+  const avatarImg = document.createElement('img');
+  avatarImg.src = '../../images/avatar.png'; // adjust path to wherever you place the file
+  avatarImg.setAttribute('aria-hidden', 'true');
+  avatarImg.alt = '';
+  Object.assign(avatarImg.style, {
+    display: 'inline-block',
+    width: '96px',
+    height: '96px',
+    objectFit: 'contain',
+    verticalAlign: 'middle',
+    willChange: 'transform, opacity',
+  });
+  brackets.appendChild(avatarImg);
+
   brackets.insertAdjacentHTML('beforeend', '&gt;');
   container.appendChild(brackets);
+
+  // Continuous, independent pulse for the avatar.
+  const starPulse = gsap.to(avatarImg, {
+    scale: 1.08,
+    opacity: 0.75,
+    duration: 0.9,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+  });
 
   const keywordsWrap = document.createElement('div');
   Object.assign(keywordsWrap.style, {
@@ -251,6 +227,7 @@ export async function runIntro(onReveal) {
     if (cleaned) return;
     cleaned = true;
     tl.kill();
+    starPulse.kill();
     field.destroy();
     if (container.parentNode) container.parentNode.removeChild(container);
   }
