@@ -384,7 +384,7 @@
 
   /* Logo loop strip */
   .skills-logoloop-wrap {
-    margin-top: -170px;
+    margin-top: -140px;
     margin-bottom: 26px;
   }
 
@@ -509,4 +509,9 @@
     font-size: 8px;
     padding: 3px 8px;
   }
+}
+
+@media (max-width: 768px) {
+  #hero { margin-bottom: 80px; }
+  .skills-logoloop-wrap { margin-bottom: 60px; }
 }
