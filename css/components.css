@@ -870,8 +870,8 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  align-self: center;
-  aspect-ratio: 1536 / 1024;
+  align-self: stretch;
+  height: 100%;
   width: 100%;
 }
 
