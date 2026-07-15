@@ -76,9 +76,9 @@
 
   /* ── Hero ── */
   #hero {
-    padding: 0 var(--pad-x) 0;
-    justify-content: center;
-    min-height: 100svh;
+    padding: 15svh var(--pad-x) 0;
+    justify-content: flex-start;
+    min-height: 70svh;
   }
 
   .hero-eyebrow {
@@ -120,15 +120,23 @@
   }
 
   /* ── Section spacing ── */
-  #work,
-  #about,
-  #contact {
-    padding: 80px var(--pad-x);
+  #work { padding: 80px var(--pad-x) 32px; }
+  #experience { padding: 32px var(--pad-x); }
+  #about { padding: 32px var(--pad-x) 80px; }
+  #contact { padding: 80px var(--pad-x); }
+
+  #more-work {
+    min-height: 80vh !important;
+    height: 80vh !important;
   }
 
   .s-header { margin-bottom: 40px; }
 
   /* ── Project cards ── */
+  .pcard {
+    height: auto !important;
+  }
+
   .exp-skeleton-wrap {
     display: none !important;
   }
@@ -376,7 +384,8 @@
 
   /* Logo loop strip */
   .skills-logoloop-wrap {
-    margin-top: -80px;
+    margin-top: -170px;
+    margin-bottom: 26px;
   }
 
   /* PDF strip */

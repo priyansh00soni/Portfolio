@@ -22,6 +22,8 @@ function preloadProjectImages() {
   });
 }
 
+export const ENABLE_INTRO = false; // Set to false to skip the cinematic intro
+
 export function initAnimations() {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -29,14 +31,17 @@ export function initAnimations() {
 
   /* ── Lock scroll during intro, scroll to top ── */
   const scrollLock = () => window.scrollTo(0, 0);
-  window.addEventListener('scroll', scrollLock, { once: false });
+  
+  if (ENABLE_INTRO) {
+    window.addEventListener('scroll', scrollLock, { once: false });
+  }
 
   window.scrollTo(0, 0);
   setTimeout(() => {
     const lenis = getLenis();
     if (lenis) {
       lenis.scrollTo(0, { duration: 0 });
-      lenis.stop();
+      if (ENABLE_INTRO) lenis.stop();
     }
   }, 10);
 
@@ -51,14 +56,19 @@ export function initAnimations() {
   preloadMoreWork();
 
   /* ── Cinematic intro replaces the old preloader ── */
-  runIntro(() => {
-    /* onReveal — called during bloom, portfolio emerges underneath */
-    window.removeEventListener('scroll', scrollLock);
-    const lenis = getLenis();
-    if (lenis) lenis.start();
+  if (ENABLE_INTRO) {
+    runIntro(() => {
+      /* onReveal — called during bloom, portfolio emerges underneath */
+      window.removeEventListener('scroll', scrollLock);
+      const lenis = getLenis();
+      if (lenis) lenis.start();
+      heroIn();
+      initTilt();
+    });
+  } else {
     heroIn();
     initTilt();
-  });
+  }
 }
 
 /* ─────────────────────────────────────────────────────────── */
@@ -95,9 +105,9 @@ function initScrollTriggers() {
 
   gsap.utils.toArray('.pcard').forEach(el => {
     gsap.fromTo(el,
-      { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out',
-        scrollTrigger: { trigger: el, start: 'top 88%' } }
+      { scale: 0.85, opacity: 0.3, y: 50 },
+      { scale: 1, opacity: 1, y: 0, ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 50%', scrub: 1 } }
     );
   });
 
@@ -105,9 +115,9 @@ function initScrollTriggers() {
 
   gsap.utils.toArray('.sc-card').forEach((el, i) => {
     gsap.fromTo(el,
-      { opacity: 0, y: 44 },
-      { opacity: 1, y: 0, duration: 0.75, ease: 'expo.out', delay: i * 0.08,
-        scrollTrigger: { trigger: '#showcase', start: 'top 85%' } }
+      { scale: 0.85, opacity: 0.3, y: 50 },
+      { scale: 1, opacity: 1, y: 0, ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 50%', scrub: 1 } }
     );
   });
 

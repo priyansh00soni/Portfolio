@@ -491,17 +491,17 @@ nav.scrolled {
 }
 
 .sk-val {
-  width: 60px;
-  height: 28px;
+  width: 300px;
+  height: 190px;
 }
 
 .sk-label {
-  width: 90px;
-  height: 10px;
+  width: 135px;
+  height: 15px;
 }
 
 .sk-label.short {
-  width: 60px;
+  width: 90px;
 }
 
 .projects {
@@ -516,6 +516,7 @@ nav.scrolled {
   border-radius: var(--radius);
   overflow: hidden;
   transition: border-color 0.4s ease;
+  height: 30rem;
 }
 
 .pcard:not(.pcard--wip):hover {
@@ -637,6 +638,8 @@ nav.scrolled {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  max-width: 25rem;
+  width: 100%;
 }
 
 .tag {

@@ -22,7 +22,7 @@ export function initTheme() {
 
   const stored = localStorage.getItem('dvdrod_theme');
   if (stored) applyTheme(stored === 'dark');
-  else        applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  else        applyTheme(true);
 
   tBtn.addEventListener('click', () => applyTheme(!dark));
 }
