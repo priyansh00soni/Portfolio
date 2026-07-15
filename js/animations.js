@@ -52,6 +52,7 @@ export function initAnimations() {
   gsap.set('.hero-desc',            { opacity: 0, y: 24 });
   gsap.set('.pill',                 { opacity: 0, x: 36 });
   gsap.set('.scroll-hint',          { opacity: 0 });
+  gsap.set('.pcard, .sc-card',      { opacity: 0, scale: 0.95, y: 40 });
 
   preloadMoreWork();
 
@@ -105,9 +106,9 @@ function initScrollTriggers() {
 
   gsap.utils.toArray('.pcard').forEach(el => {
     gsap.fromTo(el,
-      { scale: 0.85, opacity: 0.3, y: 50 },
-      { scale: 1, opacity: 1, y: 0, ease: 'none',
-        scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 50%', scrub: 1 } }
+      { scale: 0.95, opacity: 0, y: 40 },
+      { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play reverse play reverse' } }
     );
     if (isMobile) {
       ScrollTrigger.create({
@@ -123,9 +124,9 @@ function initScrollTriggers() {
 
   gsap.utils.toArray('.sc-card').forEach((el, i) => {
     gsap.fromTo(el,
-      { scale: 0.85, opacity: 0.3, y: 50 },
-      { scale: 1, opacity: 1, y: 0, ease: 'none',
-        scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 50%', scrub: 1 } }
+      { scale: 0.95, opacity: 0, y: 40 },
+      { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play reverse play reverse' } }
     );
   });
 
