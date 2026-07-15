@@ -26,8 +26,8 @@ export function initCardParticles() {
       /* Check live attribute so toggle works mid-session */
       if (document.documentElement.hasAttribute('data-no-particles')) return;
       spawnInterval = setInterval(() => {
-        for (let i = 0; i < 4; i++) spawnParticle(card);
-      }, 35);
+        for (let i = 0; i < 2; i++) spawnParticle(card);
+      }, 40);
     });
 
     card.addEventListener('mouseleave', () => {
@@ -50,8 +50,8 @@ export function initCardParticles() {
     let spawnLeft, spawnTop;
     let moveX, moveY;
 
-    const spread = 30 + Math.random() * 40;
-    const drift = (Math.random() - 0.5) * 30;
+    const spread = 20 + Math.random() * 25; // 20–45px outward (shorter)
+    const drift = (Math.random() - 0.5) * 15; // less sideways drift
 
     if (p < w) {
       spawnLeft = p; spawnTop = 0;
@@ -85,7 +85,7 @@ export function initCardParticles() {
       y: moveY,
       opacity: 0,
       scale: 0,
-      duration: 1.2 + Math.random() * 0.8,
+      duration: 1.5 + Math.random() * 1.0, // slower, gentler drift
       ease: 'power2.out',
       onComplete: () => {
         if (particle.parentNode) particle.parentNode.removeChild(particle);

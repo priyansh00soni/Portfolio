@@ -19,8 +19,8 @@ export function initCursor() {
   const SIZE       = 50;
   const DAMPENING  = 0.25;
   const TENSION    = 0.97;
-  const MIN_ALPHA  = 0.1;
-  const MAX_ALPHA  = 0.4;
+  const MIN_ALPHA  = 0.05;
+  const MAX_ALPHA  = 0.25;
   const MIN_WIDTH  = 0.9;
   const MAX_WIDTH  = 1.8;
   /* Unpacked hex literals — faster than parseInt in hot path */

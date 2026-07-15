@@ -227,6 +227,10 @@ nav.scrolled {
   border-color: var(--fg);
 }
 
+.theme-btn:active {
+  transform: scale(0.95) !important;
+}
+
 .t-icon { font-size: 13px; }
 
 /* ── SETTINGS GEAR ── */
@@ -347,8 +351,8 @@ nav.scrolled {
 }
 
 .settings-toggle:checked + .settings-switch {
-  background: var(--card-glow);
-  border-color: var(--card-glow);
+  background: #3B82F6;
+  border-color: #3B82F6;
 }
 
 .settings-toggle:checked + .settings-switch::after {
@@ -757,12 +761,12 @@ nav.scrolled {
 /* ── CARD PARTICLES ── */
 .card-particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 2px;
+  height: 2px;
   background: var(--card-glow);
   border-radius: 50%;
   pointer-events: none;
-  box-shadow: 0 0 10px var(--card-glow), 0 0 20px var(--card-glow);
+  box-shadow: 0 0 6px var(--card-glow), 0 0 12px var(--card-glow);
   will-change: transform, opacity;
   z-index: 10;
 }

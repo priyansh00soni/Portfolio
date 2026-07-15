@@ -12,7 +12,7 @@
   --green-bd:  rgba(0, 220, 100, 0.28);
 
   /* Card hover glow — change this one value to recolor particles + border */
-  --card-glow: #3B82F6;
+  --card-glow: #E2E8F0; /* Icy silver for minimal look */
 
   /* Typography */
   --font-sans:    'Inter', system-ui, sans-serif;
@@ -36,7 +36,7 @@
   --border-hv: rgba(12, 12, 11, 0.38);
   --green:     #006E2D;
   --green-bd:  rgba(0, 110, 45, 0.35);
-  --card-glow: #3b82f6;
+  --card-glow: #64748B; /* Slate grey for light mode */
 }
 
 /* ── RESET ── */
