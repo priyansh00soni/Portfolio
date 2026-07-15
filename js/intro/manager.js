@@ -75,7 +75,7 @@ export async function runIntro(onReveal) {
   brackets.innerHTML = '&lt;';
 
   const avatarImg = document.createElement('img');
-  avatarImg.src = '../../images/avatar.png'; // adjust path to wherever you place the file
+  avatarImg.src = '../../images/avatar.webp'; // adjust path to wherever you place the file
   avatarImg.setAttribute('aria-hidden', 'true');
   avatarImg.alt = '';
   Object.assign(avatarImg.style, {
