@@ -929,9 +929,7 @@ nav.scrolled {
   box-sizing: border-box;
   object-fit: cover;
   object-position: center;
-  transition: opacity 0.4s ease;
   z-index: 1;
-  opacity: 0;
 }
 
 .pcard-img-overlay {
