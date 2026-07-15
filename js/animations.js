@@ -10,9 +10,9 @@ import { preloadMoreWork } from './more-work.js';
 import { runIntro } from './intro/manager.js';
 
 const PROJECT_IMAGES = [
-  'images/gfg.webp',
-  'images/pixel_chai.webp',
-  'images/coming-soon.webp',
+  '/images/gfg.webp',
+  '/images/pixel_chai.webp',
+  '/images/coming-soon.webp',
 ];
 
 function preloadProjectImages() {
