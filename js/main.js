@@ -10,7 +10,7 @@ import { initCardParticles } from './card-particles.js';
 import { initSettings } from './settings.js';
 
 const BACKGROUND_TRACK = new URL(
-  '../images/Tame Impala - The Less I Know The Better (Original Instrumental).mp3',
+  '/images/Tame Impala - The Less I Know The Better (Original Instrumental).mp3',
   import.meta.url,
 ).href;
 const BACKGROUND_VOLUME = 0.14;
