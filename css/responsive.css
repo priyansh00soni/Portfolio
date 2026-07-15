@@ -526,15 +526,14 @@
     justify-content: center;
   }
   .settings-panel {
-    position: fixed;
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    right: auto;
-    width: 90vw;
-    max-width: 340px;
+    position: fixed !important;
+    top: 70px !important;
+    margin: 0 auto !important;
+    transform: translateY(-10px) !important;
+    width: 90vw !important;
+    max-width: 340px !important;
   }
   .settings-panel.open {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0) !important;
   }
 }
