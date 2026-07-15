@@ -596,6 +596,8 @@ nav.scrolled {
 #work,
 #experience {
   padding: 120px var(--pad-x); 
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
 }
 
 /* ── Skeleton Loading Effect for Experience Cards ── */
