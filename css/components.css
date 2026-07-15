@@ -365,7 +365,8 @@ nav.scrolled {
   display: none !important;
 }
 
-[data-no-particles] .pcard:not(.pcard--wip):hover {
+[data-no-particles] .pcard:not(.pcard--wip):hover,
+[data-no-particles] .pcard:not(.pcard--wip).is-active {
   border-color: var(--border-hv);
   box-shadow: none;
 }
@@ -660,17 +661,15 @@ nav.scrolled {
   height: 30rem;
 }
 
-.pcard:not(.pcard--wip):hover {
+.pcard:not(.pcard--wip):hover,
+.pcard:not(.pcard--wip).is-active {
   border-color: var(--card-glow);
   box-shadow: 0 0 35px color-mix(in srgb, var(--card-glow) 45%, transparent),
-              0 0 15px color-mix(in srgb, var(--card-glow) 25%, transparent) inset;
+              inset 0 0 20px color-mix(in srgb, var(--card-glow) 20%, transparent);
 }
 
-.pcard--featured {
-  border-color: rgba(110, 231, 183, 0.28);
-}
-
-.pcard--featured:hover {
+.pcard--featured:hover,
+.pcard--featured.is-active {
   border-color: rgba(110, 231, 183, 0.5);
 }
 
@@ -905,7 +904,8 @@ nav.scrolled {
   transition: transform 0.9s ease, opacity 0.9s ease;
 }
 
-.pcard:hover .blob {
+.pcard:hover .blob,
+.pcard.is-active .blob {
   opacity: 0.38;
   transform: scale(1.2) rotate(20deg);
 }
@@ -967,13 +967,15 @@ nav.scrolled {
   transition: background 0.3s, border-color 0.3s, transform 0.3s;
 }
 
-.pcard:hover .p-arrow {
+.pcard:hover .p-arrow,
+.pcard.is-active .p-arrow {
   background: #fff;
   border-color: #fff;
   transform: rotate(45deg);
 }
 
-.pcard:hover .p-arrow svg path { stroke: #000; }
+.pcard:hover .p-arrow svg path,
+.pcard.is-active .p-arrow svg path { stroke: #000; }
 
 .p-arrow.left-arrow {
   right: auto;
@@ -997,7 +999,8 @@ nav.scrolled {
   color: white;
 }
 
-.pcard:hover .p-github {
+.pcard:hover .p-github,
+.pcard.is-active .p-github {
   background: #fff;
   border-color: #fff;
   transform: rotate(45deg);
@@ -1657,6 +1660,11 @@ nav.scrolled {
   gap: 8px;
 }
 
+#demoEmail {
+  padding-bottom: 5px;
+  padding-top: 2px;
+}
+
 .demo-input-group input {
   flex: 1;
   background: var(--bg2);
@@ -1672,7 +1680,7 @@ nav.scrolled {
 }
 
 .demo-input-group input::placeholder {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .demo-input-group input:focus {

@@ -22,20 +22,44 @@ export function initCardParticles() {
   cards.forEach(card => {
     let spawnInterval = null;
 
-    card.addEventListener('mouseenter', () => {
-      /* Check live attribute so toggle works mid-session */
+    function startSpawning() {
       if (document.documentElement.hasAttribute('data-no-particles')) return;
-      spawnInterval = setInterval(() => {
-        for (let i = 0; i < 2; i++) spawnParticle(card);
-      }, 40);
-    });
+      if (!spawnInterval) {
+        spawnInterval = setInterval(() => {
+          for (let i = 0; i < 2; i++) spawnParticle(card);
+        }, 40);
+      }
+    }
 
-    card.addEventListener('mouseleave', () => {
+    function stopSpawning() {
       if (spawnInterval) {
         clearInterval(spawnInterval);
         spawnInterval = null;
       }
-    });
+    }
+
+    /* Desktop interactions */
+    card.addEventListener('mouseenter', startSpawning);
+    card.addEventListener('mouseleave', stopSpawning);
+
+    /* Mobile auto-trigger based on ScrollTrigger */
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
+    if (isMobile) {
+      /* Use a small delay to ensure GSAP ScrollTrigger is loaded if not already */
+      setTimeout(() => {
+        if (window.ScrollTrigger) {
+          ScrollTrigger.create({
+            trigger: card,
+            start: 'top 65%',
+            end: 'bottom 35%',
+            onEnter: startSpawning,
+            onLeave: stopSpawning,
+            onEnterBack: startSpawning,
+            onLeaveBack: stopSpawning
+          });
+        }
+      }, 500);
+    }
   });
 
   function spawnParticle(card) {

@@ -109,6 +109,14 @@ function initScrollTriggers() {
       { scale: 1, opacity: 1, y: 0, ease: 'none',
         scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 50%', scrub: 1 } }
     );
+    if (isMobile) {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 65%',
+        end: 'bottom 35%',
+        toggleClass: 'is-active'
+      });
+    }
   });
 
   /* Parallax removed to prevent clipping and layout tear on exactly-sized banners */
