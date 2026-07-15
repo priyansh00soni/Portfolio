@@ -22,7 +22,7 @@ function preloadProjectImages() {
   });
 }
 
-export const ENABLE_INTRO = true; // Set to false to skip the cinematic intro
+export const ENABLE_INTRO = localStorage.getItem('pref_intro') !== 'off';
 
 export function initAnimations() {
   gsap.registerPlugin(ScrollTrigger);

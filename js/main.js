@@ -6,6 +6,8 @@ import { initAnimations }   from './animations.js';
 import { initTheme, initCopyEmail, initShowcaseDrag, getSparkColor } from './ui.js';
 import { mountLogoLoop, PORTFOLIO_SKILL_LOGOS } from './LogoLoop.js';
 import { initMoreWork } from './more-work.js';
+import { initCardParticles } from './card-particles.js';
+import { initSettings } from './settings.js';
 
 const BACKGROUND_TRACK = new URL(
   '../images/Tame Impala - The Less I Know The Better (Original Instrumental).mp3',
@@ -48,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyEmail();
   initShowcaseDrag();
   initMoreWork();
+  initCardParticles();
+  initSettings();
 
   function initBackgroundMusic() {
     const audioBtn = document.getElementById('audioBtn');

@@ -2,6 +2,7 @@
 'use strict';
 
 export function initCursor() {
+  if (localStorage.getItem('pref_cursor') === 'off') return;
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
   const canvas = document.createElement('canvas');

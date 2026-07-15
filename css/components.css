@@ -229,6 +229,143 @@ nav.scrolled {
 
 .t-icon { font-size: 13px; }
 
+/* ── SETTINGS GEAR ── */
+.settings-wrap {
+  position: relative;
+}
+
+.settings-btn {
+  width: 40px;
+  justify-content: center;
+  padding-inline: 0;
+  color: var(--fg);
+  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.5s;
+}
+
+.settings-btn.active {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.settings-btn svg {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.settings-btn.active svg {
+  transform: rotate(90deg);
+}
+
+/* ── SETTINGS PANEL ── */
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  min-width: 240px;
+  background: color-mix(in srgb, var(--bg2) 85%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.settings-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.settings-panel-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  cursor: pointer;
+  gap: 16px;
+}
+
+.settings-row:hover .settings-label {
+  color: var(--fg);
+}
+
+.settings-label {
+  font-size: 12px;
+  color: var(--muted);
+  transition: color 0.2s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* ── TOGGLE SWITCH ── */
+.settings-toggle {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.settings-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+}
+
+.settings-toggle:checked + .settings-switch {
+  background: var(--card-glow);
+  border-color: var(--card-glow);
+}
+
+.settings-toggle:checked + .settings-switch::after {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* ── Disable card particles & glow via attribute ── */
+[data-no-particles] .card-particle {
+  display: none !important;
+}
+
+[data-no-particles] .pcard:not(.pcard--wip):hover {
+  border-color: var(--border-hv);
+  box-shadow: none;
+}
+
 /* ── HERO ── */
 #hero {
   min-height: 100svh;
@@ -514,13 +651,15 @@ nav.scrolled {
 .pcard {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  position: relative; /* Changed from overflow: hidden so particles can escape */
   transition: border-color 0.4s ease;
   height: 30rem;
 }
 
 .pcard:not(.pcard--wip):hover {
-  border-color: var(--border-hv);
+  border-color: var(--card-glow);
+  box-shadow: 0 0 35px color-mix(in srgb, var(--card-glow) 45%, transparent),
+              0 0 15px color-mix(in srgb, var(--card-glow) 25%, transparent) inset;
 }
 
 .pcard--featured {
@@ -610,6 +749,22 @@ nav.scrolled {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 400px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+/* ── CARD PARTICLES ── */
+.card-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--card-glow);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px var(--card-glow), 0 0 20px var(--card-glow);
+  will-change: transform, opacity;
+  z-index: 10;
 }
 
 .pcard-info {
