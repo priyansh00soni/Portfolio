@@ -1,0 +1,28 @@
+{
+    "name":  "priyansh_portfolio",
+    "version":  "1.0.0",
+    "description":  "\u003e **A sleek, high-performance portfolio website showcasing projects with smooth animations, magnetic interactions, and modern web technologies.**",
+    "main":  "index.js",
+    "scripts":  {
+                    "preview":  "vite preview",
+                    "build":  "vite build",
+                    "dev":  "vite"
+                },
+    "repository":  {
+                       "type":  "git",
+                       "url":  "git+https://github.com/priyansh00soni/Portfolio.git"
+                   },
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "ISC",
+    "type":  "module",
+    "bugs":  {
+                 "url":  "https://github.com/priyansh00soni/Portfolio/issues"
+             },
+    "homepage":  "https://github.com/priyansh00soni/Portfolio#readme",
+    "devDependencies":  {
+                            "vite":  "^8.1.4"
+                        }
+}
