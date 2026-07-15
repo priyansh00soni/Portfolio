@@ -129,6 +129,10 @@
   .s-header { margin-bottom: 40px; }
 
   /* ── Project cards ── */
+  .exp-skeleton-wrap {
+    display: none !important;
+  }
+
   .pcard-inner {
     grid-template-columns: 1fr;
   }
@@ -392,6 +396,11 @@
 
   .s-title {
     font-size: 14vw;
+  }
+
+  #experience .s-title {
+    font-size: clamp(28px, 9vw, 42px);
+    letter-spacing: -0.02em;
   }
 
   .pname {

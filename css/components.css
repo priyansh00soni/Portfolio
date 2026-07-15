@@ -93,6 +93,7 @@ nav.scrolled {
   text-transform: uppercase;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   position: relative; /* needed for magnetic offset */
+  cursor:pointer;
 }
 
 .audio-btn {
@@ -101,6 +102,18 @@ nav.scrolled {
   padding-inline: 0;
   color: var(--fg);
   background: rgba(255, 255, 255, 0.02);
+}
+
+/* Invisible pseudo-element to increase click area without altering visual size */
+.audio-btn::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  left: -10px;
+  border-radius: inherit;
+  cursor:pointer;
 }
 
 [data-theme="light"] .audio-btn {
@@ -442,6 +455,53 @@ nav.scrolled {
 #work,
 #experience {
   padding: 120px var(--pad-x); 
+}
+
+/* ── Skeleton Loading Effect for Experience Cards ── */
+.exp-skeleton-wrap {
+  display: flex;
+  gap: 32px;
+  margin-top: 10px;
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+.skeleton-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-block {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 2s infinite linear;
+  border-radius: 4px;
+}
+
+[data-theme="light"] .skeleton-block {
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.09) 50%, rgba(0,0,0,0.04) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.sk-val {
+  width: 60px;
+  height: 28px;
+}
+
+.sk-label {
+  width: 90px;
+  height: 10px;
+}
+
+.sk-label.short {
+  width: 60px;
 }
 
 .projects {
