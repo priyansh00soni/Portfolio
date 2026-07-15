@@ -231,7 +231,7 @@ nav.scrolled {
   transform: scale(0.95) !important;
 }
 
-.t-icon { font-size: 13px; }
+.t-icon { font-size: 18px; line-height: 1; }
 
 /* ── SETTINGS GEAR ── */
 .settings-wrap {

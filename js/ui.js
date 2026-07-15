@@ -12,7 +12,7 @@ export function initTheme() {
   function applyTheme(d) {
     dark = d;
     html.setAttribute('data-theme', d ? 'dark' : 'light');
-    tIcon.textContent = d ? '◐' : '◑';
+    tIcon.textContent = d ? '☀' : '☾';
     tLbl.textContent  = d ? 'Light' : 'Dark';
     localStorage.setItem('dvdrod_theme', d ? 'dark' : 'light');
     
