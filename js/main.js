@@ -74,18 +74,50 @@ document.addEventListener('DOMContentLoaded', () => {
     let gainNode = null;
     const soundPref = localStorage.getItem('priyansh_sound');
 
-    /* If user already enabled sound, hide the popup immediately */
-    if (soundPref === 'on' && audioPopup) {
-      audioPopup.style.display = 'none';
+    // Restore saved audio time if it exists
+    const savedTime = localStorage.getItem('priyansh_audio_time');
+    if (savedTime && soundPref === 'on') {
+      audio.currentTime = parseFloat(savedTime);
     }
 
-    /* Auto-hide popup after 8s if still visible */
-    if (audioPopup && soundPref !== 'on') {
+    // Save audio time periodically or on unload
+    audio.addEventListener('timeupdate', () => {
+      if (isPlaying) {
+        localStorage.setItem('priyansh_audio_time', audio.currentTime);
+      }
+    });
+
+    const showPopup = (instant = false) => {
+      if (!audioPopup) return;
+      audioPopup.style.display = 'block';
+      audioPopup.classList.remove('hidden');
+      if (instant) {
+        audioPopup.style.animation = 'none';
+        void audioPopup.offsetWidth; // Force reflow
+        audioPopup.style.opacity = '1';
+        audioPopup.style.animation = 'popupBob 2.4s ease-in-out infinite';
+      }
+    };
+
+    const hidePopup = () => {
+      if (!audioPopup) return;
+      audioPopup.style.animation = 'none';
+      void audioPopup.offsetWidth; // Force reflow
+      audioPopup.style.opacity = '';
+      audioPopup.style.animation = '';
+      audioPopup.classList.add('hidden');
       setTimeout(() => {
-        if (!audioPopup.classList.contains('hidden')) {
-          audioPopup.classList.add('hidden');
+        if (localStorage.getItem('priyansh_sound') === 'on' || isPlaying) {
+          audioPopup.style.display = 'none';
         }
-      }, 8000);
+      }, 350);
+    };
+
+    /* Make popup visible everytime sound is off */
+    if (soundPref === 'on' && audioPopup) {
+      audioPopup.style.display = 'none';
+    } else {
+      showPopup(false); // Use normal entry animation on load
     }
 
     const setButtonState = (playing) => {
@@ -141,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = false;
         setButtonState(false);
         console.error('Background music failed to start:', err);
+        showPopup(true); // Autoplay blocked, show popup instantly
       }
     };
 
@@ -155,23 +188,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const toggleMusic = () => {
-      /* First-time click: save preference and reload */
-      if (soundPref !== 'on' && !isPlaying) {
-        localStorage.setItem('priyansh_sound', 'on');
-        if (audioPopup) audioPopup.classList.add('hidden');
-        /* Small delay so popup exit animation plays, then reload */
-        setTimeout(() => window.location.reload(), 350);
-        return;
-      }
-
       if (isPlaying) {
         pauseMusic();
         localStorage.setItem('priyansh_sound', 'off');
+        showPopup(true); // Instant show when toggled off
         return;
       }
 
       playMusic();
       localStorage.setItem('priyansh_sound', 'on');
+      hidePopup();
     };
 
     setButtonState(false);
@@ -185,7 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
       /* Wait for intro to settle, then auto-play */
       const autoPlay = () => {
         playMusic();
-        if (audioPopup) audioPopup.style.display = 'none';
+        if (isPlaying) {
+          if (audioPopup) audioPopup.style.display = 'none';
+        }
       };
       /* Try immediately (works after reload since gesture is recent) */
       setTimeout(autoPlay, 800);
@@ -402,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         // Enforce HTTPS exclusively to bypass aggressive Mobile Mixed Content Security Blocks
-        const response = await fetch('https://nexus-automation-jvm0.onrender.com/api/assistant-command', {
+        const response = await fetch('https://nexus-automation-lj20.onrender.com/api/assistant-command', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ command: email })
