@@ -1,0 +1,81 @@
+# Priyansh Soni — Full Stack Developer
+
+> Priyansh Soni is a Full Stack Developer from Indore, India. He builds real-world web applications using React, Node.js, Express, TypeScript, MongoDB, PostgreSQL, Redis, and Docker. He is currently pursuing B.Tech in Computer Science from Madhav Institute of Technology & Science (MITS), Datia University (DU). He is available for internships, freelance work, and full-time opportunities.
+
+## Contact Information
+
+- Full Name: Priyansh Soni
+- Email: priyansh.workspace@gmail.com
+- Website: https://priyanshsoni.me
+- LinkedIn: https://www.linkedin.com/in/priyansh00soni/
+- GitHub: https://github.com/priyansh00soni
+- Location: Indore, Madhya Pradesh, India
+
+## Current Roles
+
+- Full Stack Developer Intern at A36 Labs (June 2026 – Present)
+- Full Stack Developer Intern at Code With Conscience (July 2026 – Present)
+- Technical Team Co-Lead at GFG Campus Body, MITS DU (Oct 2024 – Present)
+
+## Education
+
+- B.Tech in Computer Science — Madhav Institute of Technology & Science (MITS), Datia University (DU)
+
+## Achievements
+
+- Ranked Top 1,500 out of 1 lakh+ participants in Google Big Code 2026
+
+## Technical Skills
+
+### Languages & Frontend
+- JavaScript, TypeScript, C++
+- React, Tailwind CSS, Framer Motion, HTML, CSS
+
+### Backend & APIs
+- Node.js, Express.js
+- REST APIs, Webhooks, JWT Authentication
+- Prisma, Zod, Swagger
+
+### Databases & Infrastructure
+- MongoDB, PostgreSQL, Redis
+- BullMQ, Message Queues, Docker
+- Distributed Systems, Scalable Architecture, System Design
+
+### DevOps & Tools
+- GitHub Actions, Render, Vercel
+- Prometheus, Grafana, Winston
+- Vitest, Postman, Git, GitHub
+- Cloudinary, Resend, Gemini API
+
+### Design & Other
+- Figma, Wix, AI Integration
+- Leadership, Teamwork, Communication
+
+## Featured Projects
+
+### Nexus — Multi-Tenant Notification Infrastructure
+- Live API: https://nexus-api-ci20.onrender.com/api/v1/api-docs/
+- GitHub: https://github.com/priyansh00soni/Nexus
+- Tech: Node.js, TypeScript, PostgreSQL, Prisma, Redis, BullMQ, Docker, Prometheus, Grafana, GitHub Actions, Swagger, Winston, Vitest, Resend, Zod
+- Description: Multi-tenant notification infrastructure with queue-based delivery, retries, and observability.
+
+### StreamCore — Video Platform Backend
+- Live API: https://stream-core.onrender.com/
+- GitHub: https://github.com/priyansh00soni/StreamCore
+- Tech: Node.js, Express.js, MongoDB, Cloudinary, Gemini API, JWT
+- Description: Production-grade video platform backend with authentication, uploads, AI features, and recommendations.
+
+### GFG Campus Body Website — MITS DU
+- Live Site: https://www.gfgcampusbodymitsdu.qzz.io/
+- GitHub: https://github.com/priyansh00soni/GFG-Frontend
+- Tech: React, Frontend, Responsive UI
+- Description: Collaboratively built and maintained the GFG Campus Body website for MITS DU. 2000+ visits.
+
+### Pixel & Chai — Freelance Client Project
+- Live Site: https://pixel-and-chai.vercel.app/
+- Tech: React, Frontend, Responsive UI
+- Description: Built a clean, responsive website for a design startup with a simple client-focused flow.
+
+## Summary
+
+Priyansh Soni is a skilled Full Stack Developer focused on building practical, production-grade web applications. His expertise spans the entire stack — from React frontends to Node.js/Express backends with PostgreSQL, MongoDB, Redis, and Docker. He has interned at A36 Labs and Code With Conscience, leads the technical team at GFG Campus Body MITS DU, and takes on freelance projects. He ranked in the top 1,500 of Google Big Code 2026 (out of 1 lakh+ participants). He values clean code, clear collaboration, and development grounded in real user and business goals.

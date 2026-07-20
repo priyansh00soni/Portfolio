@@ -1,0 +1,13 @@
+/* TEAM */
+Developer: Priyansh Soni
+Role: Full Stack Developer
+Location: Indore, Madhya Pradesh, India
+Email: priyansh.workspace@gmail.com
+LinkedIn: https://www.linkedin.com/in/priyansh00soni/
+GitHub: https://github.com/priyansh00soni
+Website: https://priyanshsoni.me
+
+/* SITE */
+Last Update: 2026-07-20
+Standards: HTML5, CSS3, JavaScript ES2023
+Software: VS Code, Git, Vercel, GSAP, Lenis
