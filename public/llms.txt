@@ -13,7 +13,6 @@
 
 ## Current Roles
 
-- Full Stack Developer Intern at A36 Labs (June 2026 – Present)
 - Full Stack Developer Intern at Code With Conscience (July 2026 – Present)
 - Technical Team Co-Lead at GFG Campus Body, MITS DU (Oct 2024 – Present)
 
@@ -78,4 +77,4 @@
 
 ## Summary
 
-Priyansh Soni is a skilled Full Stack Developer focused on building practical, production-grade web applications. His expertise spans the entire stack — from React frontends to Node.js/Express backends with PostgreSQL, MongoDB, Redis, and Docker. He has interned at A36 Labs and Code With Conscience, leads the technical team at GFG Campus Body MITS DU, and takes on freelance projects. He ranked in the top 1,500 of Google Big Code 2026 (out of 1 lakh+ participants). He values clean code, clear collaboration, and development grounded in real user and business goals.
+Priyansh Soni is a skilled Full Stack Developer focused on building practical, production-grade web applications. His expertise spans the entire stack — from React frontends to Node.js/Express backends with PostgreSQL, MongoDB, Redis, and Docker. He has interned at Code With Conscience, leads the technical team at GFG Campus Body MITS DU, and takes on freelance projects. He ranked in the top 1,500 of Google Big Code 2026 (out of 1 lakh+ participants). He values clean code, clear collaboration, and development grounded in real user and business goals.
