@@ -496,4 +496,93 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initNexusDemo();
+
+  /* ── Nexus Video Interaction ── */
+  function initNexusVideo() {
+    const nexusCard = document.querySelector('.p-nexus');
+    const video = document.querySelector('.nexus-video');
+    const playPauseBtn = document.querySelector('.nv-playpause-btn');
+    const muteBtn = document.querySelector('.nv-mute-btn');
+    const iconPlay = document.querySelector('.nv-icon-play');
+    const iconPause = document.querySelector('.nv-icon-pause');
+    const iconMuted = document.querySelector('.nv-icon-muted');
+    const iconUnmuted = document.querySelector('.nv-icon-unmuted');
+    const audioBtn = document.querySelector('#audioBtn');
+    
+    if (!nexusCard || !video) return;
+
+    const isMobile = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+    if (isMobile) {
+      video.play().catch(e => console.log('Autoplay prevented', e));
+      const controls = document.querySelector('.nexus-video-controls');
+      if (controls) controls.classList.add('mobile-active');
+    }
+
+    nexusCard.addEventListener('mouseenter', () => {
+      if (!isMobile) {
+        video.play().catch(e => console.log('Autoplay prevented', e));
+        iconPlay.style.display = 'none';
+        iconPause.style.display = 'block';
+      }
+    });
+
+    nexusCard.addEventListener('mouseleave', () => {
+      if (!isMobile) {
+        video.pause();
+        video.currentTime = 0;
+        iconPlay.style.display = 'block';
+        iconPause.style.display = 'none';
+      }
+    });
+
+    playPauseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (video.paused) {
+        video.play();
+        iconPlay.style.display = 'none';
+        iconPause.style.display = 'block';
+      } else {
+        video.pause();
+        iconPlay.style.display = 'block';
+        iconPause.style.display = 'none';
+      }
+    });
+
+    muteBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.muted = !video.muted;
+      if (video.muted) {
+        iconMuted.style.display = 'block';
+        iconUnmuted.style.display = 'none';
+      } else {
+        iconMuted.style.display = 'none';
+        iconUnmuted.style.display = 'block';
+        
+        // Turn off background music if it's playing
+        if (audioBtn && audioBtn.getAttribute('aria-pressed') === 'true') {
+          audioBtn.click();
+        }
+      }
+    });
+
+    if (audioBtn) {
+      audioBtn.addEventListener('click', () => {
+        // Wait a tick for the aria-pressed attribute to update
+        setTimeout(() => {
+          if (audioBtn.getAttribute('aria-pressed') === 'true') {
+            if (!video.muted) {
+              video.muted = true;
+              iconMuted.style.display = 'block';
+              iconUnmuted.style.display = 'none';
+            }
+          }
+        }, 10);
+      });
+    }
+  }
+
+  initNexusVideo();
 });

@@ -1729,3 +1729,321 @@ nav.scrolled {
 .demo-close:hover {
   color: var(--fg);
 }
+
+/* ── NEXUS CARD VIDEO ── */
+.nexus-media-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.nexus-img {
+  transition: opacity 0.4s ease;
+}
+
+.nexus-video-wrapper {
+  position: absolute;
+  background: var(--bg);
+  border-radius: 16px;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.demo-modal.processing .demo-modal-content {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.demo-modal.processing .demo-status-view {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.status-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08); /* Neutral loading background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transform: scale(0.8);
+  opacity: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+#statusLoaderSvg {
+  animation: svg-spin 1.2s linear infinite;
+}
+
+@keyframes svg-spin {
+  100% { transform: rotate(360deg); }
+}
+
+.demo-modal.processing .status-circle {
+  animation: pop-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.status-text-wrap {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg);
+  text-align: center;
+}
+
+.status-text-wrap span { display: inline-block; }
+
+/* ── Demo Modal ── */
+.demo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.demo-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.demo-modal-inner {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 32px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+
+.demo-modal.active .demo-modal-inner {
+  transform: translateY(0) scale(1);
+}
+
+.demo-modal-inner h4 {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--fg);
+}
+
+.demo-modal-inner p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.demo-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+#demoEmail {
+  padding-bottom: 5px;
+  padding-top: 2px;
+}
+
+.demo-input-group input {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 16px;
+  height: 44px;
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.demo-input-group input::placeholder {
+  font-size: 13px;
+}
+
+.demo-input-group input:focus {
+  border-color: var(--fg);
+}
+
+.demo-input-group button {
+  height: 44px;
+  padding: 0 24px;
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.demo-input-group button:active {
+  transform: scale(0.96);
+}
+
+.demo-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+}
+
+.demo-close:hover {
+  color: var(--fg);
+}
+
+/* ── NEXUS CARD VIDEO ── */
+.nexus-media-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.nexus-img {
+  transition: opacity 0.4s ease;
+}
+
+.nexus-video-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+  z-index: 5; /* Above overlay */
+}
+
+.nexus-video {
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* On Hover (Desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .p-nexus:hover .nexus-img {
+    opacity: 0;
+  }
+  .p-nexus:hover .nexus-video-wrapper {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* On Mobile */
+@media (hover: none), (pointer: coarse) {
+  .nexus-img {
+    opacity: 0;
+    display: none;
+  }
+  .nexus-video-wrapper {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Video Controls */
+.nexus-video-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Let hover pass through initially */
+}
+
+.p-nexus:hover .nexus-video-controls,
+.nexus-video-controls.mobile-active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nexus-video-controls button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.nexus-video-controls button:hover {
+  color: #6EE7B7;
+}
+
+.nexus-video-controls svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile specific sizing */
+@media (max-width: 768px) {
+  .nexus-video-controls {
+    padding: 6px 8px;
+    gap: 8px;
+    top: 12px;
+    right: 12px;
+  }
+  .nexus-video-controls svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Ensure buttons remain clickable over the video wrapper */
+.pcard-vis .p-github,
+.pcard-vis .p-arrow,
+.pcard-vis .try-btn {
+  z-index: 20;
+}
