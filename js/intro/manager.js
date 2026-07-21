@@ -12,13 +12,51 @@ import { ensureFont } from './logo.js';
 import { createField } from './particles.js';
 import { buildTimeline } from './timeline.js';
 
+export async function ensureAvatar(timeoutMs = 700) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    let done = false;
+    const finish = () => {
+      if (!done) {
+        done = true;
+        resolve();
+      }
+    };
+    const timer = setTimeout(finish, timeoutMs);
+
+    img.onload = async () => {
+      if (img.decode) {
+        try {
+          await img.decode();
+        } catch {
+          /* image decode error fallback */
+        }
+      }
+      clearTimeout(timer);
+      finish();
+    };
+    img.onerror = () => {
+      clearTimeout(timer);
+      finish();
+    };
+    img.src = '/images/avatar.webp';
+    if (img.complete) {
+      if (img.decode) {
+        img.decode().then(finish).catch(finish);
+      } else {
+        finish();
+      }
+    }
+  });
+}
+
 export async function runIntro(onReveal) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     onReveal();
     return;
   }
 
-  await ensureFont();
+  await Promise.all([ensureFont(), ensureAvatar()]);
 
   /* ── Build DOM ── */
   const container = document.createElement('div');
@@ -75,7 +113,7 @@ export async function runIntro(onReveal) {
   brackets.innerHTML = '&lt;';
 
   const avatarImg = document.createElement('img');
-  avatarImg.src = '../../images/avatar.webp'; // adjust path to wherever you place the file
+  avatarImg.src = '/images/avatar.webp';
   avatarImg.setAttribute('aria-hidden', 'true');
   avatarImg.alt = '';
   Object.assign(avatarImg.style, {
