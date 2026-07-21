@@ -41,7 +41,7 @@
 @media (max-width: 900px) {
   /* Optimize animations */
   @media (prefers-reduced-motion: no-preference) {
-    * { animation-duration: 0.8s !important; }
+    *:not(.audio-popup) { animation-duration: 0.8s !important; }
   }
 
   :root {

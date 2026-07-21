@@ -12,6 +12,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: visible;
   transition: padding 0.45s var(--ease), top 0.45s var(--ease),
               left 0.45s var(--ease), right 0.45s var(--ease),
               border-radius 0.45s var(--ease), background 0.4s ease,
@@ -46,6 +47,7 @@ nav.scrolled {
   display: flex;
   align-items: center;
   gap: 36px;
+  overflow: visible;
 }
 
 .nav-links {
@@ -131,6 +133,7 @@ nav.scrolled {
   position: relative;
   display: inline-flex;
   align-items: center;
+  overflow: visible;
 }
 
 .audio-popup {

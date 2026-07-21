@@ -107,10 +107,22 @@ document.addEventListener('DOMContentLoaded', () => {
       audioPopup.style.animation = '';
       audioPopup.classList.add('hidden');
       setTimeout(() => {
-        if (localStorage.getItem('priyansh_sound') === 'on' || isPlaying) {
+        // Only fully hide if sound is genuinely playing
+        if (isPlaying) {
           audioPopup.style.display = 'none';
         }
       }, 350);
+    };
+
+    /* Ensure popup is visible whenever sound is off */
+    const ensurePopupState = () => {
+      if (!audioPopup) return;
+      if (!isPlaying) {
+        // Sound is off — popup must be visible
+        if (audioPopup.style.display === 'none' || audioPopup.classList.contains('hidden')) {
+          showPopup(true);
+        }
+      }
     };
 
     /* Make popup visible everytime sound is off */
@@ -172,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         isPlaying = false;
         setButtonState(false);
+        localStorage.setItem('priyansh_sound', 'off');
         console.error('Background music failed to start:', err);
         showPopup(true); // Autoplay blocked, show popup instantly
       }
@@ -179,12 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const pauseMusic = () => {
       window.cancelAnimationFrame(fadeFrame);
+      isPlaying = false;
+      setButtonState(false);
       audio.pause();
       if (gainNode) {
         gainNode.gain.value = BACKGROUND_GAIN;
       }
-      isPlaying = false;
-      setButtonState(false);
     };
 
     const toggleMusic = () => {
@@ -210,14 +223,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (soundPref === 'on') {
       /* Wait for intro to settle, then auto-play */
       const autoPlay = () => {
-        playMusic();
-        if (isPlaying) {
-          if (audioPopup) audioPopup.style.display = 'none';
-        }
+        playMusic().then(() => {
+          // After attempting play, ensure popup state is correct
+          if (isPlaying && audioPopup) {
+            audioPopup.style.display = 'none';
+          } else {
+            // Autoplay failed (common on mobile) — show popup
+            ensurePopupState();
+          }
+        });
       };
       /* Try immediately (works after reload since gesture is recent) */
       setTimeout(autoPlay, 800);
     }
+
+    /* Safety: if audio gets paused externally (e.g. OS interruption on mobile),
+       re-show the popup so the user knows sound is off */
+    audio.addEventListener('pause', () => {
+      if (!isPlaying) return; // Already handled by pauseMusic()
+      isPlaying = false;
+      setButtonState(false);
+      localStorage.setItem('priyansh_sound', 'off');
+      showPopup(true);
+    });
 
     audio.addEventListener('error', (event) => console.error('Background music error:', event));
 
