@@ -94,10 +94,12 @@
   .hero-bottom {
     flex-direction: column;
     align-items: flex-start;
+    
   }
 
   .hero-right {
     align-items: flex-start;
+    margin-top: 30px;
   }
 
   .hero-desc {
@@ -535,5 +537,13 @@
   }
   .settings-panel.open {
     transform: translateY(0) !important;
+  }
+  .hero-right .cv-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+  .hero-right .cv-btn svg {
+    width: 10px;
+    height: 10px;
   }
 }
